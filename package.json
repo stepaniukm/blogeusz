@@ -1,0 +1,39 @@
+{
+  "name": "blogeusz",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@astrojs/image": "^0.1.2",
+    "@astrojs/prefetch": "^0.0.5",
+    "@astrojs/sitemap": "^0.2.6",
+    "@astrojs/tailwind": "^0.2.4",
+    "@astrojs/vue": "^0.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "astro": "^1.0.0-beta.72",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-astro": "^0.15.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.2.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4",
+    "vite-plugin-eslint": "^1.6.1",
+    "vue": "^3.2.30"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^0.2.1",
+    "@giscus/vue": "^2.0.6",
+    "@nanostores/vue": "^0.5.5",
+    "@unlighthouse/vite": "^0.3.29",
+    "@vueuse/core": "^8.9.4",
+    "nanostores": "^0.5.12",
+    "prettier-plugin-astro": "^0.1.1"
+  }
+}

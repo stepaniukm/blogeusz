@@ -1,0 +1,44 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import BlogPostPreview from '../components/BlogPostPreview.astro';
+import TopicToggle from '../components/TopicToggle/TopicToggle.vue';
+import MainQuote from '../components/MainQuote/MainQuote.vue';
+
+const title = 'Blogeusz';
+const description = 'Idealny start idealnego bloga';
+
+// Use Astro.glob to fetch all post with associated frontmatter
+const unsortedPosts = await Astro.glob('./posts/*.md');
+const posts = unsortedPosts.sort(function (a, b) {
+	return new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf();
+});
+---
+
+<html lang='pl'>
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body class='bg-light dark:bg-dark text-black dark:text-white'>
+		<div class='mx-28 my-8'>
+			<Header />
+			<!-- <MainQuote /> -->
+			<TopicToggle />
+		</div>
+		<div>
+			<main>
+				<section aria-label='Blog post list'>
+					{posts.map(({ url, frontmatter }) => (
+						<BlogPostPreview
+							title={frontmatter.title}
+							description={frontmatter.description}
+							pubDate={frontmatter.pubDate}
+							url={url}
+						/>
+					))}
+				</section>
+			</main>
+		</div>
+	</body>
+</html>
