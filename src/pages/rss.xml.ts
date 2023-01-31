@@ -20,7 +20,7 @@ export const get = () =>
     items: posts
       .filter(({ frontmatter }) => !frontmatter.draft)
       .map(({ frontmatter }) => ({
-        link: `posts/${slugify(frontmatter)}`,
+        link: `posty/${slugify(frontmatter)}`,
         title: frontmatter.title,
         description: frontmatter.description,
         pubDate: new Date(frontmatter.datetime),

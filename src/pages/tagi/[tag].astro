@@ -48,12 +48,12 @@ const tagPosts = getPostsByTag(posts, tag);
   <Header activeNav="tags" />
   <Main
     pageTitle={`Tag:${tag}`}
-    pageDesc={`All the articles with the tag "${tag}".`}
+    pageDesc={`Wszystkie artykuły z tagiem "${tag}".`}
   >
     <ul>
       {
         tagPosts.map(({ frontmatter }) => (
-          <Card href={`/posts/${slugify(frontmatter)}`} post={frontmatter} />
+          <Card href={`/y/${slugify(frontmatter)}`} post={frontmatter} />
         ))
       }
     </ul>

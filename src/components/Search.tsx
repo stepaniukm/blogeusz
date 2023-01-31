@@ -55,7 +55,7 @@ export default function SearchBar({ searchList }: Props) {
   useEffect(() => {
     // Add search result only if
     // input value is more than one character
-    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    const inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
 
     // Update search string in URL
@@ -83,7 +83,7 @@ export default function SearchBar({ searchList }: Props) {
         block bg-skin-fill w-full rounded
         border border-skin-fill border-opacity-40 
         focus:outline-none focus:border-skin-accent"
-          placeholder="Search for anything..."
+          placeholder="Szukaj czegokolwiek ..."
           type="text"
           name="search"
           defaultValue={inputVal}
@@ -109,7 +109,7 @@ export default function SearchBar({ searchList }: Props) {
           searchResults.map(({ item, refIndex }) => (
             <Card
               post={item.frontmatter}
-              href={`/posts/${slugify(item.frontmatter)}`}
+              href={`/posty/${slugify(item.frontmatter)}`}
               key={`${refIndex}-${slugify(item.frontmatter)}`}
             />
           ))}

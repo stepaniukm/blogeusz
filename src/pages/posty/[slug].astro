@@ -32,7 +32,7 @@ export async function getStaticPaths() {
 
   const filteredPosts = posts.filter(({ frontmatter }) => !frontmatter.draft);
 
-  let postResult: PostResult = filteredPosts.map(post => {
+  const postResult: PostResult = filteredPosts.map(post => {
     return {
       params: {
         slug: slugify(post.frontmatter),
