@@ -9,8 +9,8 @@
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
-    "format:check": "prettier --check .",
-    "format": "prettier --write .",
+    "format:check": "prettier --cache --check .",
+    "format": "prettier --cache --write .",
     "cz": "cz",
     "prepare": "husky install"
   },

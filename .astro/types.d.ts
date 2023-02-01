@@ -75,6 +75,15 @@ declare module 'astro:content' {
   data: InferEntrySchema<"blog">
 },
 },
+"til": {
+"01-02-2023.md": {
+  id: "01-02-2023.md",
+  slug: "01-02-2023",
+  body: string,
+  collection: "til",
+  data: InferEntrySchema<"til">
+},
+},
 
 	};
 

@@ -99,13 +99,23 @@ const ogImage = (text: string) => {
               >
                 "
               </span>
-              <span style={{ overflow: "hidden", fontWeight: "bold" }}>
+              <span
+                style={{
+                  overflow: "hidden",
+                  fontWeight: "bold",
+                }}
+              >
                 {SITE.author}
               </span>
             </span>
 
             {text !== SITE.title && (
-              <span style={{ overflow: "hidden", fontWeight: "bold" }}>
+              <span
+                style={{
+                  overflow: "hidden",
+                  fontWeight: "bold",
+                }}
+              >
                 {SITE.title}
               </span>
             )}
