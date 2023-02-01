@@ -3,21 +3,10 @@
     {
       "name": "blogeusz",
       "path": ".."
-    },
-    {
-      "name": "Filtered View",
-      "uri": "fildir:/"
     }
   ],
   "settings": {
     "typescript.tsdk": "blogeusz/node_modules/typescript/lib",
-    "grammarly.selectors": [
-      {
-        "language": "markdown",
-        "scheme": "file",
-        "pattern": "blogeusz/src/contents/hello-world.md"
-      }
-    ],
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
