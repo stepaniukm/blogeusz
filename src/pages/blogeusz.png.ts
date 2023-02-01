@@ -1,0 +1,13 @@
+import generateOgImage from "@utils/generateOgImage";
+import type { APIRoute } from "astro";
+
+export const get: APIRoute = async () => {
+  const pngBuffer = await generateOgImage("Blogeusz");
+
+  const headers = new Headers();
+
+  headers.set("Content-Type", "image/png");
+  headers.set("Cache-Control", "max-age=1, stale-while-revalidate=59");
+
+  return new Response(pngBuffer, { headers });
+};

@@ -21,13 +21,13 @@ type Options = {
 
 function sendToAnalytics(metric: Metric, options: Options) {
   const body = {
-    dsn: options.analyticsId, // qPgJqYH9LQX5o31Ormk8iWhCxZO
-    id: metric.id, // v2-1653884975443-1839479248192
-    page: options.path, // /blog/my-test
-    href: location.href, // https://my-app.vercel.app/blog/my-test
-    event_name: metric.name, // TTFB
-    value: metric.value.toString(), // 60.20000000298023
-    speed: getConnectionSpeed(), // 4g
+    dsn: options.analyticsId,
+    id: metric.id,
+    page: options.path,
+    href: location.href,
+    event_name: metric.name,
+    value: metric.value.toString(),
+    speed: getConnectionSpeed(),
   };
 
   if (options.debug) {
@@ -49,7 +49,7 @@ function sendToAnalytics(metric: Metric, options: Options) {
     });
 }
 
-export function webVitals(options: any) {
+export function webVitals(options: Options) {
   try {
     onFID(metric => sendToAnalytics(metric, options));
     onTTFB(metric => sendToAnalytics(metric, options));

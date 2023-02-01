@@ -1,20 +1,21 @@
 import type { SocialObjects } from "./types";
 
+const { PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL } = import.meta.env;
+
+export const envToWebsite = {
+  development: "http://localhost:3000",
+  preview: `https://${PUBLIC_VERCEL_URL}`,
+  production: "https://blogeusz.vercel.app",
+};
+
 export const SITE = {
-  website: "https://blogeusz/",
+  website: envToWebsite[PUBLIC_VERCEL_ENV || "development"],
   author: "Mateusz Stepaniuk",
   desc: "Prosty blog wzorowany na motywie Astro Paper.",
   title: "Blogeusz",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "blogeusz.png",
   lightAndDarkMode: true,
   postPerPage: 4,
-};
-
-export const LOGO_IMAGE = {
-  enable: false,
-  svg: true,
-  width: 216,
-  height: 46,
 };
 
 export const SOCIALS: SocialObjects = [

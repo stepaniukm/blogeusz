@@ -21,5 +21,6 @@ export function getStaticPaths() {
     .filter(({ data }) => !data.ogImage)
     .map(({ data }) => ({
       params: { ogTitle: data.title },
-    }));
+    }))
+    .concat({ params: { ogTitle: "blogeusz" } });
 }

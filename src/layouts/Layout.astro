@@ -20,12 +20,10 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const socialImageURL = new URL(
-  ogImage ? ogImage : SITE.ogImage,
-  Astro.url.origin
-).href;
+const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website)
+  .href;
 
-const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
+const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
 ---
 
 <!DOCTYPE html>
@@ -90,6 +88,9 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
       webVitals({
         path: window.location.pathname,
         analyticsId,
+        debug: ["development", "preview"].includes(
+          import.meta.env.PUBLIC_VERCEL_ENV
+        ),
       });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
