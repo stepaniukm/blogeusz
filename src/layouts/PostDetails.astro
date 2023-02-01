@@ -4,6 +4,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
+import Giscus from "@giscus/react";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
@@ -44,6 +45,23 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <ul class="tags-container">
       {tags.map(tag => <Tag name={tag} />)}
     </ul>
+    <Giscus
+      client:load
+      id="comments"
+      repo="stepaniukm/blogeusz"
+      repoId="R_kgDOI3wG3A"
+      category="Blog"
+      categoryId="DIC_kwDOI3wG3M4CT8Wd"
+      mapping="title"
+      term="Blog"
+      strict="0"
+      reactionsEnabled="1"
+      emitMetadata="0"
+      inputPosition="bottom"
+      theme="preferred_color_scheme"
+      lang="pl"
+      loading="lazy"
+    />
   </main>
   <Footer />
 </Layout>

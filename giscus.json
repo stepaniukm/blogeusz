@@ -1,0 +1,13 @@
+{
+  "origins": [
+    "https://blogeusz.pl",
+    "https://blogeusz-stepaniukm.vercel.app",
+    "https://blogeusz-git-main-stepaniukm.vercel.app/"
+  ],
+  "originsRegex": [
+    "https://blogeusz-git-([A-z0-9]|-)*stepaniukm\\.vercel\\.app",
+    "https://blogeusz-([A-z0-9]|-)*stepaniukm\\.vercel\\.app",
+    "http://localhost:[0-9]+"
+  ],
+  "defaultCommentOrder": "oldest"
+}
