@@ -5,7 +5,7 @@ export const SITE = {
   author: "Mateusz Stepaniuk",
   desc: "Prosty blog wzorowany na motywie Astro Paper.",
   title: "Blogeusz",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "blogeusz.png",
   lightAndDarkMode: true,
   postPerPage: 4,
 };
