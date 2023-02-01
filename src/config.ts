@@ -1,7 +1,15 @@
 import type { SocialObjects } from "./types";
 
+const { PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL } = import.meta.env;
+
+const envToWebsite = {
+  development: "http://localhost:3000",
+  preview: PUBLIC_VERCEL_URL,
+  production: "https://blogeusz.vercel.app",
+};
+
 export const SITE = {
-  website: "https://blogeusz/",
+  website: envToWebsite[PUBLIC_VERCEL_ENV],
   author: "Mateusz Stepaniuk",
   desc: "Prosty blog wzorowany na motywie Astro Paper.",
   title: "Blogeusz",
