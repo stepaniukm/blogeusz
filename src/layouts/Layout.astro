@@ -25,6 +25,8 @@ const socialImageURL = new URL(
   Astro.url.origin
 ).href;
 
+console.log(socialImageURL);
+
 const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
 ---
 
