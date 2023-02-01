@@ -1,8 +1,7 @@
 ---
 title: Hello World
 author: Mateusz Stepaniuk
-datetime: 2023-02-01T20:00:00Z
-slug: hello-world
+pubDatetime: 2023-02-01T20:00:00Z
 featured: true
 draft: false
 tags:

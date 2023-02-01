@@ -66,8 +66,17 @@ declare module 'astro:content' {
 	};
 
 	const entryMap: {
-		
+		"blog": {
+"hello-world.md": {
+  id: "hello-world.md",
+  slug: "hello-world",
+  body: string,
+  collection: "blog",
+  data: InferEntrySchema<"blog">
+},
+},
+
 	};
 
-	type ContentConfig = never;
+	type ContentConfig = typeof import("../src/content/config");
 }

@@ -1,5 +1,5 @@
 ---
-import { SITE } from "src/config";
+import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
@@ -7,13 +7,12 @@ import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import LinkButton from "@components/LinkButton.astro";
 import slugify from "@utils/slugify";
-import type { MarkdownInstance } from "astro";
-import type { Frontmatter } from "src/types";
+import type { CollectionEntry } from "astro:content";
 
 export interface Props {
   pageNum: number;
   totalPages: number;
-  posts: MarkdownInstance<Frontmatter>[];
+  posts: CollectionEntry<"blog">[];
 }
 
 const { pageNum, totalPages, posts } = Astro.props;
@@ -22,16 +21,14 @@ const prev = pageNum > 1 ? "" : "disabled";
 const next = pageNum < totalPages ? "" : "disabled";
 ---
 
-<Layout title={`Posty | ${SITE.title}`}>
+<Layout title={`Posts | ${SITE.title}`}>
   <Header activeNav="posts" />
-  <Main pageTitle="Posty" pageDesc="Wszystkie artykuły.">
+  <Main pageTitle="Posty" pageDesc="Wszystkie posty.">
     <ul>
       {
-        posts.map(({ frontmatter }) => {
-          return (
-            <Card href={`/posty/${slugify(frontmatter)}`} post={frontmatter} />
-          );
-        })
+        posts.map(({ data }) => (
+          <Card href={`/posty/${slugify(data)}`} frontmatter={data} />
+        ))
       }
     </ul>
   </Main>
@@ -43,7 +40,7 @@ const next = pageNum < totalPages ? "" : "disabled";
           disabled={prev === "disabled"}
           href={`/posty${pageNum - 1 !== 1 ? "/" + (pageNum - 1) : ""}`}
           className={`mr-4 select-none ${prev}`}
-          ariaLabel="Previous"
+          ariaLabel="Poprzednia"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class={`${prev}-svg`}>
             <path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z" />
@@ -54,7 +51,7 @@ const next = pageNum < totalPages ? "" : "disabled";
           disabled={next === "disabled"}
           href={`/posty/${pageNum + 1}`}
           className={`ml-4 select-none ${next}`}
-          ariaLabel="Next"
+          ariaLabel="Następna"
         >
           Następna
           <svg xmlns="http://www.w3.org/2000/svg" class={`${next}-svg`}>
@@ -69,10 +66,10 @@ const next = pageNum < totalPages ? "" : "disabled";
 
 <style>
   .pagination-wrapper {
-    @apply flex justify-center mt-auto mb-8;
+    @apply mt-auto mb-8 flex justify-center;
   }
   .disabled {
-    @apply opacity-50 hover:text-skin-base group-hover:fill-skin-base pointer-events-none select-none;
+    @apply pointer-events-none select-none opacity-50 hover:text-skin-base group-hover:fill-skin-base;
   }
   .disabled-svg {
     @apply group-hover:!fill-skin-base;

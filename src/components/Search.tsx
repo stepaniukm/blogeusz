@@ -2,13 +2,12 @@ import Fuse from "fuse.js";
 import { useEffect, useRef, useState } from "react";
 import Card from "@components/Card";
 import slugify from "@utils/slugify";
-import type { Frontmatter } from "src/types";
+import type { BlogFrontmatter } from "@content/_schemas";
 
-type SearchItem = {
+export type SearchItem = {
   title: string;
   description: string;
-  headings: string[];
-  frontmatter: Frontmatter;
+  data: BlogFrontmatter;
 };
 
 interface Props {
@@ -19,6 +18,19 @@ interface SearchResult {
   item: SearchItem;
   refIndex: number;
 }
+
+const formatter = new Intl.PluralRules("pl", {
+  type: "cardinal",
+});
+
+const polishPluralsPosts = {
+  zero: "postów",
+  one: "post",
+  two: "posty",
+  few: "posty",
+  many: "postów",
+  other: "postów",
+} satisfies Record<Intl.LDMLPluralRule, string>;
 
 export default function SearchBar({ searchList }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +44,7 @@ export default function SearchBar({ searchList }: Props) {
   };
 
   const fuse = new Fuse(searchList, {
-    keys: ["title", "description", "headings"],
+    keys: ["title", "description"],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.5,
@@ -55,7 +67,7 @@ export default function SearchBar({ searchList }: Props) {
   useEffect(() => {
     // Add search result only if
     // input value is more than one character
-    const inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
 
     // Update search string in URL
@@ -79,14 +91,14 @@ export default function SearchBar({ searchList }: Props) {
           </svg>
         </span>
         <input
-          className="placeholder:italic placeholder:text-opacity-75 py-3 pl-10 pr-3 
-        block bg-skin-fill w-full rounded
-        border border-skin-fill border-opacity-40 
-        focus:outline-none focus:border-skin-accent"
-          placeholder="Szukaj czegokolwiek ..."
+          className="block w-full rounded border border-skin-fill 
+        border-opacity-40 bg-skin-fill py-3 pl-10
+        pr-3 placeholder:italic placeholder:text-opacity-75 
+        focus:border-skin-accent focus:outline-none"
+          placeholder="..."
           type="text"
           name="search"
-          defaultValue={inputVal}
+          value={inputVal}
           onChange={handleChange}
           autoComplete="off"
           autoFocus
@@ -96,11 +108,10 @@ export default function SearchBar({ searchList }: Props) {
 
       {inputVal.length > 1 && (
         <div className="mt-8">
-          Found {searchResults?.length}
-          {searchResults?.length && searchResults?.length === 1
-            ? " result"
-            : " results"}{" "}
-          for '{inputVal}'
+          Znaleziono {searchResults?.length + " "}
+          {polishPluralsPosts[formatter.select(searchResults?.length || 0)] +
+            " "}
+          dla '{inputVal}'
         </div>
       )}
 
@@ -108,9 +119,9 @@ export default function SearchBar({ searchList }: Props) {
         {searchResults &&
           searchResults.map(({ item, refIndex }) => (
             <Card
-              post={item.frontmatter}
-              href={`/posty/${slugify(item.frontmatter)}`}
-              key={`${refIndex}-${slugify(item.frontmatter)}`}
+              href={`/posty/${slugify(item.data)}`}
+              frontmatter={item.data}
+              key={`${refIndex}-${slugify(item.data)}`}
             />
           ))}
       </ul>

@@ -3,7 +3,7 @@ import type { SocialObjects } from "./types";
 export const SITE = {
   website: "https://blogeusz/",
   author: "Mateusz Stepaniuk",
-  desc: "A simple blog based on Astro Paper theme.",
+  desc: "Prosty blog wzorowany na motywie Astro Paper.",
   title: "Blogeusz",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
