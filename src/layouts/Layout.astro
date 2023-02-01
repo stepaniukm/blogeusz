@@ -90,6 +90,9 @@ const fallbackImageURL = new URL(SITE.ogImage, Astro.url.origin).href;
       webVitals({
         path: window.location.pathname,
         analyticsId,
+        debug: ["development", "preview"].includes(
+          import.meta.env.PUBLIC_VERCEL_ENV
+        ),
       });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
