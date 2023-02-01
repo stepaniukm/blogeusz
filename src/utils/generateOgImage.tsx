@@ -1,4 +1,5 @@
 import satori, { SatoriOptions } from "satori";
+import sharp from "sharp";
 import { SITE } from "@config";
 
 const fetchFonts = async () => {
@@ -133,7 +134,11 @@ const options: SatoriOptions = {
   ],
 };
 
-const generateOgImage = async (mytext = SITE.title) =>
-  await satori(ogImage(mytext), options);
+const generateOgImage = async (mytext = SITE.title) => {
+  const svg = await satori(ogImage(mytext), options);
+  const png = sharp(Buffer.from(svg)).png();
+
+  return png.toBuffer();
+};
 
 export default generateOgImage;
