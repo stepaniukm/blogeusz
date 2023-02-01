@@ -5,6 +5,12 @@ import Socials from "./Socials.astro";
 const currentYear = new Date().getFullYear();
 const initYear = 2023;
 
+const {
+  PUBLIC_VERCEL_ENV,
+  PUBLIC_VERCEL_GIT_COMMIT_REF,
+  PUBLIC_VERCEL_GIT_COMMIT_SHA,
+} = import.meta.env;
+
 export interface Props {
   noMarginTop?: boolean;
 }
@@ -24,6 +30,13 @@ const { noMarginTop = false } = Astro.props;
       >
       <span class="separator">&nbsp;|&nbsp;</span>
       <span>Wszelkie prawa zastrzeżone.</span>
+      {
+        ["production", "preview"].includes(PUBLIC_VERCEL_ENV) && (
+          <span>
+            {PUBLIC_VERCEL_GIT_COMMIT_REF}/{PUBLIC_VERCEL_GIT_COMMIT_SHA}
+          </span>
+        )
+      }
     </div>
   </div>
 </footer>
