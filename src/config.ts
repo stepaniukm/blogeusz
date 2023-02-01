@@ -8,6 +8,8 @@ export const envToWebsite = {
   production: "https://blogeusz.vercel.app",
 };
 
+console.dir({ PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL });
+
 export const SITE = {
   website: envToWebsite[PUBLIC_VERCEL_ENV || "development"],
   author: "Mateusz Stepaniuk",
