@@ -4,11 +4,9 @@ const { PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL } = import.meta.env;
 
 export const envToWebsite = {
   development: "http://localhost:3000",
-  preview: PUBLIC_VERCEL_URL,
+  preview: `https://${PUBLIC_VERCEL_URL}`,
   production: "https://blogeusz.vercel.app",
 };
-
-console.dir({ PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL });
 
 export const SITE = {
   website: envToWebsite[PUBLIC_VERCEL_ENV || "development"],
