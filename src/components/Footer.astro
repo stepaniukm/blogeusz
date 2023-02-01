@@ -3,6 +3,7 @@ import Hr from "./Hr.astro";
 import Socials from "./Socials.astro";
 
 const currentYear = new Date().getFullYear();
+const initYear = 2021;
 
 export interface Props {
   noMarginTop?: boolean;
@@ -16,9 +17,13 @@ const { noMarginTop = false } = Astro.props;
   <div class="footer-wrapper">
     <Socials centered />
     <div class="copyright-wrapper">
-      <span>Copyright &#169; {currentYear}</span>
+      <span
+        >Copyright &#169; {
+          currentYear === initYear ? initYear : `${initYear} - ${currentYear}`
+        }</span
+      >
       <span class="separator">&nbsp;|&nbsp;</span>
-      <span>All rights reserved.</span>
+      <span>Wszelkie prawa zastrzeżone.</span>
     </div>
   </div>
 </footer>
