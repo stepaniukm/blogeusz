@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { Calendar } from "@components/Calendar";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+
+import { SITE } from "@config";
+import type { EventInput } from "@fullcalendar/core";
+
+const tils = await getCollection("til");
+const events = tils.map(
+  til =>
+    ({
+      id: til.slug,
+      title: Intl.DateTimeFormat("pl-PL", {
+        day: "2-digit",
+        month: "long",
+      }).format(til.data.date),
+      interactive: true,
+      start: til.data.date,
+      allDay: true,
+      url: `/til/${til.slug}`,
+    } satisfies EventInput)
+);
+---
+
+<Layout title={`TIL | ${SITE.title}`}>
+  <Header activeNav="til" />
+  <Main
+    pageTitle="Today I learned"
+    pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
+  >
+    <Calendar events={events} client:load />
+  </Main>
+  <Footer />
+</Layout>

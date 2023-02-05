@@ -517,6 +517,28 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.16.17.tgz#c5a1a4bfe1b57f0c3e61b29883525c6da3e5c091"
   integrity sha512-y+EHuSchhL7FjHgvQL/0fnnFmO4T1bhvWANX6gcnqTjtnKWbTvUMCpGnv2+t+31d7RzyEAYAd4u2fnIhHL6N/Q==
 
+"@fullcalendar/core@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-6.1.1.tgz#4638000451941d4ccc6ee8920dbea99ce15b9f68"
+  integrity sha512-im5Dbgi/d7Q8DEUFuLaInL/TG+CrRH+zePq58LrKyFFoJKkx2CP+OS29ijVBnUiGyzCWtZ9lMIzLmWDzIMnJ0A==
+  dependencies:
+    preact "^10.0.5"
+
+"@fullcalendar/daygrid@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.1.tgz#518e8fa70eec590c4df47e788101551c8e42714e"
+  integrity sha512-/yIrN3IZSdob/UvAaPqWzBqyaQf3+DdcGG7xocVpmt2MudFbTpstF+ffPdBAQWqoWoB18Q92s6fn9teva5nDwA==
+
+"@fullcalendar/interaction@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.1.tgz#79c2fca08790a0e9b7a265c0c5dc92861c3e82d2"
+  integrity sha512-eJjdBu/ytX4EuV1mAr6mlB9mPhn80uNpuZz0eXjklYbjFNra9VVrEyNpC7kJiqsajGqQxQekbR2mk+SUJA/rzA==
+
+"@fullcalendar/react@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.1.2.tgz#6bddcc217e69a5c63b3c5ec6b6204e457625e9fa"
+  integrity sha512-GNKKOGQESVStj66vCd5Qd3fcQYy5ItqzmBVOWxpp5fj/eyhUf2in6Mwox+PeoLPjtroOFlrNvB5aSZDPKManew==
+
 "@giscus/react@^2.2.6":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@giscus/react/-/react-2.2.6.tgz#893216bf06de71b45280d131a9df6975c22c97f1"
@@ -3460,6 +3482,11 @@ postcss@^8.4.14, postcss@^8.4.18, postcss@^8.4.20:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@^10.0.5:
+  version "10.11.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.11.3.tgz#8a7e4ba19d3992c488b0785afcc0f8aa13c78d19"
+  integrity sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==
 
 prebuild-install@^7.1.1:
   version "7.1.1"
