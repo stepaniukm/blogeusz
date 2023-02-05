@@ -52,13 +52,13 @@ if (!til) {
 const { Content } = await til.render();
 ---
 
-<Layout title={`TIL | ${SITE.title}`}>
+<Layout title={`TIL ${slug} | ${SITE.title}`}>
   <Header activeNav="til" />
   <Main
     pageTitle="Today I learned"
     pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
   >
-    <Calendar events={events} chosenTil={til} client:load />
+    <Calendar events={events} chosenDate={til.data.date} client:load />
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
     </article>

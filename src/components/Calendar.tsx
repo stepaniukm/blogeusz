@@ -2,25 +2,30 @@ import type { EventInput } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import type { CollectionEntry } from "astro:content";
+import { useState } from "react";
 
 type CalendarProps = {
   events: EventInput[];
-  chosenTil?: CollectionEntry<"til">;
+  chosenDate?: Date;
 };
 
-export const Calendar = ({ events, chosenTil }: CalendarProps) => {
+export const Calendar = ({ events, chosenDate }: CalendarProps) => {
+  const [showSpacer, setShowSpacer] = useState(true);
   return (
-    <div>
-      <>
-        <FullCalendar
-          firstDay={1}
-          locale="pl"
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-        />
-      </>
-    </div>
+    <>
+      {showSpacer && <div className="h-[610px] w-[750px] bg-skin-fill"></div>}
+      <FullCalendar
+        now={chosenDate ? chosenDate : new Date()}
+        eventColor="var(--color-accent)"
+        firstDay={1}
+        locale="pl"
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={events}
+        loading={setShowSpacer}
+        validRange={{ start: "2023-02-01" }}
+        buttonText={{ today: "Dzisiaj" }}
+      />
+    </>
   );
 };
