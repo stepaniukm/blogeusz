@@ -13,6 +13,9 @@ export const Calendar = ({ events, chosenDate }: CalendarProps) => {
   const [showSpacer, setShowSpacer] = useState(true);
   return (
     <>
+      <span className="my-4 block">
+        Kliknij na zdarzenie w kalendarzu aby przejść do TIL na dany dzień
+      </span>
       {showSpacer && <div className="h-[610px] w-[750px] bg-skin-fill"></div>}
       <FullCalendar
         now={chosenDate ? chosenDate : new Date()}

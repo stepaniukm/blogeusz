@@ -58,9 +58,6 @@ const { Content } = await til.render();
     pageTitle="Today I learned"
     pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
   >
-    <span class="my-4 block"
-      >Kliknij na zdarzenie w kalendarzu aby przejść do TIL na dany dzień</span
-    >
     <Calendar events={events} chosenDate={til.data.date} client:load />
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
