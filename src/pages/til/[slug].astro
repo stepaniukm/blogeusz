@@ -1,0 +1,70 @@
+---
+import { CollectionEntry, getCollection, getEntryBySlug } from "astro:content";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { Calendar } from "@components/Calendar";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+
+import { SITE } from "@config";
+import type { EventInput } from "@fullcalendar/core";
+
+export interface Props {
+  post: CollectionEntry<"til">;
+  slug: string;
+}
+
+const tils = await getCollection("til");
+const events = tils.map(
+  til =>
+    ({
+      id: til.slug,
+      title: Intl.DateTimeFormat("pl-PL", {
+        day: "2-digit",
+        month: "long",
+      }).format(til.data.date),
+      interactive: true,
+      start: til.data.date,
+      allDay: true,
+      url: `/til/${til.slug}`,
+    } satisfies EventInput)
+);
+
+export async function getStaticPaths() {
+  const tils = await getCollection("til");
+
+  return tils.map(({ slug }) => {
+    return {
+      params: { slug },
+      props: { slug },
+    };
+  });
+}
+
+const { slug } = Astro.props;
+
+const til = await getEntryBySlug("til", slug);
+
+if (!til) {
+  throw new Error(`No TIL found for slug: ${slug}`);
+}
+
+const { Content } = await til.render();
+---
+
+<Layout title={`TIL ${slug} | ${SITE.title}`}>
+  <Header activeNav="til" />
+  <Main
+    pageTitle="Today I learned"
+    pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
+  >
+    <span class="my-4 block"
+      >Kliknij na zdarzenie w kalendarzu aby przejść do TIL na dany dzień</span
+    >
+    <Calendar events={events} chosenDate={til.data.date} client:load />
+    <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
+      <Content />
+    </article>
+  </Main>
+</Layout>
+<Footer />

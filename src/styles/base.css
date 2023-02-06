@@ -6,19 +6,27 @@
   :root,
   html[data-theme="light"] {
     --color-fill: 251, 254, 251;
+    --color-fill-secondary: 1, 151, 246;
     --color-text-base: 40, 39, 40;
     --color-accent: 66, 115, 77;
     --color-card: 230, 230, 230;
     --color-card-muted: 205, 205, 205;
     --color-border: 236, 233, 233;
+    --fc-event-bg-color: rgb(var(--color-accent));
+    --fc-event-border-color: rgb(var(--color-accent));
+    --fc-today-bg-color: rgba(var(--color-fill-secondary), 0.5);
   }
   html[data-theme="dark"] {
     --color-fill: 47, 55, 65;
+    --color-fill-secondary: 161, 205, 244;
     --color-text-base: 230, 230, 230;
     --color-accent: 136, 185, 147;
     --color-card: 63, 75, 90;
     --color-card-muted: 89, 107, 129;
     --color-border: 59, 70, 85;
+    --fc-event-bg-color: rgb(var(--color-accent));
+    --fc-event-border-color: rgb(var(--color-accent));
+    --fc-today-bg-color: rgba(var(--color-fill-secondary), 0.5);
   }
   #sun-svg,
   html[data-theme="dark"] #moon-svg {
@@ -123,4 +131,8 @@
   .focus-outline {
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
   }
+}
+
+.fc .fc-scrollgrid-section-liquid > td {
+  padding: 0;
 }
