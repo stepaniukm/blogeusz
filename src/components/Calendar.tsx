@@ -16,7 +16,6 @@ export const Calendar = ({ events, chosenDate }: CalendarProps) => {
       {showSpacer && <div className="h-[610px] w-[750px] bg-skin-fill"></div>}
       <FullCalendar
         now={chosenDate ? chosenDate : new Date()}
-        eventColor="var(--color-accent)"
         firstDay={1}
         locale="pl"
         plugins={[dayGridPlugin, interactionPlugin]}
