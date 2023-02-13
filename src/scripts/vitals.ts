@@ -1,6 +1,6 @@
 // src/scripts/vitals.js
 
-import { onCLS, onFCP, onFID, onTTFB, onLCP, Metric } from "web-vitals";
+import { onCLS, onFCP, onFID, onTTFB, onLCP, onINP, Metric } from "web-vitals";
 
 const vitalsUrl = "https://vitals.vercel-analytics.com/v1/vitals";
 
@@ -56,6 +56,7 @@ export function webVitals(options: Options) {
     onLCP(metric => sendToAnalytics(metric, options));
     onCLS(metric => sendToAnalytics(metric, options));
     onFCP(metric => sendToAnalytics(metric, options));
+    onINP(metric => sendToAnalytics(metric, options));
   } catch (err) {
     console.error("[Analytics]", err);
   }
