@@ -1,5 +1,3 @@
-// src/scripts/vitals.js
-
 import { onCLS, onFCP, onFID, onTTFB, onLCP, onINP, Metric } from "web-vitals";
 
 const vitalsUrl = "https://vitals.vercel-analytics.com/v1/vitals";
