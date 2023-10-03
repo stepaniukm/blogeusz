@@ -4,10 +4,10 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { Calendar } from "@components/Calendar";
 import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
 
 import { SITE } from "@config";
 import type { EventInput } from "@fullcalendar/core";
+import Init from "@components/Init.astro";
 
 export interface Props {
   post: CollectionEntry<"til">;
@@ -27,7 +27,7 @@ const events = tils.map(
       start: til.data.date,
       allDay: true,
       url: `/til/${til.slug}#article`,
-    } satisfies EventInput)
+    }) satisfies EventInput
 );
 
 export async function getStaticPaths() {
@@ -54,14 +54,14 @@ const { Content } = await til.render();
 
 <Layout title={`TIL ${slug} | ${SITE.title}`}>
   <Header activeNav="til" />
-  <Main
-    pageTitle="Today I learned"
+  <Init
+    title="Today I learned"
     pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
   >
     <Calendar events={events} chosenDate={til.data.date} client:load />
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
     </article>
-  </Main>
+  </Init>
 </Layout>
 <Footer />
