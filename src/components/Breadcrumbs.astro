@@ -1,9 +1,9 @@
 ---
+import "core-js";
+
 const currentUrlPath = Astro.url.pathname.replace(/\/+$/, "");
 
 const breadcrumbList = currentUrlPath.split("/").slice(1);
-
-console.log(breadcrumbList);
 
 const parsedBreadcrumbs =
   breadcrumbList[0] === "posty"
