@@ -8,9 +8,6 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   site: "https://blogeusz.pl/",
-  experimental: {
-    viewTransitions: true,
-  },
   integrations: [
     tailwind({
       config: {
