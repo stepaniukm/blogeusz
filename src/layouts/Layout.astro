@@ -1,6 +1,9 @@
 ---
 import { SITE } from "@config";
 import "../styles/base.css";
+import Header from "@components/Header.astro";
+import ViewTransitions from "astro/components/ViewTransitions.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -24,6 +27,8 @@ const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website)
   .href;
 
 const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
+
+const activeNav = Astro.url.pathname.slice(1);
 ---
 
 <!DOCTYPE html>
@@ -94,8 +99,17 @@ const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
       });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <ViewTransitions />
   </>
   <body>
-    <slot />
+    <Header transition:persist activeNav={activeNav} />
+    <main
+      id="main-content"
+      class="mx-auto w-full max-w-3xl px-4 pb-12"
+      transition:animate="slide"
+    >
+      <Breadcrumbs />
+      <slot />
+    </main>
   </body>
 </html>

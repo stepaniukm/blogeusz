@@ -1,0 +1,11 @@
+---
+export interface Props {
+  title: string;
+  pageDesc: string;
+}
+
+const { title, pageDesc } = Astro.props;
+---
+
+<h1 class="text-2xl font-semibold sm:text-3xl mt-3">{title}</h1>
+<p class="mt-2 mb-6 italic">{pageDesc}</p>

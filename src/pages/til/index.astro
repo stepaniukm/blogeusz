@@ -1,13 +1,12 @@
 ---
 import { getCollection } from "astro:content";
-import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { Calendar } from "@components/Calendar";
 import Layout from "@layouts/Layout.astro";
-import Main from "@layouts/Main.astro";
 
 import { SITE } from "@config";
 import type { EventInput } from "@fullcalendar/core";
+import Init from "@components/Init.astro";
 
 const tils = await getCollection("til");
 const events = tils.map(
@@ -22,17 +21,15 @@ const events = tils.map(
       start: til.data.date,
       allDay: true,
       url: `/til/${til.slug}#article`,
-    } satisfies EventInput)
+    }) satisfies EventInput
 );
 ---
 
 <Layout title={`TIL | ${SITE.title}`}>
-  <Header activeNav="til" />
-  <Main
-    pageTitle="Today I learned"
-    pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
-  >
-    <Calendar events={events} client:load />
-  </Main>
+  <Init
+    title="Today I learned"
+    pageDesc="Zbiór rzeczy, których nauczyłem się danego dnia"
+  />
+  <Calendar events={events} client:load />
   <Footer />
 </Layout>

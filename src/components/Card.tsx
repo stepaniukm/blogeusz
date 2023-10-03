@@ -9,6 +9,7 @@ export interface Props {
 
 export default function Card({ href, frontmatter, secHeading = true }: Props) {
   const { title, pubDatetime, description } = frontmatter;
+  const b = title.split("");
   return (
     <li className="my-6">
       <a

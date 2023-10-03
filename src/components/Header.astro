@@ -2,9 +2,10 @@
 import { SITE } from "@config";
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
+import { capitalize } from "@utils/capitalize";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "about" | "search" | "til";
+  activeNav?: string;
 }
 
 const { activeNav } = Astro.props;
@@ -29,29 +30,23 @@ const { activeNav } = Astro.props;
           </div>
         </button>
         <ul id="menu-items" class="display-none sm:flex">
-          <li>
-            <a href="/posty" class={activeNav === "posts" ? "active" : ""}>
-              Posty
-            </a>
-          </li>
-          <li>
-            <a href="/tagi" class={activeNav === "tags" ? "active" : ""}>
-              Tagi
-            </a>
-          </li>
-          <li>
-            <a href="/til" class={activeNav === "til" ? "active" : ""}>TIL</a>
-          </li>
-          <li>
-            <a href="/o-mnie" class={activeNav === "about" ? "active" : ""}>
-              O mnie
-            </a>
-          </li>
+          {
+            ["posty", "tagi", "til", "o-mnie"].map(subpage => (
+              <li>
+                <a
+                  href={`/${subpage}`}
+                  class={activeNav === subpage ? "active" : ""}
+                >
+                  {capitalize(subpage)}
+                </a>
+              </li>
+            ))
+          }
           <li>
             <LinkButton
               href="/szukaj"
               className={`focus-outline p-3 sm:p-1 ${
-                activeNav === "search" ? "active" : ""
+                activeNav === "szukaj" ? "active" : ""
               }`}
               ariaLabel="search"
               title="Wyszukiwanie"
