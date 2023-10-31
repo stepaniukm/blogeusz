@@ -3,9 +3,9 @@ import type { SocialObjects } from "./types";
 const { PUBLIC_VERCEL_ENV, PUBLIC_VERCEL_URL } = import.meta.env;
 
 export const envToWebsite = {
-  development: "http://localhost:3000",
+  development: "http://localhost:4321",
   preview: `https://${PUBLIC_VERCEL_URL}`,
-  production: "https://blogeusz.vercel.app",
+  production: "https://blogeusz.pl",
 };
 
 export const SITE = {
