@@ -62,6 +62,9 @@ dependencies:
   typescript:
     specifier: 5.2.2
     version: 5.2.2
+  uint8array-extras:
+    specifier: ^0.5.0
+    version: 0.5.0
   web-vitals:
     specifier: 3.5.0
     version: 3.5.0
@@ -2021,15 +2024,7 @@ packages:
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.24
-    dev: true
-
-  /@types/react@18.2.24:
-    resolution: {integrity: sha512-Ee0Jt4sbJxMu1iDcetZEIKQr99J1Zfb6D4F3qfUWoR1JpInkY1Wdg4WwCyBjL257D0+jGqSl1twBjV8iCaC0Aw==}
-    dependencies:
-      '@types/prop-types': 15.7.9
-      '@types/scheduler': 0.16.5
-      csstype: 3.1.2
+      '@types/react': 18.2.33
     dev: true
 
   /@types/react@18.2.33:
@@ -5541,6 +5536,11 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /uint8array-extras@0.5.0:
+    resolution: {integrity: sha512-CKAKa+/rjCblsuGrcmIJLluHcZMYKcMwgdhAZZEnSplFFGCuGKF6e2L+CeVXK0zX5rYyerrqG2dnHIANm3i9qA==}
+    engines: {node: '>=18'}
+    dev: false
 
   /ultrahtml@1.5.2:
     resolution: {integrity: sha512-qh4mBffhlkiXwDAOxvSGxhL0QEQsTbnP9BozOK3OYPEGvPvdWzvAUaXNtUSMdNsKDtuyjEbyVUPFZ52SSLhLqw==}

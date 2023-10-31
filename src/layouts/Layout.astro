@@ -26,12 +26,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website)
   .href;
 
+console.log(socialImageURL);
+
 const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
 
 const activeNav = Astro.url.pathname.slice(1);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <>
     <meta charset="UTF-8" />

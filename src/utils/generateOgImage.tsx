@@ -1,4 +1,5 @@
-import satori, { SatoriOptions } from "satori";
+import satori, { type SatoriOptions } from "satori";
+import { stringToUint8Array, toUint8Array } from "uint8array-extras";
 import sharp from "sharp";
 import { SITE } from "@config";
 
@@ -7,15 +8,18 @@ const fetchFonts = async () => {
   const fontFileRegular = await fetch(
     "https://www.1001fonts.com/download/font/ibm-plex-mono.regular.ttf"
   );
-  const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
+  const fontRegular = await fontFileRegular.arrayBuffer();
 
   // Bold Font
   const fontFileBold = await fetch(
     "https://www.1001fonts.com/download/font/ibm-plex-mono.bold.ttf"
   );
-  const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
+  const fontBold = await fontFileBold.arrayBuffer();
 
-  return { fontRegular, fontBold };
+  return {
+    fontRegular: toUint8Array(fontRegular),
+    fontBold: toUint8Array(fontBold),
+  };
 };
 
 const { fontRegular, fontBold } = await fetchFonts();
@@ -126,7 +130,7 @@ const ogImage = (text: string) => {
   );
 };
 
-const options: SatoriOptions = {
+const options = {
   width: 1200,
   height: 630,
   embedFont: true,
@@ -144,13 +148,15 @@ const options: SatoriOptions = {
       style: "normal",
     },
   ],
-};
+} satisfies SatoriOptions;
 
-const generateOgImage = async (mytext = SITE.title) => {
-  const svg = await satori(ogImage(mytext), options);
-  const png = sharp(Buffer.from(svg)).png();
+const generateOgImage = async (myText = SITE.title) => {
+  const svg = await satori(ogImage(myText), options);
+  const uint8Array = stringToUint8Array(svg);
+  const png = sharp(uint8Array).png();
+  const buffer = await png.toBuffer();
 
-  return png.toBuffer();
+  return toUint8Array(buffer);
 };
 
 export default generateOgImage;
