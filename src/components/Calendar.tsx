@@ -1,13 +1,14 @@
 import type { EventInput } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import { useState } from "react";
 
 type CalendarProps = {
   events: EventInput[];
   chosenDate?: Date;
 };
+
+const MONDAY = 1;
 
 export const Calendar = ({ events, chosenDate }: CalendarProps) => {
   const [showSpacer, setShowSpacer] = useState(true);
@@ -19,9 +20,9 @@ export const Calendar = ({ events, chosenDate }: CalendarProps) => {
       {showSpacer && <div className="h-[610px] w-[750px] bg-skin-fill"></div>}
       <FullCalendar
         now={chosenDate ? chosenDate : new Date()}
-        firstDay={1}
+        firstDay={MONDAY}
         locale="pl"
-        plugins={[dayGridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
         events={events}
         loading={setShowSpacer}
