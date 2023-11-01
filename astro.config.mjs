@@ -34,4 +34,7 @@ export default defineConfig({
     },
     extendDefaultPlugins: true,
   },
+  experimental: {
+    devOverlay: true,
+  },
 });
