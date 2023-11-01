@@ -30,6 +30,6 @@ const events = tils.map(
     title="Today I learned"
     pageDesc="Zbiór rzeczy, których nauczyłem się danego dnia"
   />
-  <Calendar events={events} client:load />
+  <Calendar events={events} client:load transition:name="calendar" />
   <Footer />
 </Layout>

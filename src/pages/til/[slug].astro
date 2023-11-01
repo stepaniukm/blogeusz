@@ -1,6 +1,9 @@
 ---
-import { CollectionEntry, getCollection, getEntryBySlug } from "astro:content";
-import Header from "@components/Header.astro";
+import {
+  type CollectionEntry,
+  getCollection,
+  getEntryBySlug,
+} from "astro:content";
 import Footer from "@components/Footer.astro";
 import { Calendar } from "@components/Calendar";
 import Layout from "@layouts/Layout.astro";
@@ -53,15 +56,18 @@ const { Content } = await til.render();
 ---
 
 <Layout title={`TIL ${slug} | ${SITE.title}`}>
-  <Header activeNav="til" />
   <Init
     title="Today I learned"
     pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
-  >
-    <Calendar events={events} chosenDate={til.data.date} client:load />
-    <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
-      <Content />
-    </article>
-  </Init>
+  />
+  <Calendar
+    events={events}
+    chosenDate={til.data.date}
+    client:load
+    transition:name="calendar"
+  />
+  <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
+    <Content />
+  </article>
+  <Footer />
 </Layout>
-<Footer />

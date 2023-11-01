@@ -191,6 +191,13 @@ declare module 'astro:content' {
   collection: "til";
   data: InferEntrySchema<"til">
 } & { render(): Render[".md"] };
+"01-11-2023.md": {
+	id: "01-11-2023.md";
+  slug: "01-11-2023";
+  body: string;
+  collection: "til";
+  data: InferEntrySchema<"til">
+} & { render(): Render[".md"] };
 "02-02-2023.md": {
 	id: "02-02-2023.md";
   slug: "02-02-2023";
