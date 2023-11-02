@@ -137,3 +137,12 @@
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
   }
 }
+
+.fc .fc-scrollgrid-section-liquid > td {
+  padding: 0;
+}
+
+.st0 {
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+}
