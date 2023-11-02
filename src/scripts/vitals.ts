@@ -23,13 +23,19 @@ type Options = {
   analyticsId: string;
   path: string;
   debug: boolean;
+  params: string;
 };
 
 function sendToAnalytics(metric: Metric, options: Options) {
+  const page = Object.entries(options.params).reduce(
+    (acc, [key, value]) => acc.replace(value, `[${key}]`),
+    options.path
+  );
+
   const body = {
     dsn: options.analyticsId,
     id: metric.id,
-    page: options.path,
+    page,
     href: location.href,
     event_name: metric.name,
     value: metric.value.toString(),
@@ -41,7 +47,6 @@ function sendToAnalytics(metric: Metric, options: Options) {
   }
 
   const blob = new Blob([new URLSearchParams(body).toString()], {
-    // This content type is necessary for `sendBeacon`
     type: "application/x-www-form-urlencoded",
   });
   if (navigator.sendBeacon) {

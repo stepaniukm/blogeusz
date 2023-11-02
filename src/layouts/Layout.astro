@@ -98,6 +98,7 @@ const isBlogPost = activeNav.startsWith("posty/");
         debug: ["development", "preview"].includes(
           import.meta.env.PUBLIC_VERCEL_ENV
         ),
+        params: window.location.search,
       });
     </script>
     <script defer src="/_vercel/insights/script.js"></script>

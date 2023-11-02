@@ -5,15 +5,15 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src https: data: 'unsafe-inline' 'unsafe-eval'"
+          "value": "default-src 'self'; connect-src 'self' vitals.vercel-insights.com vitals.vercel-analytics.com vercel.live; img-src 'self' data:; script-src 'self' 'unsafe-inline' vercel.live; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; frame-src 'self' vercel.live;"
         },
         {
           "key": "Permissions-Policy",
-          "value": "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(self), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(self), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(self), usb=(), web-share=(self), xr-spatial-tracking=(), clipboard-read=(self), clipboard-write=(self), gamepad=(), speaker-selection=(self), conversion-measurement=(self), focus-without-user-activation=(), hid=(self), idle-detection=(), interest-cohort=(), serial=(), sync-script=()"
+          "value": "camera=(), microphone=(), geolocation=()"
         },
         {
           "key": "Referrer-Policy",
-          "value": "no-referrer-when-downgrade"
+          "value": "strict-origin-when-cross-origin"
         },
         {
           "key": "X-Content-Type-Options",
@@ -26,6 +26,10 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
         }
       ]
     }

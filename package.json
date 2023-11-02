@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@astrojs/rss": "3.0.0",
+    "@astrojs/vercel": "^5.1.0",
     "@fullcalendar/core": "6.1.9",
     "@fullcalendar/daygrid": "6.1.9",
     "@fullcalendar/interaction": "6.1.9",

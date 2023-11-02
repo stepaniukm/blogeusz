@@ -9,6 +9,13 @@ import theme from "./horizon-italic.json";
 // https://astro.build/config
 export default defineConfig({
   site: "https://blogeusz.pl/",
+  vite: {
+    define: {
+      "import.meta.env.PUBLIC_VERCEL_ANALYTICS_ID": JSON.stringify(
+        process.env.VERCEL_ANALYTICS_ID
+      ),
+    },
+  },
   integrations: [
     tailwind({
       config: {
