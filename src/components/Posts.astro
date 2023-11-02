@@ -11,7 +11,7 @@ import Init from "@components/Init.astro";
 export interface Props {
   pageNum: number;
   totalPages: number;
-  posts: CollectionEntry<"blog">[];
+  posts: (CollectionEntry<"blog"> & { readingTime: number })[];
 }
 
 const { pageNum, totalPages, posts } = Astro.props;
@@ -25,8 +25,12 @@ const next = pageNum < totalPages ? "" : "disabled";
 
   <ul>
     {
-      posts.map(({ data }) => (
-        <Card href={`/posty/${slugify(data)}`} frontmatter={data} />
+      posts.map(({ data, readingTime }) => (
+        <Card
+          href={`/posty/${slugify(data)}`}
+          frontmatter={data}
+          readingTime={readingTime}
+        />
       ))
     }
   </ul>

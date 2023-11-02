@@ -143,3 +143,8 @@
 .fc .fc-scrollgrid-section-liquid > td {
   padding: 0;
 }
+
+.st0 {
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+}

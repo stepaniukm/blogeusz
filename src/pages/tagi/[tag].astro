@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
@@ -8,6 +8,7 @@ import getPostsByTag from "@utils/getPostsByTag";
 import slugify from "@utils/slugify";
 import { SITE } from "@config";
 import Init from "@components/Init.astro";
+import { getReadingTime } from "@utils/getReadingTime";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -30,8 +31,12 @@ export async function getStaticPaths() {
 const { tag } = Astro.props;
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
+const postsWithReadingTime = posts.map(post => ({
+  ...post,
+  readingTime: getReadingTime(post.body),
+}));
 
-const tagPosts = getPostsByTag(posts, tag);
+const tagPosts = getPostsByTag(postsWithReadingTime, tag);
 ---
 
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
@@ -41,8 +46,12 @@ const tagPosts = getPostsByTag(posts, tag);
   />
   <ul>
     {
-      tagPosts.map(({ data }) => (
-        <Card href={`/posty/${slugify(data)}`} frontmatter={data} />
+      tagPosts.map(({ data, readingTime }) => (
+        <Card
+          href={`/posty/${slugify(data)}`}
+          frontmatter={data}
+          readingTime={readingTime}
+        />
       ))
     }
   </ul>

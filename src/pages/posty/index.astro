@@ -5,10 +5,17 @@ import getPageNumbers from "@utils/getPageNumbers";
 
 import { getCollection } from "astro:content";
 import Posts from "@components/Posts.astro";
+import { getReadingTime } from "@utils/getReadingTime";
 
 const posts = await getCollection("blog");
+const postsWithReadingTime = posts.map(post => {
+  return {
+    ...post,
+    readingTime: getReadingTime(post.body),
+  };
+});
 
-const sortedPosts = getSortedPosts(posts);
+const sortedPosts = getSortedPosts(postsWithReadingTime);
 
 const totalPages = getPageNumbers(sortedPosts.length);
 

@@ -7,6 +7,7 @@ import type { BlogFrontmatter } from "@content/_schemas";
 export type SearchItem = {
   title: string;
   description: string;
+  readingTime: number;
   data: BlogFrontmatter;
 };
 
@@ -109,8 +110,7 @@ export default function SearchBar({ searchList }: Props) {
       {inputVal.length > 1 && (
         <div className="mt-8">
           Znaleziono {searchResults?.length + " "}
-          {polishPluralsPosts[formatter.select(searchResults?.length || 0)] +
-            " "}
+          {polishPluralsPosts[formatter.select(searchResults?.length || 0)]}
           dla '{inputVal}'
         </div>
       )}
@@ -122,6 +122,7 @@ export default function SearchBar({ searchList }: Props) {
               href={`/posty/${slugify(item.data)}`}
               frontmatter={item.data}
               key={`${refIndex}-${slugify(item.data)}`}
+              readingTime={item.readingTime}
             />
           ))}
       </ul>

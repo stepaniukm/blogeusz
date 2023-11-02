@@ -1,15 +1,21 @@
 import Datetime from "./Datetime";
 import type { BlogFrontmatter } from "@content/_schemas";
+import ReadingTime from "./ReadingTime";
 
 export interface Props {
   href?: string;
   frontmatter: BlogFrontmatter;
   secHeading?: boolean;
+  readingTime: number;
 }
 
-export default function Card({ href, frontmatter, secHeading = true }: Props) {
+export default function Card({
+  href,
+  frontmatter,
+  readingTime,
+  secHeading = true,
+}: Props) {
   const { title, pubDatetime, description } = frontmatter;
-  const b = title.split("");
   return (
     <li className="my-6">
       <a
@@ -27,6 +33,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
         )}
       </a>
       <Datetime datetime={pubDatetime} />
+      <ReadingTime readingTime={readingTime} size="sm" />
       <p>{description}</p>
     </li>
   );

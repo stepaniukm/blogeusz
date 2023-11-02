@@ -9,10 +9,14 @@ import Socials from "@components/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
+import { getReadingTime } from "@utils/getReadingTime";
 
 const posts = await getCollection("blog");
+const postsWithReadingTime = posts.map(post => {
+  return { ...post, readingTime: getReadingTime(post.body) };
+});
 
-const sortedPosts = getSortedPosts(posts);
+const sortedPosts = getSortedPosts(postsWithReadingTime);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
@@ -61,11 +65,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <section id="featured">
           <h2>Wyróżnione</h2>
           <ul>
-            {featuredPosts.map(({ data }) => (
+            {featuredPosts.map(({ data, readingTime }) => (
               <Card
                 href={`/posty/${slugify(data)}`}
                 frontmatter={data}
                 secHeading={false}
+                readingTime={readingTime}
               />
             ))}
           </ul>
@@ -80,12 +85,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <ul>
       {
         sortedPosts.map(
-          ({ data }, index) =>
+          ({ data, readingTime }, index) =>
             index < 4 && (
               <Card
                 href={`/posty/${slugify(data)}`}
                 frontmatter={data}
                 secHeading={false}
+                readingTime={readingTime}
               />
             )
         )

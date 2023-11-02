@@ -4,6 +4,7 @@ import "../styles/base.css";
 import Header from "@components/Header.astro";
 import { ViewTransitions } from "astro:transitions";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
+import Progress from "@components/Progress";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -29,6 +30,7 @@ const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website)
 const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
 
 const activeNav = Astro.url.pathname.slice(1);
+const isBlogPost = activeNav.startsWith("posty/");
 ---
 
 <!doctype html>
@@ -102,6 +104,7 @@ const activeNav = Astro.url.pathname.slice(1);
     <ViewTransitions />
   </>
   <body>
+    {isBlogPost && <Progress client:load />}
     <Header transition:persist activeNav={activeNav} />
     <main
       id="main-content"
