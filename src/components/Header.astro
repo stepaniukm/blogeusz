@@ -47,6 +47,7 @@ const { activeNav } = Astro.props;
             ["posty", "tagi", "til", "o-mnie"].map(subpage => (
               <li>
                 <a
+                  rel="intent-prefetch"
                   href={`/${subpage}`}
                   class={activeNav === subpage ? "active" : ""}
                 >
