@@ -15,8 +15,8 @@ dependencies:
     specifier: 3.0.0
     version: 3.0.0
   '@astrojs/vercel':
-    specifier: ^5.1.0
-    version: 5.1.0(astro@3.4.3)
+    specifier: ^5.2.0
+    version: 5.2.0(astro@3.4.3)
   '@fullcalendar/core':
     specifier: 6.1.9
     version: 6.1.9
@@ -249,10 +249,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@astrojs/vercel@5.1.0(astro@3.4.3):
-    resolution: {integrity: sha512-9IHRpFNmXlIUrYTyCeiNZm3uUAsdQLC/zlupwbDoGCfTJ5ba8MUdzATR71N5f0a+2aCNlH1YoD6hD7QLxp7ppw==}
+  /@astrojs/vercel@5.2.0(astro@3.4.3):
+    resolution: {integrity: sha512-WUMgiVLbDsh2uRaMcjqx3Br7lWNvKSvDqbLwDeR21lJ4UIBB+1PYbQ3cLYLXl6GiksxPx8rg9dry9CDsPcA0nA==}
     peerDependencies:
-      astro: ^3.3.4
+      astro: ^3.0.0
     dependencies:
       '@astrojs/internal-helpers': 0.2.1
       '@vercel/analytics': 1.1.1
@@ -2096,15 +2096,7 @@ packages:
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.33
-    dev: true
-
-  /@types/react@18.2.33:
-    resolution: {integrity: sha512-v+I7S+hu3PIBoVkKGpSYYpiBT1ijqEzWpzQD62/jm4K74hPpSP7FF9BnKG6+fg2+62weJYkkBWDJlZt5JO/9hg==}
-    dependencies:
-      '@types/prop-types': 15.7.9
-      '@types/scheduler': 0.16.5
-      csstype: 3.1.2
+      '@types/react': 18.2.36
     dev: true
 
   /@types/react@18.2.36:
