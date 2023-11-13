@@ -72,8 +72,8 @@ dependencies:
     specifier: 5.2.2
     version: 5.2.2
   uint8array-extras:
-    specifier: ^0.5.0
-    version: 0.5.0
+    specifier: ^0.5.1
+    version: 0.5.1
   web-vitals:
     specifier: 3.5.0
     version: 3.5.0
@@ -2096,15 +2096,7 @@ packages:
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.33
-    dev: true
-
-  /@types/react@18.2.33:
-    resolution: {integrity: sha512-v+I7S+hu3PIBoVkKGpSYYpiBT1ijqEzWpzQD62/jm4K74hPpSP7FF9BnKG6+fg2+62weJYkkBWDJlZt5JO/9hg==}
-    dependencies:
-      '@types/prop-types': 15.7.9
-      '@types/scheduler': 0.16.5
-      csstype: 3.1.2
+      '@types/react': 18.2.36
     dev: true
 
   /@types/react@18.2.36:
@@ -5841,8 +5833,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /uint8array-extras@0.5.0:
-    resolution: {integrity: sha512-CKAKa+/rjCblsuGrcmIJLluHcZMYKcMwgdhAZZEnSplFFGCuGKF6e2L+CeVXK0zX5rYyerrqG2dnHIANm3i9qA==}
+  /uint8array-extras@0.5.1:
+    resolution: {integrity: sha512-dlgj8+9+Rak3JzT1Rg77nIccp0a5kBKjQ7tworiwKxkXIhqgdd+oZLkK8rcDb+Fq5tq+oUVjPbq4V/dMD6cnlA==}
     engines: {node: '>=18'}
     dev: false
 
