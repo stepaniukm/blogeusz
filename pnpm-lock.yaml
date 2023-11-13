@@ -92,8 +92,8 @@ devDependencies:
     specifier: 0.5.10
     version: 0.5.10(tailwindcss@3.3.5)
   '@types/core-js':
-    specifier: 2.5.7
-    version: 2.5.7
+    specifier: 2.5.8
+    version: 2.5.8
   '@types/react':
     specifier: 18.2.36
     version: 18.2.36
@@ -2036,8 +2036,8 @@ packages:
     dependencies:
       '@babel/types': 7.23.0
 
-  /@types/core-js@2.5.7:
-    resolution: {integrity: sha512-EhO4Lcd2Rs2bZvQwIDMZ1qsaZk8DpdOkQCbKpK0vt7fSjJGXrCA7EPauR/BZ7eJXks1een4FX7JtlhS136fklA==}
+  /@types/core-js@2.5.8:
+    resolution: {integrity: sha512-VgnAj6tIAhJhZdJ8/IpxdatM8G4OD3VWGlp6xIxUGENZlpbob9Ty4VVdC1FIEp0aK6DBscDDjyzy5FB60TuNqg==}
     dev: true
 
   /@types/debug@4.1.10:
@@ -2096,15 +2096,7 @@ packages:
   /@types/react-dom@18.2.14:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
     dependencies:
-      '@types/react': 18.2.33
-    dev: true
-
-  /@types/react@18.2.33:
-    resolution: {integrity: sha512-v+I7S+hu3PIBoVkKGpSYYpiBT1ijqEzWpzQD62/jm4K74hPpSP7FF9BnKG6+fg2+62weJYkkBWDJlZt5JO/9hg==}
-    dependencies:
-      '@types/prop-types': 15.7.9
-      '@types/scheduler': 0.16.5
-      csstype: 3.1.2
+      '@types/react': 18.2.36
     dev: true
 
   /@types/react@18.2.36:
