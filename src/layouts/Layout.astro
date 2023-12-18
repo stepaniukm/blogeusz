@@ -4,28 +4,27 @@ import "../styles/base.css";
 import Header from "@components/Header.astro";
 import { ViewTransitions } from "astro:transitions";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
-import Progress from "@components/Progress";
+import { Progress } from "@components/Progress";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export interface Props {
-  title?: string;
-  author?: string;
-  description?: string;
-  ogImage?: string;
+	title?: string;
+	author?: string;
+	description?: string;
+	ogImage?: string;
 }
 
 const {
-  title = SITE.title,
-  author = SITE.author,
-  description = SITE.desc,
-  ogImage = SITE.ogImage,
+	title = SITE.title,
+	author = SITE.author,
+	description = SITE.desc,
+	ogImage = SITE.ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website)
-  .href;
+const socialImageURL = new URL(ogImage ? ogImage : SITE.ogImage, SITE.website).href;
 
 const fallbackImageURL = new URL(SITE.ogImage, SITE.website).href;
 
@@ -35,83 +34,71 @@ const isBlogPost = activeNav.startsWith("posty/");
 
 <!doctype html>
 <html lang="en">
-  <>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
-    <meta name="generator" content={Astro.generator} />
+	<>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="generator" content={Astro.generator} />
 
-    <!-- General Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
+		<!-- General Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="author" content={author} />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={socialImageURL} />
+		<!-- Open Graph / Facebook -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={socialImageURL} />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta
-      property="twitter:image"
-      content={socialImageURL.endsWith(".svg")
-        ? fallbackImageURL
-        : socialImageURL}
-    />
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta
+			property="twitter:image"
+			content={socialImageURL.endsWith(".svg") ? fallbackImageURL : socialImageURL}
+		/>
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-      rel="stylesheet"
-    />
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
+			rel="stylesheet"
+		/>
 
-    {
-      googleSiteVerification && (
-        <meta
-          name="google-site-verification"
-          content={googleSiteVerification}
-        />
-      )
-    }
+		{
+			googleSiteVerification && (
+				<meta name="google-site-verification" content={googleSiteVerification} />
+			)
+		}
 
-    <script is:inline src="/toggle-theme.js"></script>
-    <script>
-      import { webVitals } from "../scripts/vitals";
+		<script is:inline src="/toggle-theme.js"></script>
+		<script>
+			import { webVitals } from "../scripts/vitals";
 
-      const analyticsId = import.meta.env.PUBLIC_VERCEL_ANALYTICS_ID;
+			const analyticsId = import.meta.env.PUBLIC_VERCEL_ANALYTICS_ID;
 
-      webVitals({
-        path: window.location.pathname,
-        analyticsId,
-        debug: ["development", "preview"].includes(
-          import.meta.env.PUBLIC_VERCEL_ENV
-        ),
-        params: window.location.search,
-      });
-    </script>
-    <script type="text/partytown" defer src="/_vercel/insights/script.js"
-    ></script>
-    <ViewTransitions />
-  </>
-  <body>
-    {isBlogPost && <Progress client:load />}
-    <Header transition:persist activeNav={activeNav} />
-    <main
-      id="main-content"
-      class="mx-auto w-full max-w-3xl px-4 pb-12"
-      transition:animate="slide"
-    >
-      <Breadcrumbs />
-      <slot />
-    </main>
-  </body>
+			webVitals({
+				path: window.location.pathname,
+				analyticsId,
+				debug: ["development", "preview"].includes(import.meta.env.PUBLIC_VERCEL_ENV),
+				params: window.location.search,
+			});
+		</script>
+		<script type="text/partytown" defer src="/_vercel/insights/script.js"></script>
+		<ViewTransitions />
+	</>
+	<body>
+		{isBlogPost && <Progress />}
+		<Header transition:persist activeNav={activeNav} />
+		<main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12" transition:animate="slide">
+			<Breadcrumbs />
+			<slot />
+		</main>
+	</body>
 </html>

@@ -13,11 +13,11 @@ const tags = getUniqueTags(posts);
 ---
 
 <Layout title={`Tagi | ${SITE.title}`}>
-  <Init title="Tagi" pageDesc="Wszystkie tagi użyte w postach." />
+	<Init title="Tagi" pageDesc="Wszystkie tagi użyte w postach." />
 
-  <ul>
-    {tags.map(tag => <Tag name={tag} size="lg" />)}
-  </ul>
+	<ul>
+		{tags.map(tag => <Tag name={tag} size="lg" />)}
+	</ul>
 
-  <Footer />
+	<Footer />
 </Layout>

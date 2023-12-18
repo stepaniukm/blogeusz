@@ -9,10 +9,10 @@ import { getReadingTime } from "@utils/getReadingTime";
 
 const posts = await getCollection("blog");
 const postsWithReadingTime = posts.map(post => {
-  return {
-    ...post,
-    readingTime: getReadingTime(post.body),
-  };
+	return {
+		...post,
+		readingTime: getReadingTime(post.body),
+	};
 });
 
 const sortedPosts = getSortedPosts(postsWithReadingTime);

@@ -3,24 +3,21 @@ import { getCollection } from "astro:content";
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
-import Search from "@components/Search";
+import { Search } from "@components/Search";
 import Init from "@components/Init.astro";
 import { getReadingTime } from "@utils/getReadingTime";
 
-// Retrieve all articles
 const posts = await getCollection("blog", ({ data }) => !data.draft);
-
-// List of items to search in
 const searchList = posts.map(({ data, body }) => ({
-  title: data.title,
-  description: data.description,
-  readingTime: getReadingTime(body),
-  data,
+	title: data.title,
+	description: data.description,
+	readingTime: getReadingTime(body),
+	data,
 }));
 ---
 
 <Layout title={`Wyszukiwanie | ${SITE.title}`}>
-  <Init title="Szukaj" pageDesc="Szukaj artykułu ..." />
-  <Search client:load searchList={searchList} />
-  <Footer />
+	<Init title="Szukaj" pageDesc="Szukaj artykułu ..." />
+	<Search searchList={searchList} />
+	<Footer />
 </Layout>

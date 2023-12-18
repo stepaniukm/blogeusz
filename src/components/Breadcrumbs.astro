@@ -6,54 +6,50 @@ const currentUrlPath = Astro.url.pathname.replace(/\/+$/, "");
 const breadcrumbList = currentUrlPath.split("/").slice(1);
 
 const parsedBreadcrumbs =
-  breadcrumbList[0] === "posty"
-    ? breadcrumbList.toSpliced(0, 2, `Posty (strona ${breadcrumbList[1] || 1})`)
-    : breadcrumbList;
+	breadcrumbList[0] === "posty"
+		? breadcrumbList.toSpliced(0, 2, `Posty (strona ${breadcrumbList[1] || 1})`)
+		: breadcrumbList;
 ---
 
 <nav class="breadcrumb" aria-label="breadcrumb">
-  <ul>
-    <li>
-      <a href="/">Strona główna</a>
-      <span aria-hidden="true">&#62;</span>
-    </li>
-    {
-      parsedBreadcrumbs.map((breadcrumb, index) =>
-        index + 1 === breadcrumbList.length ? (
-          <li>
-            <span
-              class={`${index > 0 ? "lowercase" : "capitalize"}`}
-              aria-current="page"
-            >
-              {/* make the last part lowercase in Home > Tags > some-tag */}
-              {breadcrumb}
-            </span>
-          </li>
-        ) : (
-          <li>
-            <a href={`/${breadcrumb}`}>{breadcrumb}</a>
-            <span aria-hidden="true">&#62;</span>
-          </li>
-        )
-      )
-    }
-  </ul>
+	<ul>
+		<li>
+			<a href="/">Strona główna</a>
+			<span aria-hidden="true">&#62;</span>
+		</li>
+		{
+			parsedBreadcrumbs.map((breadcrumb, index) =>
+				index + 1 === breadcrumbList.length ? (
+					<li>
+						<span class={`${index > 0 ? "lowercase" : "capitalize"}`} aria-current="page">
+							{breadcrumb}
+						</span>
+					</li>
+				) : (
+					<li>
+						<a href={`/${breadcrumb}`}>{breadcrumb}</a>
+						<span aria-hidden="true">&#62;</span>
+					</li>
+				)
+			)
+		}
+	</ul>
 </nav>
 
 <style>
-  .breadcrumb {
-    @apply mx-auto mt-8 mb-1 w-full max-w-3xl px-4;
-  }
-  .breadcrumb ul li {
-    @apply inline;
-  }
-  .breadcrumb ul li a {
-    @apply capitalize opacity-70;
-  }
-  .breadcrumb ul li span {
-    @apply opacity-70 mx-0.5;
-  }
-  .breadcrumb ul li:not(:last-child) a {
-    @apply hover:opacity-100;
-  }
+	.breadcrumb {
+		@apply mx-auto mt-8 mb-1 w-full max-w-3xl px-4;
+	}
+	.breadcrumb ul li {
+		@apply inline;
+	}
+	.breadcrumb ul li a {
+		@apply capitalize opacity-70;
+	}
+	.breadcrumb ul li span {
+		@apply opacity-70 mx-0.5;
+	}
+	.breadcrumb ul li:not(:last-child) a {
+		@apply hover:opacity-100;
+	}
 </style>

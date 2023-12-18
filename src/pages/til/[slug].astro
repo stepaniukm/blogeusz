@@ -1,9 +1,5 @@
 ---
-import {
-  type CollectionEntry,
-  getCollection,
-  getEntryBySlug,
-} from "astro:content";
+import { type CollectionEntry, getCollection, getEntryBySlug } from "astro:content";
 import Footer from "@components/Footer.astro";
 import { Calendar } from "@components/Calendar";
 import Layout from "@layouts/Layout.astro";
@@ -13,35 +9,35 @@ import type { EventInput } from "@fullcalendar/core";
 import Init from "@components/Init.astro";
 
 export interface Props {
-  post: CollectionEntry<"til">;
-  slug: string;
+	post: CollectionEntry<"til">;
+	slug: string;
 }
 
 const tils = await getCollection("til");
 const events = tils.map(
-  til =>
-    ({
-      id: til.slug,
-      title: Intl.DateTimeFormat("pl-PL", {
-        day: "2-digit",
-        month: "long",
-      }).format(til.data.date),
-      interactive: true,
-      start: til.data.date,
-      allDay: true,
-      url: `/til/${til.slug}#article`,
-    }) satisfies EventInput
+	til =>
+		({
+			id: til.slug,
+			title: Intl.DateTimeFormat("pl-PL", {
+				day: "2-digit",
+				month: "long",
+			}).format(til.data.date),
+			interactive: true,
+			start: til.data.date,
+			allDay: true,
+			url: `/til/${til.slug}#article`,
+		}) satisfies EventInput
 );
 
 export async function getStaticPaths() {
-  const tils = await getCollection("til");
+	const tils = await getCollection("til");
 
-  return tils.map(({ slug }) => {
-    return {
-      params: { slug },
-      props: { slug },
-    };
-  });
+	return tils.map(({ slug }) => {
+		return {
+			params: { slug },
+			props: { slug },
+		};
+	});
 }
 
 const { slug } = Astro.props;
@@ -49,25 +45,17 @@ const { slug } = Astro.props;
 const til = await getEntryBySlug("til", slug);
 
 if (!til) {
-  throw new Error(`No TIL found for slug: ${slug}`);
+	throw new Error(`No TIL found for slug: ${slug}`);
 }
 
 const { Content } = await til.render();
 ---
 
 <Layout title={`TIL ${slug} | ${SITE.title}`}>
-  <Init
-    title="Today I learned"
-    pageDesc="Zbiór rzeczy których się nauczyłem danego dnia."
-  />
-  <Calendar
-    events={events}
-    chosenDate={til.data.date}
-    client:load
-    transition:name="calendar"
-  />
-  <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
-    <Content />
-  </article>
-  <Footer />
+	<Init title="Today I learned" pageDesc="Zbiór rzeczy których się nauczyłem danego dnia." />
+	<Calendar events={events} chosenDate={til.data.date} transition:name="calendar" />
+	<article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
+		<Content />
+	</article>
+	<Footer />
 </Layout>

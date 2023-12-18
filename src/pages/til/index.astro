@@ -10,26 +10,23 @@ import Init from "@components/Init.astro";
 
 const tils = await getCollection("til");
 const events = tils.map(
-  til =>
-    ({
-      id: til.slug,
-      title: Intl.DateTimeFormat("pl-PL", {
-        day: "2-digit",
-        month: "long",
-      }).format(til.data.date),
-      interactive: true,
-      start: til.data.date,
-      allDay: true,
-      url: `/til/${til.slug}#article`,
-    }) satisfies EventInput
+	til =>
+		({
+			id: til.slug,
+			title: Intl.DateTimeFormat("pl-PL", {
+				day: "2-digit",
+				month: "long",
+			}).format(til.data.date),
+			interactive: true,
+			start: til.data.date,
+			allDay: true,
+			url: `/til/${til.slug}#article`,
+		}) satisfies EventInput
 );
 ---
 
 <Layout title={`TIL | ${SITE.title}`}>
-  <Init
-    title="Today I learned"
-    pageDesc="Zbiór rzeczy, których nauczyłem się danego dnia"
-  />
-  <Calendar events={events} client:load transition:name="calendar" />
-  <Footer />
+	<Init title="Today I learned" pageDesc="Zbiór rzeczy, których nauczyłem się danego dnia" />
+	<Calendar events={events} transition:name="calendar" />
+	<Footer />
 </Layout>

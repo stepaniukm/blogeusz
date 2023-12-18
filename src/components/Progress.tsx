@@ -1,37 +1,31 @@
-import { useState, useEffect, useTransition, useMemo } from "react";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 
 function useReadingProgress() {
-  const [completion, setCompletion] = useState(0);
-  const [_, setTransition] = useTransition();
-  useEffect(() => {
-    function updateScrollCompletion() {
-      const currentProgress = window.scrollY;
-      const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      if (scrollHeight) {
-        setTransition(() => {
-          setCompletion(
-            Number((currentProgress / scrollHeight).toFixed(2)) * 100
-          );
-        });
-      }
-    }
-    document.addEventListener("scroll", updateScrollCompletion);
+	const completion = useSignal(0);
+	useVisibleTask$(({ cleanup }) => {
+		function updateScrollCompletion() {
+			const currentProgress = window.scrollY;
+			const scrollHeight = document.body.scrollHeight - window.innerHeight;
+			if (scrollHeight) {
+				completion.value = Number((currentProgress / scrollHeight).toFixed(2)) * 100;
+			}
+		}
+		document.addEventListener("scroll", updateScrollCompletion);
 
-    return () => {
-      document.removeEventListener("scroll", updateScrollCompletion);
-    };
-  }, []);
-  return useMemo(() => completion, [completion]);
+		cleanup(() => {
+			document.removeEventListener("scroll", updateScrollCompletion);
+		});
+	});
+	return completion;
 }
-
-export default function Progress() {
-  const completion = useReadingProgress();
-  return (
-    <div className="rounded h-2 w-full sticky top-0 left-0">
-      <div
-        className="bg-skin-accent rounded h-full transition-width"
-        style={{ width: `${completion}%` }}
-      ></div>
-    </div>
-  );
-}
+export const Progress = component$(() => {
+	const completion = useReadingProgress();
+	return (
+		<div class="rounded h-2 w-full sticky top-0 left-0">
+			<div
+				class="bg-skin-accent rounded h-full transition-width"
+				style={{ width: `${completion.value}%` }}
+			></div>
+		</div>
+	);
+});

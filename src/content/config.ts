@@ -2,11 +2,11 @@ import { defineCollection } from "astro:content";
 import { blogSchema, tilSchema } from "./_schemas";
 
 const blog = defineCollection({
-  schema: blogSchema,
+	schema: blogSchema,
 });
 
 const til = defineCollection({
-  schema: tilSchema,
+	schema: tilSchema,
 });
 
 export const collections = { blog, til };

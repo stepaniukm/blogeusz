@@ -1,69 +1,72 @@
 {
-  "name": "blogeusz",
-  "version": "2.0.0",
-  "private": false,
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "sync": "astro sync",
-    "astro": "astro",
-    "format:check": "prettier --cache --check .",
-    "format": "prettier --cache --write .",
-    "cz": "cz",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "@astrojs/partytown": "^2.0.2",
-    "@astrojs/prefetch": "^0.4.1",
-    "@astrojs/rss": "3.0.0",
-    "@astrojs/vercel": "^5.1.0",
-    "@fullcalendar/core": "6.1.9",
-    "@fullcalendar/daygrid": "6.1.9",
-    "@fullcalendar/interaction": "6.1.9",
-    "@fullcalendar/react": "6.1.9",
-    "@giscus/react": "2.3.0",
-    "@vercel/analytics": "1.1.1",
-    "@vitejs/plugin-legacy": "4.1.1",
-    "astro": "3.4.3",
-    "core-js": "3.33.2",
-    "fuse.js": "7.0.0",
-    "github-slugger": "2.0.0",
-    "prettier-plugin-astro": "0.12.1",
-    "remark-collapse": "0.1.2",
-    "remark-toc": "9.0.0",
-    "satori": "0.10.9",
-    "sharp": "0.32.6",
-    "tailwindcss": "3.3.5",
-    "typescript": "5.2.2",
-    "uint8array-extras": "^0.5.0",
-    "web-vitals": "3.5.0"
-  },
-  "devDependencies": {
-    "@astrojs/react": "3.0.4",
-    "@astrojs/sitemap": "3.0.3",
-    "@astrojs/tailwind": "5.0.2",
-    "@tailwindcss/typography": "0.5.10",
-    "@types/core-js": "2.5.7",
-    "@types/react": "18.2.36",
-    "commitizen": "4.3.0",
-    "cz-conventional-changelog": "3.3.0",
-    "husky": "8.0.3",
-    "lint-staged": "15.0.2",
-    "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,astro}": [
-      "prettier --write"
-    ]
-  }
+	"name": "blogeusz",
+	"version": "2.0.0",
+	"private": false,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"sync": "astro sync",
+		"astro": "astro",
+		"format:check": "prettier --cache --check .",
+		"format": "prettier --cache --write .",
+		"cz": "cz",
+		"prepare": "husky install"
+	},
+	"dependencies": {
+		"@astrojs/partytown": "^2.0.2",
+		"@astrojs/prefetch": "^0.4.1",
+		"@astrojs/rss": "3.0.0",
+		"@astrojs/vercel": "^5.2.0",
+		"@builder.io/qwik": "^1.2.19",
+		"@builder.io/qwik-react": "^0.5.0",
+		"@fullcalendar/core": "6.1.9",
+		"@fullcalendar/daygrid": "6.1.9",
+		"@fullcalendar/interaction": "6.1.9",
+		"@fullcalendar/react": "6.1.9",
+		"@giscus/react": "2.3.0",
+		"@qwikdev/astro": "^0.2.2",
+		"@vercel/analytics": "1.1.1",
+		"@vitejs/plugin-legacy": "5.2.0",
+		"astro": "3.5.7",
+		"core-js": "3.33.3",
+		"fuse.js": "7.0.0",
+		"github-slugger": "2.0.0",
+		"prettier-plugin-astro": "0.12.2",
+		"remark-collapse": "0.1.2",
+		"remark-toc": "9.0.0",
+		"satori": "0.10.11",
+		"sharp": "0.32.6",
+		"tailwindcss": "3.3.5",
+		"typescript": "5.3.2",
+		"uint8array-extras": "^0.5.1",
+		"web-vitals": "3.5.0"
+	},
+	"devDependencies": {
+		"@astrojs/react": "3.0.6",
+		"@astrojs/sitemap": "3.0.3",
+		"@astrojs/tailwind": "5.0.2",
+		"@tailwindcss/typography": "0.5.10",
+		"@types/core-js": "2.5.8",
+		"@types/react": "18.2.38",
+		"commitizen": "4.3.0",
+		"cz-conventional-changelog": "3.3.0",
+		"husky": "8.0.3",
+		"lint-staged": "15.1.0",
+		"prettier": "3.1.0",
+		"prettier-plugin-tailwindcss": "0.5.7",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"lint-staged": {
+		"*.{ts,astro}": [
+			"prettier --write"
+		]
+	}
 }

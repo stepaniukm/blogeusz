@@ -2,7 +2,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
-import Card from "@components/Card";
+import { Card } from "@components/Card";
 import getUniqueTags from "@utils/getUniqueTags";
 import getPostsByTag from "@utils/getPostsByTag";
 import slugify from "@utils/slugify";
@@ -11,49 +11,42 @@ import Init from "@components/Init.astro";
 import { getReadingTime } from "@utils/getReadingTime";
 
 export interface Props {
-  post: CollectionEntry<"blog">;
-  tag: string;
+	post: CollectionEntry<"blog">;
+	tag: string;
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+	const posts = await getCollection("blog");
 
-  const tags = getUniqueTags(posts);
+	const tags = getUniqueTags(posts);
 
-  return tags.map(tag => {
-    return {
-      params: { tag },
-      props: { tag },
-    };
-  });
+	return tags.map(tag => {
+		return {
+			params: { tag },
+			props: { tag },
+		};
+	});
 }
 
 const { tag } = Astro.props;
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 const postsWithReadingTime = posts.map(post => ({
-  ...post,
-  readingTime: getReadingTime(post.body),
+	...post,
+	readingTime: getReadingTime(post.body),
 }));
 
 const tagPosts = getPostsByTag(postsWithReadingTime, tag);
 ---
 
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
-  <Init
-    title={`Tag:${tag}`}
-    pageDesc={`Wszystkie artykuły z tagiem "${tag}".`}
-  />
-  <ul>
-    {
-      tagPosts.map(({ data, readingTime }) => (
-        <Card
-          href={`/posty/${slugify(data)}`}
-          frontmatter={data}
-          readingTime={readingTime}
-        />
-      ))
-    }
-  </ul>
-  <Footer />
+	<Init title={`Tag:${tag}`} pageDesc={`Wszystkie artykuły z tagiem "${tag}".`} />
+	<ul>
+		{
+			tagPosts.map(({ data, readingTime }) => (
+				<Card href={`/posty/${slugify(data)}`} frontmatter={data} readingTime={readingTime} />
+			))
+		}
+	</ul>
+	<Footer />
 </Layout>

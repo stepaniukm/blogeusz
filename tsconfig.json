@@ -1,11 +1,13 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "lib": ["ESNext", "ES2023.Array"],
-    "paths": {
-      "@*": ["./src/*"]
-    }
-  }
+	"extends": "astro/tsconfigs/strictest",
+	"compilerOptions": {
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		"jsxImportSource": "@builder.io/qwik",
+		"baseUrl": ".",
+		"lib": ["ESNext", "ES2023.Array"],
+		"paths": {
+			"@*": ["./src/*"]
+		}
+	}
 }
