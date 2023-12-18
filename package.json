@@ -49,7 +49,7 @@
 		"@astrojs/tailwind": "5.0.2",
 		"@tailwindcss/typography": "0.5.10",
 		"@types/core-js": "2.5.8",
-		"@types/react": "18.2.38",
+		"@types/react": "18.2.45",
 		"commitizen": "4.3.0",
 		"cz-conventional-changelog": "3.3.0",
 		"husky": "8.0.3",
