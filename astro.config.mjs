@@ -25,8 +25,8 @@ export default defineConfig({
 		}),
 		sitemap(),
 		partytown(),
-		vue(),
 		react(),
+		vue(),
 	],
 	markdown: {
 		remarkPlugins: [
