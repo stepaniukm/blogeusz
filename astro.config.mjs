@@ -6,6 +6,7 @@ import sitemap from "@astrojs/sitemap";
 import theme from "./horizon-italic.json";
 import partytown from "@astrojs/partytown";
 import vue from "@astrojs/vue";
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
 		sitemap(),
 		partytown(),
 		vue(),
+		react(),
 	],
 	markdown: {
 		remarkPlugins: [
