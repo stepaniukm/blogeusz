@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Footer from "@components/Footer.astro";
-import { Calendar } from "@components/Calendar";
+import Calendar from "@components/Calendar.vue";
 import Layout from "@layouts/Layout.astro";
 
 import { SITE } from "@config";
@@ -27,6 +27,6 @@ const events = tils.map(
 
 <Layout title={`TIL | ${SITE.title}`}>
 	<Init title="Today I learned" pageDesc="Zbiór rzeczy, których nauczyłem się danego dnia" />
-	<Calendar events={events} transition:name="calendar" />
+	<Calendar events={events} transition:name="calendar" client:only />
 	<Footer />
 </Layout>

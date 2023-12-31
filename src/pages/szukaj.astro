@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
-import { Search } from "@components/Search";
+import Search from "@components/Search.vue";
 import Init from "@components/Init.astro";
 import { getReadingTime } from "@utils/getReadingTime";
 
@@ -18,6 +18,6 @@ const searchList = posts.map(({ data, body }) => ({
 
 <Layout title={`Wyszukiwanie | ${SITE.title}`}>
 	<Init title="Szukaj" pageDesc="Szukaj artykułu ..." />
-	<Search searchList={searchList} />
+	<Search searchList={searchList} client:only />
 	<Footer />
 </Layout>

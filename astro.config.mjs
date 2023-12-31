@@ -5,7 +5,7 @@ import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import theme from "./horizon-italic.json";
 import partytown from "@astrojs/partytown";
-import qwikdev from "@qwikdev/astro";
+import vue from "@astrojs/vue";
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,7 +24,7 @@ export default defineConfig({
 		}),
 		sitemap(),
 		partytown(),
-		qwikdev(),
+		vue(),
 	],
 	markdown: {
 		remarkPlugins: [

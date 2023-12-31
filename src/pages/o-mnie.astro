@@ -1,0 +1,25 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Init from "@components/Init.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout>
+	<Init title="O mnie" pageDesc="Kilka informacji o mnie" />
+	<article class="prose mx-auto mt-8 max-w-3xl">
+		<p>
+			Cześć, jestem Mateusz. Aktualnie pracuję jako Node.js Developer w <a
+				href="https://theheart.tech/services/the-heart-rnd-lab">The Heart R&D Lab</a
+			>. Interesuję się programowaniem funkcyjnym oraz wszelkiego rodzaju nowinkami. Poza
+			programowaniem moją pasją jest fotografia. Na blogu znajdziesz artykuły techniczne, moje
+			przemyślenia na różne tematy związane z branżą IT, trochę zdjęć oraz sekcję TIL (Today I
+			learned) na której się dzielę tym czego nauczyłem się danego dnia oraz jakie mam plany na
+			dalszy rozwój.
+		</p>
+	</article>
+
+	<div>
+		<img src="/assets/dev.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration" />
+	</div>
+	<Footer />
+</Layout>

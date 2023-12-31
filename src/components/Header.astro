@@ -74,6 +74,7 @@ const { activeNav } = Astro.props;
 						{
 							SITE.lightAndDarkMode && (
 								<button
+									transition:persist
 									id="theme-btn"
 									class="focus-outline"
 									title="Toggles light & dark"

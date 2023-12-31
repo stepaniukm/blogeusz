@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, getEntryBySlug } from "astro:content";
 import Footer from "@components/Footer.astro";
-import { Calendar } from "@components/Calendar";
+import Calendar from "@components/Calendar.vue";
 import Layout from "@layouts/Layout.astro";
 
 import { SITE } from "@config";
@@ -53,7 +53,7 @@ const { Content } = await til.render();
 
 <Layout title={`TIL ${slug} | ${SITE.title}`}>
 	<Init title="Today I learned" pageDesc="Zbiór rzeczy których się nauczyłem danego dnia." />
-	<Calendar events={events} chosenDate={til.data.date} transition:name="calendar" />
+	<Calendar events={events} chosenDate={til.data.date} transition:name="calendar" client:only />
 	<article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
 		<Content />
 	</article>

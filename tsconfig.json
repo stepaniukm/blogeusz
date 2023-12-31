@@ -2,8 +2,7 @@
 	"extends": "astro/tsconfigs/strictest",
 	"compilerOptions": {
 		"target": "ESNext",
-		"jsx": "react-jsx",
-		"jsxImportSource": "@builder.io/qwik",
+		"jsx": "preserve",
 		"baseUrl": ".",
 		"lib": ["ESNext", "ES2023.Array"],
 		"paths": {

@@ -30,15 +30,18 @@ function reflectPreference() {
 // set early so no page flashes / CSS is made aware
 reflectPreference();
 
+const handlePreference = () => {
+	themeValue = themeValue === "light" ? "dark" : "light";
+	setPreference();
+};
+
 window.onload = () => {
 	// set on load so screen readers can get the latest value on the button
 	reflectPreference();
 
 	// now this script can find and listen for clicks on the control
-	document.querySelector("#theme-btn")?.addEventListener("click", () => {
-		themeValue = themeValue === "light" ? "dark" : "light";
-		setPreference();
-	});
+	document.querySelector("#theme-btn").removeEventListener("click", handlePreference);
+	document.querySelector("#theme-btn").addEventListener("click", handlePreference, false);
 };
 
 // sync with system changes
@@ -48,3 +51,11 @@ window
 		themeValue = isDark ? "dark" : "light";
 		setPreference();
 	});
+document.addEventListener("astro:after-swap", () => {
+	// set on load so screen readers can get the latest value on the button
+	reflectPreference();
+
+	// now this script can find and listen for clicks on the control
+	document.querySelector("#theme-btn").removeEventListener("click", handlePreference);
+	document.querySelector("#theme-btn").addEventListener("click", handlePreference, false);
+});

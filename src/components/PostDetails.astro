@@ -2,10 +2,9 @@
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
-import { Datetime } from "@components/Datetime";
-import Giscus from "@giscus/react";
+import Datetime from "@components/Datetime.vue";
 import type { CollectionEntry } from "astro:content";
-import { ReadingTime } from "./ReadingTime.tsx";
+import ReadingTime from "./ReadingTime.vue";
 
 export interface Props {
 	post: CollectionEntry<"blog"> & { readingTime: number };
@@ -40,8 +39,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin).href
 		<ul class="tags-container">
 			{tags.map(tag => <Tag name={tag} />)}
 		</ul>
-		<Giscus
-			client:load
+		<giscus-widget
 			id="comments"
 			repo="stepaniukm/blogeusz"
 			repoId="R_kgDOI3wG3A"
@@ -55,8 +53,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin).href
 			inputPosition="bottom"
 			theme="preferred_color_scheme"
 			lang="pl"
-			loading="lazy"
-		/>
+			loading="lazy"></giscus-widget>
 	</main>
 	<Footer />
 </Layout>
