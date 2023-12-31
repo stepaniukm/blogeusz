@@ -94,7 +94,7 @@ const isBlogPost = activeNav.startsWith("posty/");
 		<ViewTransitions />
 	</>
 	<body>
-		{isBlogPost && <Progress />}
+		{isBlogPost && <Progress client:only />}
 		<Header transition:persist activeNav={activeNav} />
 		<main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12" transition:animate="slide">
 			<Breadcrumbs />
