@@ -26,7 +26,7 @@
 		"@giscus/vue": "^2.4.0",
 		"@vercel/analytics": "1.1.1",
 		"@vitejs/plugin-legacy": "5.2.0",
-		"astro": "4.0.8",
+		"astro": "4.1.2",
 		"core-js": "3.35.0",
 		"fuse.js": "7.0.0",
 		"github-slugger": "2.0.0",
