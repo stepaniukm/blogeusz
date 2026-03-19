@@ -1,0 +1,92 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  imageUrl: string;
+  thumbnailUrl?: string;
+  category: string;
+  location?: string;
+}
+
+const { slug, title, imageUrl, thumbnailUrl, category, location } = Astro.props;
+---
+
+<a href={`/photos/${slug}`} class="photo-card">
+  <div class="photo-image">
+    <img
+      src={thumbnailUrl || imageUrl}
+      alt={title}
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="photo-overlay">
+      <span class="photo-category">{category}</span>
+      <h3 class="photo-title">{title}</h3>
+      {location && <p class="photo-location">{location}</p>}
+    </div>
+  </div>
+</a>
+
+<style>
+  .photo-card {
+    display: block;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .photo-image {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background-color: var(--color-bg-card);
+  }
+
+  .photo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .photo-card:hover .photo-image img {
+    transform: scale(1.05);
+  }
+
+  .photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .photo-card:hover .photo-overlay {
+    transform: translateY(0);
+  }
+
+  .photo-category {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  .photo-title {
+    margin: 0.25rem 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .photo-location {
+    margin: 0.25rem 0 0;
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.7);
+  }
+</style>

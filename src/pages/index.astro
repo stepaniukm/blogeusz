@@ -1,11 +1,188 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryTabs from '../components/CategoryTabs.astro';
+import TagFilter from '../components/TagFilter.astro';
+import PostCard from '../components/PostCard.astro';
+import TilCard from '../components/TilCard.astro';
+import { collectTags, getReadingTime } from '../lib/utils';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allTil = await getCollection('til', ({ data }) => !data.draft);
+
+const posts = allPosts.sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+
+const tags = collectTags(allPosts);
+
+const featured = posts.filter(p => p.data.featured).slice(0, 2);
+const rest = posts.filter(p => !p.data.featured).slice(0, 9);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Blog o programowaniu i fotografii">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-description">
+        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych
+        frameworkach jak i piękne zdjęcia.
+      </p>
+      <CategoryTabs active="dev" />
+    </div>
+  </section>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <TagFilter tags={tags} />
+
+    <!-- Featured 2-up large cards -->
+    {featured.length > 0 && (
+      <div class="grid-featured">
+        {featured.map(post => (
+          <PostCard
+            slug={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            publishedAt={post.data.publishedAt}
+            tags={post.data.tags}
+            readingTime={getReadingTime(post.body || '')}
+            coverImage={post.data.coverImage}
+            size="large"
+          />
+        ))}
+      </div>
+    )}
+
+    <!-- Regular 3-up posts grid -->
+    {rest.length > 0 && (
+      <div class="grid-posts">
+        {rest.map(post => (
+          <PostCard
+            slug={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            publishedAt={post.data.publishedAt}
+            tags={post.data.tags}
+            readingTime={getReadingTime(post.body || '')}
+            coverImage={post.data.coverImage}
+          />
+        ))}
+      </div>
+    )}
+
+    <!-- Latest TIL strip -->
+    {allTil.length > 0 && (
+      <section class="til-section">
+        <div class="section-header">
+          <h2 class="section-title">Ostatnie TIL</h2>
+          <a href="/til" class="section-more">Zobacz wszystkie →</a>
+        </div>
+        <div class="grid-til">
+          {allTil
+            .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+            .slice(0, 3)
+            .map(item => (
+              <TilCard
+                slug={item.id}
+                title={item.data.title}
+                publishedAt={item.data.publishedAt}
+                type={item.data.type}
+                url={item.data.url}
+                annotation={item.data.annotation}
+                tags={item.data.tags}
+              />
+            ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    border-bottom: 1px solid var(--color-border);
+    padding: 3rem 0 2.5rem;
+  }
+
+  .hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero-description {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-text);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .content-wrapper {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  .grid-featured {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .grid-posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .til-section { margin-top: 3rem; }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .section-more {
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .section-more:hover { text-decoration: underline; }
+
+  .grid-til {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .grid-posts { grid-template-columns: repeat(2, 1fr); }
+    .grid-til   { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .grid-featured    { grid-template-columns: 1fr; }
+    .grid-posts       { grid-template-columns: 1fr; }
+    .grid-til         { grid-template-columns: 1fr; }
+    .hero-description { font-size: 1rem; }
+    .content-wrapper  { padding: 0 1rem 3rem; }
+    .hero-inner       { padding: 0 1rem; }
+  }
+</style>

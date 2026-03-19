@@ -1,0 +1,241 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const photos = await getCollection('photos');
+  return photos.map(photo => ({ params: { slug: photo.id }, props: { photo } }));
+}
+
+const { photo } = Astro.props;
+
+const allPhotos = (await getCollection('photos')).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+const idx = allPhotos.findIndex(p => p.id === photo.id);
+const prev = allPhotos[idx + 1];
+const next = allPhotos[idx - 1];
+---
+
+<BaseLayout
+  title={photo.data.title}
+  description={`${photo.data.category} — ${photo.data.location || ''}`}
+  image={photo.data.imageUrl}
+>
+  <div class="wrapper">
+    <a href="/photos" class="back">← Galeria</a>
+
+    <div class="photo-layout">
+      <div class="photo-container">
+        <img
+          src={photo.data.imageUrl}
+          alt={photo.data.title}
+          class="photo-full"
+          loading="eager"
+          decoding="async"
+        />
+
+        <!-- Lightbox prev/next -->
+        {prev && (
+          <a href={`/photos/${prev.id}`} class="photo-nav photo-nav-prev" aria-label="Poprzednie">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </a>
+        )}
+        {next && (
+          <a href={`/photos/${next.id}`} class="photo-nav photo-nav-next" aria-label="Następne">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </a>
+        )}
+      </div>
+
+      <aside class="photo-meta">
+        <span class="photo-category">{photo.data.category}</span>
+        <h1 class="photo-title">{photo.data.title}</h1>
+        <time class="photo-date">{formatDate(photo.data.publishedAt)}</time>
+
+        {photo.data.location && (
+          <div class="meta-row">
+            <span class="meta-label">Lokalizacja</span>
+            <span class="meta-value">{photo.data.location}</span>
+          </div>
+        )}
+
+        {photo.data.camera && (
+          <div class="meta-row">
+            <span class="meta-label">Aparat</span>
+            <span class="meta-value">{photo.data.camera}</span>
+          </div>
+        )}
+
+        {photo.data.lens && (
+          <div class="meta-row">
+            <span class="meta-label">Obiektyw</span>
+            <span class="meta-value">{photo.data.lens}</span>
+          </div>
+        )}
+
+        {photo.data.settings && (
+          <div class="meta-row">
+            <span class="meta-label">Parametry</span>
+            <span class="meta-value">{photo.data.settings}</span>
+          </div>
+        )}
+
+        {photo.data.tags.length > 0 && (
+          <div class="photo-tags">
+            {photo.data.tags.map(tag => (
+              <a href={`/tags/${tag.toLowerCase()}`} class="tag">{tag}</a>
+            ))}
+          </div>
+        )}
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrapper {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+
+  .back:hover { color: var(--color-accent); }
+
+  .photo-layout {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .photo-container {
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background-color: var(--color-bg-card);
+  }
+
+  .photo-full {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .photo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .photo-nav:hover { background-color: rgba(0,0,0,0.8); }
+  .photo-nav-prev { left: 0.75rem; }
+  .photo-nav-next { right: 0.75rem; }
+
+  .photo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .photo-category {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  .photo-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .photo-date {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .meta-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .photo-tags {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 0.25rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-tag);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
+  @media (max-width: 768px) {
+    .photo-layout { grid-template-columns: 1fr; }
+    .photo-full { max-height: 60vh; }
+    .wrapper { padding: 1.5rem 1rem 3rem; }
+  }
+</style>

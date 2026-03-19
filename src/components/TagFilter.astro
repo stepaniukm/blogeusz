@@ -1,0 +1,65 @@
+---
+interface Props {
+  tags: string[];
+  activeTag?: string;
+  baseUrl?: string;
+}
+
+const { tags, activeTag, baseUrl = '/tags' } = Astro.props;
+---
+
+<div class="tag-filter" role="navigation" aria-label="Filtrowanie po tagach">
+  <a
+    href="/"
+    class:list={['tag-chip', !activeTag && 'tag-chip-active']}
+  >
+    Wszystkie
+  </a>
+  {tags.map(tag => (
+    <a
+      href={`${baseUrl}/${tag.toLowerCase()}`}
+      class:list={['tag-chip', activeTag?.toLowerCase() === tag.toLowerCase() && 'tag-chip-active']}
+    >
+      {tag}
+    </a>
+  ))}
+</div>
+
+<style>
+  .tag-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 1.25rem 0;
+  }
+
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3125rem 0.875rem;
+    border-radius: var(--radius-tag);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-tag-bg);
+    color: var(--color-tag-text);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .tag-chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .tag-chip-active {
+    background-color: var(--color-tag-active-bg);
+    border-color: var(--color-tag-active-bg);
+    color: var(--color-tag-active-text);
+  }
+
+  .tag-chip-active:hover {
+    color: var(--color-tag-active-text);
+  }
+</style>

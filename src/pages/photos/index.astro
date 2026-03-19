@@ -1,0 +1,171 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategoryTabs from "../../components/CategoryTabs.astro";
+import PhotoCard from "../../components/PhotoCard.astro";
+
+const allPhotos = await getCollection("photos");
+const photos = allPhotos.sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+
+// Unique categories
+const categories = Array.from(
+  new Set(photos.map((p) => p.data.category)),
+).sort();
+
+const activeCategory = Astro.url.searchParams.get("category");
+const filtered = activeCategory
+  ? photos.filter(
+      (p) => p.data.category.toLowerCase() === activeCategory.toLowerCase(),
+    )
+  : photos;
+---
+
+<BaseLayout
+  title="Fotografia"
+  description="Galeria fotografii — portrety, makro, moda i więcej."
+>
+  <section class="hero">
+    <div class="inner">
+      <p class="hero-description">
+        Galeria fotografii — portrety, makro, moda i nie tylko.
+      </p>
+      <CategoryTabs active="fotografia" />
+    </div>
+  </section>
+
+  <div class="inner content">
+    <!-- Category filter -->
+    <div class="cat-filter">
+      <a
+        href="/photos"
+        class:list={["cat-chip", !activeCategory && "cat-chip-active"]}
+      >
+        Wszystkie
+      </a>
+      {
+        categories.map((cat) => (
+          <a
+            href={`/photos?category=${cat.toLowerCase()}`}
+            class:list={[
+              "cat-chip",
+              activeCategory?.toLowerCase() === cat.toLowerCase() &&
+                "cat-chip-active",
+            ]}
+          >
+            {cat}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="photo-grid">
+      {
+        filtered.map((photo) => (
+          <PhotoCard
+            slug={photo.id}
+            title={photo.data.title}
+            imageUrl={photo.data.imageUrl}
+            thumbnailUrl={photo.data.thumbnailUrl}
+            category={photo.data.category}
+            location={photo.data.location}
+          />
+        ))
+      }
+    </div>
+
+    {filtered.length === 0 && <p class="empty">Brak zdjęć w tej kategorii.</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    border-bottom: 1px solid var(--color-border);
+    padding: 3rem 0 2.5rem;
+  }
+
+  .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-description {
+    margin: 0 0 1.5rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .content {
+    padding-bottom: 4rem;
+  }
+
+  .cat-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 1.25rem 0;
+  }
+
+  .cat-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3125rem 0.875rem;
+    border-radius: var(--radius-tag);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-tag-bg);
+    color: var(--color-tag-text);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
+  }
+
+  .cat-chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .cat-chip-active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #1a1f2e;
+  }
+  .cat-chip-active:hover {
+    color: #1a1f2e;
+  }
+
+  .photo-grid {
+    columns: 3;
+    gap: 1rem;
+  }
+
+  .photo-grid > :global(*) {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 900px) {
+    .photo-grid {
+      columns: 2;
+    }
+  }
+  @media (max-width: 640px) {
+    .photo-grid {
+      columns: 1;
+    }
+    .inner {
+      padding: 0 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,129 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "katex/dist/katex.min.css";
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+
+:root {
+  /* Colors — dark theme (default) */
+  --color-bg:        #1a1f2e;
+  --color-bg-card:   #242938;
+  --color-bg-nav:    #1a1f2e;
+  --color-border:    #2e3447;
+  --color-text:      #e8eaf0;
+  --color-text-muted:#8b909e;
+  --color-accent:    #e8a020;
+  --color-accent-hover: #f0b340;
+  --color-tag-bg:    #2e3447;
+  --color-tag-text:  #e8eaf0;
+  --color-tag-active-bg:  #e8a020;
+  --color-tag-active-text: #1a1f2e;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+
+  /* Spacing & Sizing */
+  --radius-tag:  4px;
+  --radius-card: 8px;
+  --max-width:   1200px;
+}
+
+[data-theme="light"] {
+  --color-bg:        #f5f5f5;
+  --color-bg-card:   #ffffff;
+  --color-bg-nav:    #ffffff;
+  --color-border:    #e0e3ec;
+  --color-text:      #1a1f2e;
+  --color-text-muted:#6b7280;
+  --color-accent:    #d4900e;
+  --color-accent-hover: #b87a0a;
+  --color-tag-bg:    #e8eaf0;
+  --color-tag-text:  #1a1f2e;
+  --color-tag-active-bg:  #d4900e;
+  --color-tag-active-text: #ffffff;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  /* Prevent layout shift when scrollbar appears */
+  overflow-y: scroll;
+}
+
+/* ─── Tailwind v4 Custom Utilities ───────────────────────────────────────── */
+
+@theme {
+  --color-accent: #e8a020;
+  --color-accent-dark: #d4900e;
+  --color-bg-dark: #1a1f2e;
+  --color-card-dark: #242938;
+  --color-border-dark: #2e3447;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, monospace;
+  --radius-tag: 4px;
+  --radius-card: 8px;
+}
+
+/* ─── Typography Prose Overrides ─────────────────────────────────────────── */
+
+.prose {
+  --tw-prose-body: var(--color-text);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: var(--color-text-muted);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-text-muted);
+  --tw-prose-code: var(--color-accent);
+  --tw-prose-pre-code: var(--color-text);
+  --tw-prose-pre-bg: var(--color-bg-card);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+/* ─── Decorative side patterns (positioned absolutely) ───────────────────── */
+
+.side-pattern {
+  position: fixed;
+  top: 0;
+  width: 120px;
+  height: 100vh;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: repeat-y;
+  background-size: 120px;
+}
+
+.side-pattern-left  { left: 0;  background-image: url('/patterns/left.svg'); }
+.side-pattern-right { right: 0; background-image: url('/patterns/right.svg'); }
+
+@media (max-width: 1400px) {
+  .side-pattern { display: none; }
+}

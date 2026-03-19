@@ -1,0 +1,43 @@
+---
+title: "Delightful React File/Directory Structure"
+description: "A pragmatic approach to organizing React projects that scales with complexity without over-engineering."
+publishedAt: 2022-07-13
+tags: ["React", "JavaScript"]
+category: Dev
+coverImage: "https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=800"
+featured: false
+---
+
+One of the most debated topics in React development is file structure. Here's the approach I've settled on after years of working on both small and large codebases.
+
+## The guiding principle
+
+**Co-locate things that change together.**
+
+If a component, its styles, its tests, and its types always change at the same time — they should live in the same directory.
+
+## The structure
+
+```
+src/
+├── components/
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── index.ts
+│   └── Card/
+│       ├── Card.tsx
+│       └── index.ts
+├── pages/
+│   ├── Home/
+│   │   ├── Home.tsx
+│   │   └── index.ts
+│   └── Blog/
+│       ├── Blog.tsx
+│       └── index.ts
+└── lib/
+    ├── api.ts
+    └── utils.ts
+```
+
+This scales beautifully — each feature is self-contained and can be moved, renamed, or deleted as a unit.

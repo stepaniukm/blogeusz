@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import TilCard from '../../components/TilCard.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import { collectTags, getReadingTime } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const [allPosts, allTil] = await Promise.all([
+    getCollection('blog', ({ data }) => !data.draft),
+    getCollection('til', ({ data }) => !data.draft),
+  ]);
+
+  const allTags = new Set([
+    ...allPosts.flatMap(p => p.data.tags),
+    ...allTil.flatMap(p => p.data.tags),
+  ]);
+
+  return Array.from(allTags).map(tag => ({
+    params: { tag: tag.toLowerCase() },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+
+const [allPosts, allTil] = await Promise.all([
+  getCollection('blog', ({ data }) => !data.draft),
+  getCollection('til', ({ data }) => !data.draft),
+]);
+
+const matchingPosts = allPosts
+  .filter(p => p.data.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const matchingTil = allTil
+  .filter(p => p.data.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const allTags = collectTags([...allPosts, ...allTil]);
+---
+
+<BaseLayout title={`Tag: ${tag}`} description={`Artykuły i notatki oznaczone tagiem "${tag}"`}>
+  <div class="wrapper">
+    <TagFilter tags={allTags} activeTag={tag} baseUrl="/tags" />
+
+    <h1 class="page-title">{tag}</h1>
+
+    {matchingPosts.length > 0 && (
+      <section>
+        <h2 class="section-title">Blog ({matchingPosts.length})</h2>
+        <div class="grid">
+          {matchingPosts.map(post => (
+            <PostCard
+              slug={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              publishedAt={post.data.publishedAt}
+              tags={post.data.tags}
+              readingTime={getReadingTime(post.body || '')}
+              coverImage={post.data.coverImage}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {matchingTil.length > 0 && (
+      <section class="til-section">
+        <h2 class="section-title">TIL ({matchingTil.length})</h2>
+        <div class="grid">
+          {matchingTil.map(item => (
+            <TilCard
+              slug={item.id}
+              title={item.data.title}
+              publishedAt={item.data.publishedAt}
+              type={item.data.type}
+              url={item.data.url}
+              annotation={item.data.annotation}
+              tags={item.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {matchingPosts.length === 0 && matchingTil.length === 0 && (
+      <p class="empty">Brak treści z tym tagiem.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .wrapper {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  .page-title {
+    margin: 0 0 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .section-title {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8125rem;
+  }
+
+  .til-section { margin-top: 2.5rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .empty {
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .wrapper { padding: 1rem 1rem 3rem; }
+  }
+</style>

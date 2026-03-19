@@ -1,0 +1,7 @@
+name = "blogeusz"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
+
+[[r2_buckets]]
+binding = "IMAGES_BUCKET"
+bucket_name = "blogeusz-images"

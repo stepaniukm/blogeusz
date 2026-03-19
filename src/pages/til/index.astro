@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryTabs from '../../components/CategoryTabs.astro';
+import TilCard from '../../components/TilCard.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import { collectTags } from '../../lib/utils';
+
+const allTil = await getCollection('til', ({ data }) => !data.draft);
+const items = allTil.sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+const tags = collectTags(allTil);
+---
+
+<BaseLayout
+  title="TIL — Today I Learned"
+  description="Codzienne krótkie notatki i linki — rzeczy, których się nauczyłem."
+>
+  <section class="hero">
+    <div class="inner">
+      <p class="hero-description">
+        Krótkie notatki i ciekawe linki — rzeczy, których nauczyłem się każdego dnia.
+      </p>
+      <CategoryTabs active="til" />
+    </div>
+  </section>
+
+  <div class="inner content">
+    <TagFilter tags={tags} baseUrl="/tags" />
+
+    <div class="til-grid">
+      {items.map(item => (
+        <TilCard
+          slug={item.id}
+          title={item.data.title}
+          publishedAt={item.data.publishedAt}
+          type={item.data.type}
+          url={item.data.url}
+          annotation={item.data.annotation}
+          tags={item.data.tags}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    border-bottom: 1px solid var(--color-border);
+    padding: 3rem 0 2.5rem;
+  }
+
+  .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-description {
+    margin: 0 0 1.5rem;
+    font-size: 1.25rem;
+    color: var(--color-text);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .content { padding-bottom: 4rem; }
+
+  .til-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) { .til-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) {
+    .til-grid { grid-template-columns: 1fr; }
+    .inner { padding: 0 1rem; }
+  }
+</style>

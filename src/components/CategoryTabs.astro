@@ -1,0 +1,72 @@
+---
+interface Tab {
+  label: string;
+  href: string;
+  key: string;
+}
+
+interface Props {
+  active: string;
+}
+
+const { active } = Astro.props;
+
+const tabs: Tab[] = [
+  { label: 'Dev', href: '/blog', key: 'dev' },
+  { label: 'Fotografia', href: '/photos', key: 'fotografia' },
+  { label: 'TIL', href: '/til', key: 'til' },
+];
+---
+
+<div class="tabs" role="tablist">
+  {tabs.map(tab => (
+    <a
+      href={tab.href}
+      class:list={['tab', tab.key === active && 'tab-active']}
+      role="tab"
+      aria-selected={tab.key === active}
+    >
+      {tab.label}
+    </a>
+  ))}
+</div>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-radius: var(--radius-tag);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    width: fit-content;
+  }
+
+  .tab {
+    padding: 0.4375rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background-color: var(--color-bg-card);
+    border-right: 1px solid var(--color-border);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .tab:last-child { border-right: none; }
+
+  .tab:hover {
+    color: var(--color-text);
+    background-color: var(--color-tag-bg);
+  }
+
+  .tab-active {
+    background-color: var(--color-accent);
+    color: var(--color-bg-dark, #1a1f2e);
+    font-weight: 700;
+  }
+
+  .tab-active:hover {
+    background-color: var(--color-accent-hover);
+    color: var(--color-bg-dark, #1a1f2e);
+  }
+</style>

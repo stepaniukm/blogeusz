@@ -1,0 +1,127 @@
+---
+const devLinks = [
+  { href: '/tags/html', label: 'HTML' },
+  { href: '/tags/css', label: 'CSS' },
+  { href: '/tags/javascript', label: 'JavaScript' },
+  { href: '/tags/react', label: 'React' },
+  { href: '/tags/typescript', label: 'TypeScript' },
+  { href: '/tags/vue', label: 'Vue' },
+  { href: '/tags/svelte', label: 'Svelte' },
+  { href: '/tags/graphql', label: 'GraphQL' },
+];
+
+const photoLinks = [
+  { href: '/photos?category=macro', label: 'Macro' },
+  { href: '/photos?category=portrait', label: 'Portrait' },
+  { href: '/photos?category=fashion', label: 'Fashion' },
+  { href: '/photos?category=events', label: 'Events' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <a href="/" aria-label="blogeusz">
+        <img src="/logo.svg" alt="blogeusz" width="120" height="24" class="logo-dark" />
+        <img src="/logo-light.svg" alt="blogeusz" width="120" height="24" class="logo-light" />
+      </a>
+      <p class="copyright">&copy; {year} Mateusz Stepaniuk</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h3 class="footer-heading">Dev</h3>
+        <ul class="footer-list">
+          {devLinks.map(({ href, label }) => (
+            <li><a href={href} class="footer-link">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Fotografia</h3>
+        <ul class="footer-list">
+          {photoLinks.map(({ href, label }) => (
+            <li><a href={href} class="footer-link">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: 4rem;
+    padding: 2.5rem 0;
+    background-color: var(--color-bg);
+  }
+
+  .footer-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .logo-dark, .logo-light { display: block; }
+  [data-theme="light"] .logo-dark  { display: none; }
+  [data-theme="light"] .logo-light { display: block; }
+  [data-theme="dark"]  .logo-light { display: none; }
+  :root:not([data-theme="light"]) .logo-light { display: none; }
+
+  .copyright {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .footer-col { min-width: 100px; }
+
+  .footer-heading {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-link {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover { color: var(--color-accent); }
+
+  @media (max-width: 640px) {
+    .footer-inner { flex-direction: column; }
+    .footer-links { flex-wrap: wrap; gap: 1.5rem; }
+  }
+</style>
