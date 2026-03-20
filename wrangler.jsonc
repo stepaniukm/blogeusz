@@ -1,7 +1,10 @@
 {
   "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
   "name": "blogeusz",
-  "pages_build_output_dir": "dist",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
   "compatibility_date": "2025-05-31",
 
   "r2_buckets": [
