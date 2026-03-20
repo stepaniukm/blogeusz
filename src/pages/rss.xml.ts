@@ -24,7 +24,7 @@ export async function GET(context: APIContext) {
     categories: item.data.tags,
   }));
 
-  const items = [...blogItems, ...tilItems].sort(
+  const items = [...blogItems, ...tilItems].toSorted(
     (a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()
   );
 

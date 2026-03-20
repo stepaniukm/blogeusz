@@ -1,5 +1,5 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
+import ThemeToggle from './ThemeToggle.vue';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -50,7 +50,7 @@ const currentPath = Astro.url.pathname;
           <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
         </svg>
       </a>
-      <ThemeToggle />
+      <ThemeToggle client:load />
     </div>
   </div>
 </header>
@@ -79,20 +79,6 @@ const currentPath = Astro.url.pathname;
     flex-shrink: 0;
     display: flex;
     align-items: center;
-  }
-
-  .logo {
-    display: block;
-  }
-
-  [data-theme='dark'] .logo-light {
-    display: none;
-  }
-  [data-theme='light'] .logo-dark {
-    display: none;
-  }
-  :root:not([data-theme='light']) .logo-light {
-    display: none;
   }
 
   .nav {

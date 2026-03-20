@@ -24,7 +24,7 @@ const til = defineCollection({
     title: z.string(),
     publishedAt: z.coerce.date(),
     type: z.enum(['note', 'link']).default('note'),
-    url: z.string().url().optional(),
+    url: z.url().optional(),
     annotation: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),

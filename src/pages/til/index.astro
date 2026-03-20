@@ -7,7 +7,9 @@ import TagFilter from '../../components/TagFilter.astro';
 import { collectTags } from '../../lib/utils';
 
 const allTil = await getCollection('til', ({ data }) => !data.draft);
-const items = allTil.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const items = allTil.toSorted(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
 const tags = collectTags(allTil);
 ---
 

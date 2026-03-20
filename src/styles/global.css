@@ -132,3 +132,18 @@ body {
     display: none;
   }
 }
+
+.logo-light {
+  display: none;
+}
+[data-theme='light'] .logo-light {
+  display: block;
+}
+[data-theme='light'] .logo-dark {
+  display: none;
+}
+
+.no-transition,
+.no-transition * {
+  transition: none !important;
+}

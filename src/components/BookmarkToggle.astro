@@ -28,7 +28,6 @@ const key = `${collection}:${slug}`;
   const btn = document.getElementById('bookmark-btn') as HTMLButtonElement | null;
   if (btn) {
     const key = btn.dataset.key as string;
-    const bookmarks: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
 
     function update() {
       const saved = JSON.parse(localStorage.getItem('bookmarks') || '[]').includes(key);

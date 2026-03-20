@@ -5,7 +5,7 @@ import CategoryTabs from '../../components/CategoryTabs.astro';
 import PhotoCard from '../../components/PhotoCard.astro';
 
 const allPhotos = await getCollection('photos');
-const photos = allPhotos.sort(
+const photos = allPhotos.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 
