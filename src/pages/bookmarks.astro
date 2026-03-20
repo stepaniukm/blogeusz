@@ -1,74 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BookmarksList from '../components/BookmarksList.vue';
 ---
 
 <BaseLayout title="Zakładki" description="Twoje zapisane artykuły i notatki.">
   <div class="wrapper">
     <h1 class="page-title">Zakładki</h1>
     <p class="subtitle">Artykuły i notatki, które zapisałeś.</p>
-
-    <div id="bookmarks-loading" class="loading">Ładowanie...</div>
-    <div id="bookmarks-empty" class="empty" style="display:none">
-      <p>Nie masz jeszcze żadnych zakładek.</p>
-      <p>Kliknij ikonę zakładki na dowolnym artykule, aby go zapisać.</p>
-    </div>
-    <div id="bookmarks-list" class="bookmarks-list" style="display:none"></div>
+    <BookmarksList client:only="vue" />
   </div>
 </BaseLayout>
-
-<script>
-  interface BookmarkEntry {
-    key: string;
-    collection: string;
-    slug: string;
-  }
-
-  async function loadBookmarks() {
-    const loading = document.getElementById('bookmarks-loading');
-    const empty = document.getElementById('bookmarks-empty');
-    const list = document.getElementById('bookmarks-list');
-
-    const raw: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-
-    if (loading) loading.style.display = 'none';
-
-    if (raw.length === 0) {
-      if (empty) empty.style.display = 'block';
-      return;
-    }
-
-    if (list) {
-      list.style.display = 'block';
-      list.innerHTML = raw
-        .map((key) => {
-          const [collection, slug] = key.split(':');
-          const href = collection === 'blog' ? `/blog/${slug}` : `/til/${slug}`;
-          return `
-          <div class="bookmark-item">
-            <a href="${href}" class="bookmark-link">
-              <span class="bookmark-collection">${collection.toUpperCase()}</span>
-              <span class="bookmark-slug">${slug.replace(/-/g, ' ')}</span>
-            </a>
-            <button class="remove-btn" data-key="${key}" aria-label="Usuń zakładkę">×</button>
-          </div>
-        `;
-        })
-        .join('');
-
-      list.querySelectorAll('.remove-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const key = (btn as HTMLButtonElement).dataset.key as string;
-          const current: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-          const updated = current.filter((k) => k !== key);
-          localStorage.setItem('bookmarks', JSON.stringify(updated));
-          loadBookmarks();
-        });
-      });
-    }
-  }
-
-  loadBookmarks();
-</script>
 
 <style>
   .wrapper {
@@ -87,88 +28,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .subtitle {
     margin: 0 0 2rem;
     color: var(--color-text-muted);
-  }
-
-  .loading,
-  .empty {
-    color: var(--color-text-muted);
-    text-align: center;
-    padding: 3rem 0;
-  }
-
-  .empty p {
-    margin: 0.25rem 0;
-  }
-
-  .bookmarks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .bookmark-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.875rem 1rem;
-    background-color: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    transition: border-color 0.2s;
-  }
-
-  .bookmark-item:hover {
-    border-color: var(--color-accent);
-  }
-
-  .bookmark-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    color: inherit;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .bookmark-collection {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .bookmark-slug {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-text);
-    text-transform: capitalize;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .remove-btn {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-size: 1.25rem;
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      color 0.15s,
-      background-color 0.15s;
-  }
-
-  .remove-btn:hover {
-    color: #ef4444;
-    background-color: rgba(239, 68, 68, 0.1);
   }
 </style>

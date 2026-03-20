@@ -1,10 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ImageCarousel from '../../components/ImageCarousel.astro';
-import TableOfContents from '../../components/TableOfContents.astro';
-import BookmarkToggle from '../../components/BookmarkToggle.astro';
-import ReadingProgress from '../../components/ReadingProgress.astro';
+import ImageCarousel from '../../components/ImageCarousel.vue';
+import TableOfContents from '../../components/TableOfContents.vue';
+import BookmarkToggle from '../../components/BookmarkToggle.vue';
+import ReadingProgress from '../../components/ReadingProgress.vue';
 import PopularPosts from '../../components/PopularPosts.astro';
 import { getReadingTime, formatDate } from '../../lib/utils';
 
@@ -33,7 +33,7 @@ const next = allPosts[idx - 1];
   type="article"
   publishedAt={post.data.publishedAt}
 >
-  <ReadingProgress />
+  <ReadingProgress client:load />
 
   <div class="post-wrapper">
     <aside class="sidebar-left">
@@ -51,7 +51,7 @@ const next = allPosts[idx - 1];
             <path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path>
           </svg>
         </a>
-        <BookmarkToggle slug={post.id} collection="blog" />
+        <BookmarkToggle slug={post.id} collection="blog" client:load />
         <button
           class="share-btn"
           onclick="navigator.share?.({ title: document.title, url: window.location.href }) ?? navigator.clipboard.writeText(window.location.href)"
@@ -124,7 +124,7 @@ const next = allPosts[idx - 1];
 
       {
         post.data.images && post.data.images.length > 0 && (
-          <ImageCarousel images={post.data.images} title={post.data.title} />
+          <ImageCarousel images={post.data.images} title={post.data.title} client:load />
         )
       }
 
@@ -157,7 +157,7 @@ const next = allPosts[idx - 1];
     </article>
 
     <aside class="sidebar-right">
-      <TableOfContents headings={headings} />
+      <TableOfContents headings={headings} client:load />
     </aside>
   </div>
 </BaseLayout>
