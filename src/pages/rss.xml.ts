@@ -8,7 +8,7 @@ export async function GET(context: APIContext) {
     getCollection('til', ({ data }) => !data.draft),
   ]);
 
-  const blogItems = blogs.map(post => ({
+  const blogItems = blogs.map((post) => ({
     title: post.data.title,
     pubDate: post.data.publishedAt,
     description: post.data.description,
@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
     categories: post.data.tags,
   }));
 
-  const tilItems = tils.map(item => ({
+  const tilItems = tils.map((item) => ({
     title: item.data.title,
     pubDate: item.data.publishedAt,
     description: item.data.annotation || item.data.title,

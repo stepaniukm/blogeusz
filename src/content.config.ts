@@ -1,16 +1,16 @@
-import { defineCollection } from "astro:content";
-import { z } from "astro/zod";
-import { glob } from "astro/loaders";
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
-    category: z.enum(["Dev", "Fotografia"]).default("Dev"),
+    category: z.enum(['Dev', 'Fotografia']).default('Dev'),
     coverImage: z.string().optional(),
     images: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
@@ -19,11 +19,11 @@ const blog = defineCollection({
 });
 
 const til = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/til" }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/til' }),
   schema: z.object({
     title: z.string(),
     publishedAt: z.coerce.date(),
-    type: z.enum(["note", "link"]).default("note"),
+    type: z.enum(['note', 'link']).default('note'),
     url: z.string().url().optional(),
     annotation: z.string().optional(),
     tags: z.array(z.string()).default([]),
@@ -32,7 +32,7 @@ const til = defineCollection({
 });
 
 const photos = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/photos" }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/photos' }),
   schema: z.object({
     title: z.string(),
     publishedAt: z.coerce.date(),

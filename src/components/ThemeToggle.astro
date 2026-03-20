@@ -1,15 +1,38 @@
 ---
+
 ---
 
 <button class="icon-btn theme-toggle" aria-label="Przełącz motyw" id="theme-toggle">
-  <!-- Moon (shown in dark mode) -->
-  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+  <svg
+    class="icon-moon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
   </svg>
-  <!-- Sun (shown in light mode) -->
-  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="4"/>
-    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  <svg
+    class="icon-sun"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
   </svg>
 </button>
 
@@ -43,7 +66,9 @@
     border-radius: var(--radius-tag);
     color: var(--color-text-muted);
     cursor: pointer;
-    transition: color 0.15s, background-color 0.15s;
+    transition:
+      color 0.15s,
+      background-color 0.15s;
   }
 
   .icon-btn:hover {
@@ -51,11 +76,19 @@
     background-color: var(--color-tag-bg);
   }
 
-  /* Icon visibility based on theme */
-  [data-theme="light"]  .icon-moon { display: none; }
-  [data-theme="light"]  .icon-sun  { display: block; }
-  [data-theme="dark"]   .icon-moon { display: block; }
-  [data-theme="dark"]   .icon-sun  { display: none; }
-  /* Default dark */
-  :root:not([data-theme="light"]) .icon-sun { display: none; }
+  [data-theme='light'] .icon-moon {
+    display: none;
+  }
+  [data-theme='light'] .icon-sun {
+    display: block;
+  }
+  [data-theme='dark'] .icon-moon {
+    display: block;
+  }
+  [data-theme='dark'] .icon-sun {
+    display: none;
+  }
+  :root:not([data-theme='light']) .icon-sun {
+    display: none;
+  }
 </style>

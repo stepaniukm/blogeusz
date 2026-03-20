@@ -8,14 +8,19 @@ const { slug, collection } = Astro.props;
 const key = `${collection}:${slug}`;
 ---
 
-<button
-  class="bookmark-btn"
-  data-key={key}
-  aria-label="Dodaj do zakładek"
-  id="bookmark-btn"
->
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+<button class="bookmark-btn" data-key={key} aria-label="Dodaj do zakładek" id="bookmark-btn">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
   </svg>
 </button>
 
@@ -59,7 +64,10 @@ const key = `${collection}:${slug}`;
     background: var(--color-bg-card);
     color: var(--color-text-muted);
     cursor: pointer;
-    transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+    transition:
+      color 0.15s,
+      border-color 0.15s,
+      background-color 0.15s;
   }
 
   .bookmark-btn:hover {

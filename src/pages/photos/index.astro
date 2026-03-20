@@ -1,47 +1,33 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import CategoryTabs from "../../components/CategoryTabs.astro";
-import PhotoCard from "../../components/PhotoCard.astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryTabs from '../../components/CategoryTabs.astro';
+import PhotoCard from '../../components/PhotoCard.astro';
 
-const allPhotos = await getCollection("photos");
+const allPhotos = await getCollection('photos');
 const photos = allPhotos.sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 
-// Unique categories
-const categories = Array.from(
-  new Set(photos.map((p) => p.data.category)),
-).sort();
+const categories = Array.from(new Set(photos.map((p) => p.data.category))).sort();
 
-const activeCategory = Astro.url.searchParams.get("category");
+const activeCategory = Astro.url.searchParams.get('category');
 const filtered = activeCategory
-  ? photos.filter(
-      (p) => p.data.category.toLowerCase() === activeCategory.toLowerCase(),
-    )
+  ? photos.filter((p) => p.data.category.toLowerCase() === activeCategory.toLowerCase())
   : photos;
 ---
 
-<BaseLayout
-  title="Fotografia"
-  description="Galeria fotografii — portrety, makro, moda i więcej."
->
+<BaseLayout title="Fotografia" description="Galeria fotografii — portrety, makro, moda i więcej.">
   <section class="hero">
     <div class="inner">
-      <p class="hero-description">
-        Galeria fotografii — portrety, makro, moda i nie tylko.
-      </p>
+      <p class="hero-description">Galeria fotografii — portrety, makro, moda i nie tylko.</p>
       <CategoryTabs active="fotografia" />
     </div>
   </section>
 
   <div class="inner content">
-    <!-- Category filter -->
     <div class="cat-filter">
-      <a
-        href="/photos"
-        class:list={["cat-chip", !activeCategory && "cat-chip-active"]}
-      >
+      <a href="/photos" class:list={['cat-chip', !activeCategory && 'cat-chip-active']}>
         Wszystkie
       </a>
       {
@@ -49,9 +35,8 @@ const filtered = activeCategory
           <a
             href={`/photos?category=${cat.toLowerCase()}`}
             class:list={[
-              "cat-chip",
-              activeCategory?.toLowerCase() === cat.toLowerCase() &&
-                "cat-chip-active",
+              'cat-chip',
+              activeCategory?.toLowerCase() === cat.toLowerCase() && 'cat-chip-active',
             ]}
           >
             {cat}

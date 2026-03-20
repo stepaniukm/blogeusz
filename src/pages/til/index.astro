@@ -7,9 +7,7 @@ import TagFilter from '../../components/TagFilter.astro';
 import { collectTags } from '../../lib/utils';
 
 const allTil = await getCollection('til', ({ data }) => !data.draft);
-const items = allTil.sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
-);
+const items = allTil.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 const tags = collectTags(allTil);
 ---
 
@@ -30,17 +28,19 @@ const tags = collectTags(allTil);
     <TagFilter tags={tags} baseUrl="/tags" />
 
     <div class="til-grid">
-      {items.map(item => (
-        <TilCard
-          slug={item.id}
-          title={item.data.title}
-          publishedAt={item.data.publishedAt}
-          type={item.data.type}
-          url={item.data.url}
-          annotation={item.data.annotation}
-          tags={item.data.tags}
-        />
-      ))}
+      {
+        items.map((item) => (
+          <TilCard
+            slug={item.id}
+            title={item.data.title}
+            publishedAt={item.data.publishedAt}
+            type={item.data.type}
+            url={item.data.url}
+            annotation={item.data.annotation}
+            tags={item.data.tags}
+          />
+        ))
+      }
     </div>
   </div>
 </BaseLayout>
@@ -65,7 +65,9 @@ const tags = collectTags(allTil);
     line-height: 1.6;
   }
 
-  .content { padding-bottom: 4rem; }
+  .content {
+    padding-bottom: 4rem;
+  }
 
   .til-grid {
     display: grid;
@@ -73,9 +75,17 @@ const tags = collectTags(allTil);
     gap: 1rem;
   }
 
-  @media (max-width: 900px) { .til-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) {
+    .til-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 640px) {
-    .til-grid { grid-template-columns: 1fr; }
-    .inner { padding: 0 1rem; }
+    .til-grid {
+      grid-template-columns: 1fr;
+    }
+    .inner {
+      padding: 0 1rem;
+    }
   }
 </style>

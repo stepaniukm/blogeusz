@@ -7,9 +7,7 @@ import PostCard from '../../components/PostCard.astro';
 import { collectTags, getReadingTime } from '../../lib/utils';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const posts = allPosts.sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
-);
+const posts = allPosts.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 const tags = collectTags(allPosts);
 ---
 
@@ -17,8 +15,8 @@ const tags = collectTags(allPosts);
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-description">
-        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych
-        frameworkach jak i piękne zdjęcia.
+        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i
+        piękne zdjęcia.
       </p>
       <CategoryTabs active="dev" />
     </div>
@@ -28,32 +26,41 @@ const tags = collectTags(allPosts);
     <TagFilter tags={tags} baseUrl="/tags" />
 
     <div class="grid-featured">
-      {posts.filter(p => p.data.featured).slice(0, 2).map(post => (
-        <PostCard
-          slug={post.id}
-          title={post.data.title}
-          description={post.data.description}
-          publishedAt={post.data.publishedAt}
-          tags={post.data.tags}
-          readingTime={getReadingTime(post.body || '')}
-          coverImage={post.data.coverImage}
-          size="large"
-        />
-      ))}
+      {
+        posts
+          .filter((p) => p.data.featured)
+          .slice(0, 2)
+          .map((post) => (
+            <PostCard
+              slug={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              publishedAt={post.data.publishedAt}
+              tags={post.data.tags}
+              readingTime={getReadingTime(post.body || '')}
+              coverImage={post.data.coverImage}
+              size="large"
+            />
+          ))
+      }
     </div>
 
     <div class="grid-posts">
-      {posts.filter(p => !p.data.featured).map(post => (
-        <PostCard
-          slug={post.id}
-          title={post.data.title}
-          description={post.data.description}
-          publishedAt={post.data.publishedAt}
-          tags={post.data.tags}
-          readingTime={getReadingTime(post.body || '')}
-          coverImage={post.data.coverImage}
-        />
-      ))}
+      {
+        posts
+          .filter((p) => !p.data.featured)
+          .map((post) => (
+            <PostCard
+              slug={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              publishedAt={post.data.publishedAt}
+              tags={post.data.tags}
+              readingTime={getReadingTime(post.body || '')}
+              coverImage={post.data.coverImage}
+            />
+          ))
+      }
     </div>
   </div>
 </BaseLayout>
@@ -64,7 +71,8 @@ const tags = collectTags(allPosts);
     padding: 3rem 0 2.5rem;
   }
 
-  .hero-inner, .content-wrapper {
+  .hero-inner,
+  .content-wrapper {
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 0 2rem;
@@ -78,7 +86,9 @@ const tags = collectTags(allPosts);
     line-height: 1.6;
   }
 
-  .content-wrapper { padding-bottom: 4rem; }
+  .content-wrapper {
+    padding-bottom: 4rem;
+  }
 
   .grid-featured {
     display: grid;
@@ -93,9 +103,20 @@ const tags = collectTags(allPosts);
     gap: 1.25rem;
   }
 
-  @media (max-width: 900px) { .grid-posts { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) {
+    .grid-posts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 640px) {
-    .grid-featured, .grid-posts { grid-template-columns: 1fr; }
-    .hero-inner, .content-wrapper { padding-left: 1rem; padding-right: 1rem; }
+    .grid-featured,
+    .grid-posts {
+      grid-template-columns: 1fr;
+    }
+    .hero-inner,
+    .content-wrapper {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 </style>

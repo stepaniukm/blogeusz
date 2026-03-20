@@ -1,8 +1,8 @@
 ---
-title: "CSS Container Queries are finally here"
+title: 'CSS Container Queries are finally here'
 publishedAt: 2022-07-19
 type: note
-tags: ["CSS", "Web Platform"]
+tags: ['CSS', 'Web Platform']
 ---
 
 CSS Container Queries let you style elements based on their **parent container's size**, not the viewport. This is a game changer for reusable components.

@@ -1,52 +1,47 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-@import "katex/dist/katex.min.css";
-
-/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+@import 'katex/dist/katex.min.css';
 
 :root {
-  /* Colors — dark theme (default) */
-  --color-bg:        #1a1f2e;
-  --color-bg-card:   #242938;
-  --color-bg-nav:    #1a1f2e;
-  --color-border:    #2e3447;
-  --color-text:      #e8eaf0;
-  --color-text-muted:#8b909e;
-  --color-accent:    #e8a020;
+  --color-bg: #1a1f2e;
+  --color-bg-card: #242938;
+  --color-bg-nav: #1a1f2e;
+  --color-border: #2e3447;
+  --color-text: #e8eaf0;
+  --color-text-muted: #8b909e;
+  --color-accent: #e8a020;
   --color-accent-hover: #f0b340;
-  --color-tag-bg:    #2e3447;
-  --color-tag-text:  #e8eaf0;
-  --color-tag-active-bg:  #e8a020;
+  --color-tag-bg: #2e3447;
+  --color-tag-text: #e8eaf0;
+  --color-tag-active-bg: #e8a020;
   --color-tag-active-text: #1a1f2e;
 
-  /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 
-  /* Spacing & Sizing */
-  --radius-tag:  4px;
+  --radius-tag: 4px;
   --radius-card: 8px;
-  --max-width:   1200px;
+  --max-width: 1200px;
 }
 
-[data-theme="light"] {
-  --color-bg:        #f5f5f5;
-  --color-bg-card:   #ffffff;
-  --color-bg-nav:    #ffffff;
-  --color-border:    #e0e3ec;
-  --color-text:      #1a1f2e;
-  --color-text-muted:#6b7280;
-  --color-accent:    #d4900e;
+[data-theme='light'] {
+  --color-bg: #f5f5f5;
+  --color-bg-card: #ffffff;
+  --color-bg-nav: #ffffff;
+  --color-border: #e0e3ec;
+  --color-text: #1a1f2e;
+  --color-text-muted: #6b7280;
+  --color-accent: #d4900e;
   --color-accent-hover: #b87a0a;
-  --color-tag-bg:    #e8eaf0;
-  --color-tag-text:  #1a1f2e;
-  --color-tag-active-bg:  #d4900e;
+  --color-tag-bg: #e8eaf0;
+  --color-tag-text: #1a1f2e;
+  --color-tag-active-bg: #d4900e;
   --color-tag-active-text: #ffffff;
 }
 
-/* ─── Base Reset ─────────────────────────────────────────────────────────── */
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -61,12 +56,11 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
   line-height: 1.6;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  /* Prevent layout shift when scrollbar appears */
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   overflow-y: scroll;
 }
-
-/* ─── Tailwind v4 Custom Utilities ───────────────────────────────────────── */
 
 @theme {
   --color-accent: #e8a020;
@@ -79,8 +73,6 @@ body {
   --radius-tag: 4px;
   --radius-card: 8px;
 }
-
-/* ─── Typography Prose Overrides ─────────────────────────────────────────── */
 
 .prose {
   --tw-prose-body: var(--color-text);
@@ -100,14 +92,19 @@ body {
   --tw-prose-td-borders: var(--color-border);
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-bg); }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
-
-/* ─── Decorative side patterns (positioned absolutely) ───────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
 
 .side-pattern {
   position: fixed;
@@ -121,9 +118,17 @@ body {
   background-size: 120px;
 }
 
-.side-pattern-left  { left: 0;  background-image: url('/patterns/left.svg'); }
-.side-pattern-right { right: 0; background-image: url('/patterns/right.svg'); }
+.side-pattern-left {
+  left: 0;
+  background-image: url('/patterns/left.svg');
+}
+.side-pattern-right {
+  right: 0;
+  background-image: url('/patterns/right.svg');
+}
 
 @media (max-width: 1400px) {
-  .side-pattern { display: none; }
+  .side-pattern {
+    display: none;
+  }
 }

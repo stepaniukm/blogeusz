@@ -1,18 +1,16 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import CategoryTabs from "../components/CategoryTabs.astro";
-import TagFilter from "../components/TagFilter.astro";
-import PostCard from "../components/PostCard.astro";
-import TilCard from "../components/TilCard.astro";
-import { collectTags, getReadingTime } from "../lib/utils";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryTabs from '../components/CategoryTabs.astro';
+import TagFilter from '../components/TagFilter.astro';
+import PostCard from '../components/PostCard.astro';
+import TilCard from '../components/TilCard.astro';
+import { collectTags, getReadingTime } from '../lib/utils';
 
-const allPosts = await getCollection("blog", ({ data }) => !data.draft);
-const allTil = await getCollection("til", ({ data }) => !data.draft);
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allTil = await getCollection('til', ({ data }) => !data.draft);
 
-const posts = allPosts.sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
-);
+const posts = allPosts.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const tags = collectTags(allPosts);
 
@@ -21,22 +19,19 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
 ---
 
 <BaseLayout title="Blog o programowaniu i fotografii">
-  <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-description">
-        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych
-        frameworkach jak i piękne zdjęcia. Zapraszam :)
+        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i
+        piękne zdjęcia. Zapraszam :)
       </p>
       <CategoryTabs active="dev" />
     </div>
   </section>
 
-  <!-- Content -->
   <div class="content-wrapper">
     <TagFilter tags={tags} />
 
-    <!-- Featured 2-up large cards -->
     {
       featured.length > 0 && (
         <div class="grid-featured">
@@ -47,7 +42,7 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
               description={post.data.description}
               publishedAt={post.data.publishedAt}
               tags={post.data.tags}
-              readingTime={getReadingTime(post.body || "")}
+              readingTime={getReadingTime(post.body || '')}
               coverImage={post.data.coverImage}
               size="large"
             />
@@ -56,7 +51,6 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
       )
     }
 
-    <!-- Regular 3-up posts grid -->
     {
       rest.length > 0 && (
         <div class="grid-posts">
@@ -67,7 +61,7 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
               description={post.data.description}
               publishedAt={post.data.publishedAt}
               tags={post.data.tags}
-              readingTime={getReadingTime(post.body || "")}
+              readingTime={getReadingTime(post.body || '')}
               coverImage={post.data.coverImage}
             />
           ))}
@@ -75,7 +69,6 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
       )
     }
 
-    <!-- Latest TIL strip -->
     {
       allTil.length > 0 && (
         <section class="til-section">
@@ -87,10 +80,7 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
           </div>
           <div class="grid-til">
             {allTil
-              .sort(
-                (a, b) =>
-                  b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
-              )
+              .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
               .slice(0, 3)
               .map((item) => (
                 <TilCard

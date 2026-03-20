@@ -2,25 +2,25 @@
 title: "TypeScript's `satisfies` operator for type validation without widening"
 publishedAt: 2022-07-25
 type: note
-tags: ["TypeScript"]
+tags: ['TypeScript']
 ---
 
 The `satisfies` operator (TS 4.9+) lets you validate that a value matches a type **without changing the inferred type** of the value.
 
 ```typescript
-type Color = "red" | "green" | "blue";
+type Color = 'red' | 'green' | 'blue';
 type Palette = Record<string, Color | [number, number, number]>;
 
 // With `as`: type is widened to Palette, losing specifics
 const palette1 = {
   red: [255, 0, 0],
-  green: "green",
+  green: 'green',
 } as Palette;
 
 // With `satisfies`: validated against Palette, but retains precise types
 const palette2 = {
   red: [255, 0, 0],
-  green: "green",
+  green: 'green',
 } satisfies Palette;
 
 // palette2.red is inferred as [number, number, number], not Color | [number, number, number]

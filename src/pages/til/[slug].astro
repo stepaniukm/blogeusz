@@ -5,7 +5,7 @@ import { formatDate } from '../../lib/utils';
 
 export async function getStaticPaths() {
   const items = await getCollection('til', ({ data }) => !data.draft && data.type === 'note');
-  return items.map(item => ({ params: { slug: item.id }, props: { item } }));
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
 }
 
 const { item } = Astro.props;
@@ -24,20 +24,26 @@ const { Content } = await render(item);
       <time class="til-date">{formatDate(item.data.publishedAt)}</time>
     </header>
 
-    {item.data.url && (
-      <a href={item.data.url} class="til-url" target="_blank" rel="noopener noreferrer">
-        {item.data.url}
-      </a>
-    )}
+    {
+      item.data.url && (
+        <a href={item.data.url} class="til-url" target="_blank" rel="noopener noreferrer">
+          {item.data.url}
+        </a>
+      )
+    }
 
     <div class="prose">
       <Content />
     </div>
 
     <div class="til-tags">
-      {item.data.tags.map(tag => (
-        <a href={`/tags/${tag.toLowerCase()}`} class="tag">{tag}</a>
-      ))}
+      {
+        item.data.tags.map((tag) => (
+          <a href={`/tags/${tag.toLowerCase()}`} class="tag">
+            {tag}
+          </a>
+        ))
+      }
     </div>
   </div>
 </BaseLayout>
@@ -58,7 +64,9 @@ const { Content } = await render(item);
     transition: color 0.15s;
   }
 
-  .back:hover { color: var(--color-accent); }
+  .back:hover {
+    color: var(--color-accent);
+  }
 
   .til-header {
     margin-bottom: 1.5rem;
@@ -77,8 +85,14 @@ const { Content } = await render(item);
     width: fit-content;
   }
 
-  .type-note { background-color: rgba(232, 160, 32, 0.15); color: var(--color-accent); }
-  .type-link { background-color: rgba(99, 179, 237, 0.15); color: #63b3ed; }
+  .type-note {
+    background-color: rgba(232, 160, 32, 0.15);
+    color: var(--color-accent);
+  }
+  .type-link {
+    background-color: rgba(99, 179, 237, 0.15);
+    color: #63b3ed;
+  }
 
   .til-title {
     margin: 0;
@@ -102,9 +116,13 @@ const { Content } = await render(item);
     word-break: break-all;
   }
 
-  .til-url:hover { text-decoration: underline; }
+  .til-url:hover {
+    text-decoration: underline;
+  }
 
-  .prose { margin-bottom: 2rem; }
+  .prose {
+    margin-bottom: 2rem;
+  }
 
   .til-tags {
     display: flex;
@@ -119,8 +137,13 @@ const { Content } = await render(item);
     border-radius: var(--radius-tag);
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.15s, border-color 0.15s;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
   }
 
-  .tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .tag:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
 </style>

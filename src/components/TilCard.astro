@@ -25,30 +25,36 @@ const date = publishedAt.toLocaleDateString('pl-PL', {
   rel={type === 'link' && url ? 'noopener noreferrer' : undefined}
 >
   <div class="til-type">
-    {type === 'note' ? (
-      <span class="type-badge type-note">TIL</span>
-    ) : (
-      <span class="type-badge type-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-        </svg>
-        LINK
-      </span>
-    )}
+    {
+      type === 'note' ? (
+        <span class="type-badge type-note">TIL</span>
+      ) : (
+        <span class="type-badge type-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="10"
+            height="10"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          </svg>
+          LINK
+        </span>
+      )
+    }
   </div>
 
   <h3 class="til-title">{title}</h3>
 
-  {annotation && (
-    <p class="til-annotation">{annotation}</p>
-  )}
+  {annotation && <p class="til-annotation">{annotation}</p>}
 
   <div class="til-footer">
     <div class="til-tags">
-      {tags.slice(0, 3).map(tag => (
-        <span class="til-tag">{tag}</span>
-      ))}
+      {tags.slice(0, 3).map((tag) => <span class="til-tag">{tag}</span>)}
     </div>
     <time class="til-date">{date}</time>
   </div>
@@ -65,7 +71,9 @@ const date = publishedAt.toLocaleDateString('pl-PL', {
     border-radius: var(--radius-card);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
   }
 
   .til-card:hover {

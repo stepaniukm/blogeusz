@@ -14,37 +14,40 @@ const currentPath = Astro.url.pathname;
 <header class="header">
   <div class="header-inner">
     <a href="/" class="logo-link" aria-label="blogeusz — strona główna">
-      <img
-        src="/logo.svg"
-        alt="blogeusz"
-        width="140"
-        height="28"
-        class="logo logo-dark"
-      />
-      <img
-        src="/logo-light.svg"
-        alt="blogeusz"
-        width="140"
-        height="28"
-        class="logo logo-light"
-      />
+      <img src="/logo.svg" alt="blogeusz" width="140" height="28" class="logo logo-dark" />
+      <img src="/logo-light.svg" alt="blogeusz" width="140" height="28" class="logo logo-light" />
     </a>
 
     <nav class="nav" aria-label="Główna nawigacja">
-      {navLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class:list={['nav-link', { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}
-        >
-          {label}
-        </a>
-      ))}
+      {
+        navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'nav-link',
+              { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) },
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
     </nav>
 
     <div class="header-actions">
       <a href="/bookmarks" class="icon-btn" aria-label="Zakładki">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
         </svg>
       </a>
       <ThemeToggle />
@@ -78,13 +81,19 @@ const currentPath = Astro.url.pathname;
     align-items: center;
   }
 
-  .logo { display: block; }
+  .logo {
+    display: block;
+  }
 
-  /* Show correct logo based on theme */
-  [data-theme="dark"]  .logo-light { display: none; }
-  [data-theme="light"] .logo-dark  { display: none; }
-  /* default = dark */
-  :root:not([data-theme="light"]) .logo-light { display: none; }
+  [data-theme='dark'] .logo-light {
+    display: none;
+  }
+  [data-theme='light'] .logo-dark {
+    display: none;
+  }
+  :root:not([data-theme='light']) .logo-light {
+    display: none;
+  }
 
   .nav {
     display: flex;
@@ -99,7 +108,9 @@ const currentPath = Astro.url.pathname;
     font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.15s, background-color 0.15s;
+    transition:
+      color 0.15s,
+      background-color 0.15s;
   }
 
   .nav-link:hover {
@@ -128,7 +139,9 @@ const currentPath = Astro.url.pathname;
     border-radius: var(--radius-tag);
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.15s, background-color 0.15s;
+    transition:
+      color 0.15s,
+      background-color 0.15s;
     cursor: pointer;
   }
 
@@ -138,7 +151,11 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 640px) {
-    .nav { display: none; }
-    .header-inner { padding: 0 1rem; }
+    .nav {
+      display: none;
+    }
+    .header-inner {
+      padding: 0 1rem;
+    }
   }
 </style>

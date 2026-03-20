@@ -11,42 +11,64 @@ const { currentSlug, limit = 4 } = Astro.props;
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const popular = allPosts
-  .filter(p => p.id !== currentSlug)
-  .sort(() => Math.random() - 0.5) // TODO: replace with actual view count sorting
+  .filter((p) => p.id !== currentSlug)
+  .sort(() => Math.random() - 0.5)
   .slice(0, limit);
 ---
 
-{popular.length > 0 && (
-  <section class="popular">
-    <h2 class="popular-title">Popularne</h2>
-    <div class="popular-grid">
-      {popular.map(post => (
-        <a href={`/blog/${post.id}`} class="popular-card">
-          {post.data.coverImage && (
-            <div class="popular-image">
-              <img src={post.data.coverImage} alt={post.data.title} loading="lazy" decoding="async" />
-            </div>
-          )}
-          <div class="popular-body">
-            {post.data.tags[0] && (
-              <span class="popular-tag">{post.data.tags[0].toUpperCase()}</span>
+{
+  popular.length > 0 && (
+    <section class="popular">
+      <h2 class="popular-title">Popularne</h2>
+      <div class="popular-grid">
+        {popular.map((post) => (
+          <a href={`/blog/${post.id}`} class="popular-card">
+            {post.data.coverImage && (
+              <div class="popular-image">
+                <img
+                  src={post.data.coverImage}
+                  alt={post.data.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             )}
-            <h3 class="popular-post-title">{post.data.title}</h3>
-            <div class="popular-meta">
-              <span>{getReadingTime(post.body || '')}m czytania</span>
-              <span>·</span>
-              <span>{post.data.publishedAt.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+            <div class="popular-body">
+              {post.data.tags[0] && (
+                <span class="popular-tag">{post.data.tags[0].toUpperCase()}</span>
+              )}
+              <h3 class="popular-post-title">{post.data.title}</h3>
+              <div class="popular-meta">
+                <span>{getReadingTime(post.body || '')}m czytania</span>
+                <span>·</span>
+                <span>
+                  {post.data.publishedAt.toLocaleDateString('pl-PL', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </span>
+              </div>
             </div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-)}
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}
 
 <style>
-  .popular { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
-  .popular-title { margin: 0 0 1.25rem; font-size: 1.125rem; font-weight: 700; color: var(--color-text); }
+  .popular {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .popular-title {
+    margin: 0 0 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
 
   .popular-grid {
     display: grid;
@@ -66,7 +88,9 @@ const popular = allPosts
     transition: border-color 0.2s;
   }
 
-  .popular-card:hover { border-color: var(--color-accent); }
+  .popular-card:hover {
+    border-color: var(--color-accent);
+  }
 
   .popular-image {
     aspect-ratio: 16/10;

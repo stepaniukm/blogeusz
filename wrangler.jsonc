@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "blogeusz",
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2025-05-31",
+
+  "r2_buckets": [
+    {
+      "binding": "IMAGES_BUCKET",
+      "bucket_name": "blogeusz-images",
+    },
+  ],
+}

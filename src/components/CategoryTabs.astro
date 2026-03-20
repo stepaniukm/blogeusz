@@ -19,16 +19,18 @@ const tabs: Tab[] = [
 ---
 
 <div class="tabs" role="tablist">
-  {tabs.map(tab => (
-    <a
-      href={tab.href}
-      class:list={['tab', tab.key === active && 'tab-active']}
-      role="tab"
-      aria-selected={tab.key === active}
-    >
-      {tab.label}
-    </a>
-  ))}
+  {
+    tabs.map((tab) => (
+      <a
+        href={tab.href}
+        class:list={['tab', tab.key === active && 'tab-active']}
+        role="tab"
+        aria-selected={tab.key === active}
+      >
+        {tab.label}
+      </a>
+    ))
+  }
 </div>
 
 <style>
@@ -49,10 +51,14 @@ const tabs: Tab[] = [
     text-decoration: none;
     background-color: var(--color-bg-card);
     border-right: 1px solid var(--color-border);
-    transition: background-color 0.15s, color 0.15s;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
   }
 
-  .tab:last-child { border-right: none; }
+  .tab:last-child {
+    border-right: none;
+  }
 
   .tab:hover {
     color: var(--color-text);

@@ -5,7 +5,7 @@ import { formatDate } from '../../lib/utils';
 
 export async function getStaticPaths() {
   const photos = await getCollection('photos');
-  return photos.map(photo => ({ params: { slug: photo.id }, props: { photo } }));
+  return photos.map((photo) => ({ params: { slug: photo.id }, props: { photo } }));
 }
 
 const { photo } = Astro.props;
@@ -13,7 +13,7 @@ const { photo } = Astro.props;
 const allPhotos = (await getCollection('photos')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
-const idx = allPhotos.findIndex(p => p.id === photo.id);
+const idx = allPhotos.findIndex((p) => p.id === photo.id);
 const prev = allPhotos[idx + 1];
 const next = allPhotos[idx - 1];
 ---
@@ -36,21 +36,40 @@ const next = allPhotos[idx - 1];
           decoding="async"
         />
 
-        <!-- Lightbox prev/next -->
-        {prev && (
-          <a href={`/photos/${prev.id}`} class="photo-nav photo-nav-prev" aria-label="Poprzednie">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m15 18-6-6 6-6"/>
-            </svg>
-          </a>
-        )}
-        {next && (
-          <a href={`/photos/${next.id}`} class="photo-nav photo-nav-next" aria-label="Następne">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
-          </a>
-        )}
+        {
+          prev && (
+            <a href={`/photos/${prev.id}`} class="photo-nav photo-nav-prev" aria-label="Poprzednie">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </a>
+          )
+        }
+        {
+          next && (
+            <a href={`/photos/${next.id}`} class="photo-nav photo-nav-next" aria-label="Następne">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </a>
+          )
+        }
       </div>
 
       <aside class="photo-meta">
@@ -58,41 +77,53 @@ const next = allPhotos[idx - 1];
         <h1 class="photo-title">{photo.data.title}</h1>
         <time class="photo-date">{formatDate(photo.data.publishedAt)}</time>
 
-        {photo.data.location && (
-          <div class="meta-row">
-            <span class="meta-label">Lokalizacja</span>
-            <span class="meta-value">{photo.data.location}</span>
-          </div>
-        )}
+        {
+          photo.data.location && (
+            <div class="meta-row">
+              <span class="meta-label">Lokalizacja</span>
+              <span class="meta-value">{photo.data.location}</span>
+            </div>
+          )
+        }
 
-        {photo.data.camera && (
-          <div class="meta-row">
-            <span class="meta-label">Aparat</span>
-            <span class="meta-value">{photo.data.camera}</span>
-          </div>
-        )}
+        {
+          photo.data.camera && (
+            <div class="meta-row">
+              <span class="meta-label">Aparat</span>
+              <span class="meta-value">{photo.data.camera}</span>
+            </div>
+          )
+        }
 
-        {photo.data.lens && (
-          <div class="meta-row">
-            <span class="meta-label">Obiektyw</span>
-            <span class="meta-value">{photo.data.lens}</span>
-          </div>
-        )}
+        {
+          photo.data.lens && (
+            <div class="meta-row">
+              <span class="meta-label">Obiektyw</span>
+              <span class="meta-value">{photo.data.lens}</span>
+            </div>
+          )
+        }
 
-        {photo.data.settings && (
-          <div class="meta-row">
-            <span class="meta-label">Parametry</span>
-            <span class="meta-value">{photo.data.settings}</span>
-          </div>
-        )}
+        {
+          photo.data.settings && (
+            <div class="meta-row">
+              <span class="meta-label">Parametry</span>
+              <span class="meta-value">{photo.data.settings}</span>
+            </div>
+          )
+        }
 
-        {photo.data.tags.length > 0 && (
-          <div class="photo-tags">
-            {photo.data.tags.map(tag => (
-              <a href={`/tags/${tag.toLowerCase()}`} class="tag">{tag}</a>
-            ))}
-          </div>
-        )}
+        {
+          photo.data.tags.length > 0 && (
+            <div class="photo-tags">
+              {photo.data.tags.map((tag) => (
+                <a href={`/tags/${tag.toLowerCase()}`} class="tag">
+                  {tag}
+                </a>
+              ))}
+            </div>
+          )
+        }
       </aside>
     </div>
   </div>
@@ -114,7 +145,9 @@ const next = allPhotos[idx - 1];
     transition: color 0.15s;
   }
 
-  .back:hover { color: var(--color-accent); }
+  .back:hover {
+    color: var(--color-accent);
+  }
 
   .photo-layout {
     display: grid;
@@ -145,7 +178,7 @@ const next = allPhotos[idx - 1];
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     color: #fff;
     display: flex;
@@ -155,9 +188,15 @@ const next = allPhotos[idx - 1];
     transition: background-color 0.2s;
   }
 
-  .photo-nav:hover { background-color: rgba(0,0,0,0.8); }
-  .photo-nav-prev { left: 0.75rem; }
-  .photo-nav-next { right: 0.75rem; }
+  .photo-nav:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  .photo-nav-prev {
+    left: 0.75rem;
+  }
+  .photo-nav-next {
+    right: 0.75rem;
+  }
 
   .photo-meta {
     display: flex;
@@ -228,14 +267,25 @@ const next = allPhotos[idx - 1];
     border-radius: var(--radius-tag);
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.15s, border-color 0.15s;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
   }
 
-  .tag:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .tag:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
 
   @media (max-width: 768px) {
-    .photo-layout { grid-template-columns: 1fr; }
-    .photo-full { max-height: 60vh; }
-    .wrapper { padding: 1.5rem 1rem 3rem; }
+    .photo-layout {
+      grid-template-columns: 1fr;
+    }
+    .photo-full {
+      max-height: 60vh;
+    }
+    .wrapper {
+      padding: 1.5rem 1rem 3rem;
+    }
   }
 </style>

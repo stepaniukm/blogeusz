@@ -17,6 +17,7 @@ wrangler r2 bucket create blogeusz-images
 ```
 
 Verify it was created:
+
 ```bash
 wrangler r2 bucket list
 ```
@@ -57,6 +58,7 @@ Find your Account ID in the Cloudflare dashboard sidebar.
 ## 4. Upload Images
 
 ### Single file:
+
 ```bash
 wrangler r2 object put blogeusz-images/photos/my-photo.jpg \
   --file ./my-photo.jpg \
@@ -64,6 +66,7 @@ wrangler r2 object put blogeusz-images/photos/my-photo.jpg \
 ```
 
 ### Batch upload from a directory:
+
 ```bash
 # Upload all JPEGs from a local folder
 for f in ./photos/*.jpg; do
@@ -74,6 +77,7 @@ done
 ```
 
 ### Recommended folder structure in R2:
+
 ```
 blogeusz-images/
 ├── photos/          # Photography gallery images
@@ -94,14 +98,14 @@ In your content frontmatter, use the full CDN URL:
 ```yaml
 ---
 # In photos collection
-imageUrl: "https://images.blogeusz.pl/photos/portrait/my-photo.jpg"
-thumbnailUrl: "https://images.blogeusz.pl/photos/portrait/my-photo-thumb.jpg"
+imageUrl: 'https://images.blogeusz.pl/photos/portrait/my-photo.jpg'
+thumbnailUrl: 'https://images.blogeusz.pl/photos/portrait/my-photo-thumb.jpg'
 
 # In blog collection
-coverImage: "https://images.blogeusz.pl/blog/my-post-cover.jpg"
+coverImage: 'https://images.blogeusz.pl/blog/my-post-cover.jpg'
 images:
-  - "https://images.blogeusz.pl/blog/my-post-slide-1.jpg"
-  - "https://images.blogeusz.pl/blog/my-post-slide-2.jpg"
+  - 'https://images.blogeusz.pl/blog/my-post-slide-1.jpg'
+  - 'https://images.blogeusz.pl/blog/my-post-slide-2.jpg'
 ---
 ```
 
@@ -112,12 +116,14 @@ images:
 Cloudflare R2 + CDN serves images as-is. For best performance:
 
 1. **Resize before uploading**: Use `sharp` or `ffmpeg` to create multiple sizes
+
    ```bash
    # Install sharp CLI
    npx sharp-cli --input ./original.jpg --output ./thumb.jpg resize 400
    ```
 
 2. **Convert to WebP**: Modern browsers prefer WebP (typically 30-50% smaller)
+
    ```bash
    npx sharp-cli --input ./original.jpg --output ./image.webp
    ```
@@ -142,6 +148,7 @@ wrangler pages deploy dist --project-name=blogeusz
 ```
 
 Or connect your GitHub repo for automatic deployments:
+
 - Go to **Cloudflare Pages → Create a project → Connect to Git**
 - Build command: `pnpm build`
 - Build output directory: `dist`

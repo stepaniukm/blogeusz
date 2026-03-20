@@ -13,11 +13,11 @@ export async function getStaticPaths() {
   ]);
 
   const allTags = new Set([
-    ...allPosts.flatMap(p => p.data.tags),
-    ...allTil.flatMap(p => p.data.tags),
+    ...allPosts.flatMap((p) => p.data.tags),
+    ...allTil.flatMap((p) => p.data.tags),
   ]);
 
-  return Array.from(allTags).map(tag => ({
+  return Array.from(allTags).map((tag) => ({
     params: { tag: tag.toLowerCase() },
     props: { tag },
   }));
@@ -31,11 +31,11 @@ const [allPosts, allTil] = await Promise.all([
 ]);
 
 const matchingPosts = allPosts
-  .filter(p => p.data.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase()))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const matchingTil = allTil
-  .filter(p => p.data.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase()))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const allTags = collectTags([...allPosts, ...allTil]);
@@ -47,47 +47,53 @@ const allTags = collectTags([...allPosts, ...allTil]);
 
     <h1 class="page-title">{tag}</h1>
 
-    {matchingPosts.length > 0 && (
-      <section>
-        <h2 class="section-title">Blog ({matchingPosts.length})</h2>
-        <div class="grid">
-          {matchingPosts.map(post => (
-            <PostCard
-              slug={post.id}
-              title={post.data.title}
-              description={post.data.description}
-              publishedAt={post.data.publishedAt}
-              tags={post.data.tags}
-              readingTime={getReadingTime(post.body || '')}
-              coverImage={post.data.coverImage}
-            />
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      matchingPosts.length > 0 && (
+        <section>
+          <h2 class="section-title">Blog ({matchingPosts.length})</h2>
+          <div class="grid">
+            {matchingPosts.map((post) => (
+              <PostCard
+                slug={post.id}
+                title={post.data.title}
+                description={post.data.description}
+                publishedAt={post.data.publishedAt}
+                tags={post.data.tags}
+                readingTime={getReadingTime(post.body || '')}
+                coverImage={post.data.coverImage}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
-    {matchingTil.length > 0 && (
-      <section class="til-section">
-        <h2 class="section-title">TIL ({matchingTil.length})</h2>
-        <div class="grid">
-          {matchingTil.map(item => (
-            <TilCard
-              slug={item.id}
-              title={item.data.title}
-              publishedAt={item.data.publishedAt}
-              type={item.data.type}
-              url={item.data.url}
-              annotation={item.data.annotation}
-              tags={item.data.tags}
-            />
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      matchingTil.length > 0 && (
+        <section class="til-section">
+          <h2 class="section-title">TIL ({matchingTil.length})</h2>
+          <div class="grid">
+            {matchingTil.map((item) => (
+              <TilCard
+                slug={item.id}
+                title={item.data.title}
+                publishedAt={item.data.publishedAt}
+                type={item.data.type}
+                url={item.data.url}
+                annotation={item.data.annotation}
+                tags={item.data.tags}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
-    {matchingPosts.length === 0 && matchingTil.length === 0 && (
-      <p class="empty">Brak treści z tym tagiem.</p>
-    )}
+    {
+      matchingPosts.length === 0 && matchingTil.length === 0 && (
+        <p class="empty">Brak treści z tym tagiem.</p>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -115,7 +121,9 @@ const allTags = collectTags([...allPosts, ...allTil]);
     font-size: 0.8125rem;
   }
 
-  .til-section { margin-top: 2.5rem; }
+  .til-section {
+    margin-top: 2.5rem;
+  }
 
   .grid {
     display: grid;
@@ -129,9 +137,17 @@ const allTags = collectTags([...allPosts, ...allTil]);
     padding: 3rem 0;
   }
 
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 640px) {
-    .grid { grid-template-columns: 1fr; }
-    .wrapper { padding: 1rem 1rem 3rem; }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .wrapper {
+      padding: 1rem 1rem 3rem;
+    }
   }
 </style>

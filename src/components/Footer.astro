@@ -34,18 +34,30 @@ const year = new Date().getFullYear();
       <div class="footer-col">
         <h3 class="footer-heading">Dev</h3>
         <ul class="footer-list">
-          {devLinks.map(({ href, label }) => (
-            <li><a href={href} class="footer-link">{label}</a></li>
-          ))}
+          {
+            devLinks.map(({ href, label }) => (
+              <li>
+                <a href={href} class="footer-link">
+                  {label}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="footer-col">
         <h3 class="footer-heading">Fotografia</h3>
         <ul class="footer-list">
-          {photoLinks.map(({ href, label }) => (
-            <li><a href={href} class="footer-link">{label}</a></li>
-          ))}
+          {
+            photoLinks.map(({ href, label }) => (
+              <li>
+                <a href={href} class="footer-link">
+                  {label}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
@@ -76,11 +88,22 @@ const year = new Date().getFullYear();
     gap: 0.75rem;
   }
 
-  .logo-dark, .logo-light { display: block; }
-  [data-theme="light"] .logo-dark  { display: none; }
-  [data-theme="light"] .logo-light { display: block; }
-  [data-theme="dark"]  .logo-light { display: none; }
-  :root:not([data-theme="light"]) .logo-light { display: none; }
+  .logo-dark,
+  .logo-light {
+    display: block;
+  }
+  [data-theme='light'] .logo-dark {
+    display: none;
+  }
+  [data-theme='light'] .logo-light {
+    display: block;
+  }
+  [data-theme='dark'] .logo-light {
+    display: none;
+  }
+  :root:not([data-theme='light']) .logo-light {
+    display: none;
+  }
 
   .copyright {
     margin: 0;
@@ -93,7 +116,9 @@ const year = new Date().getFullYear();
     gap: 3rem;
   }
 
-  .footer-col { min-width: 100px; }
+  .footer-col {
+    min-width: 100px;
+  }
 
   .footer-heading {
     margin: 0 0 0.75rem;
@@ -118,10 +143,17 @@ const year = new Date().getFullYear();
     transition: color 0.15s;
   }
 
-  .footer-link:hover { color: var(--color-accent); }
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
 
   @media (max-width: 640px) {
-    .footer-inner { flex-direction: column; }
-    .footer-links { flex-wrap: wrap; gap: 1.5rem; }
+    .footer-inner {
+      flex-direction: column;
+    }
+    .footer-links {
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
   }
 </style>
