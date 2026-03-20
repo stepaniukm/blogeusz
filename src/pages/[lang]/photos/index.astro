@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPhotos = await getCollection('photos', ({ data }) => data.lang === lang);
+const allPhotos = await getCollection('photos');
 const photos = allPhotos.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );

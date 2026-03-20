@@ -4,20 +4,23 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { formatDate } from '../../../lib/utils';
 import { useTranslations, dateLocales } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const photos = await getCollection('photos');
-  return photos.map((photo) => ({
-    params: { lang: photo.data.lang, slug: photo.id },
-    props: { photo },
-  }));
+  return locales.flatMap((lang) =>
+    photos.map((photo) => ({
+      params: { lang, slug: photo.id },
+      props: { photo },
+    }))
+  );
 }
 
 const { lang } = Astro.params;
 const { photo } = Astro.props;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPhotos = (await getCollection('photos', ({ data }) => data.lang === lang)).sort(
+const allPhotos = (await getCollection('photos')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const idx = allPhotos.findIndex((p) => p.id === photo.id);
