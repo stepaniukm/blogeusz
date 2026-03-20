@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import { getReadingTime } from '../lib/utils';
+import { getReadingTime, formatDate } from '../lib/utils';
+import { getLangFromUrl, useTranslations, dateLocales } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 interface Props {
   currentSlug?: string;
@@ -8,6 +10,9 @@ interface Props {
 }
 
 const { currentSlug, limit = 4 } = Astro.props;
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const popular = allPosts
@@ -19,10 +24,10 @@ const popular = allPosts
 {
   popular.length > 0 && (
     <section class="popular">
-      <h2 class="popular-title">Popularne</h2>
+      <h2 class="popular-title">{t('popular.heading')}</h2>
       <div class="popular-grid">
         {popular.map((post) => (
-          <a href={`/blog/${post.id}`} class="popular-card">
+          <a href={getRelativeLocaleUrl(locale, `blog/${post.id}`)} class="popular-card">
             {post.data.coverImage && (
               <div class="popular-image">
                 <img
@@ -39,15 +44,9 @@ const popular = allPosts
               )}
               <h3 class="popular-post-title">{post.data.title}</h3>
               <div class="popular-meta">
-                <span>{getReadingTime(post.body || '')}m czytania</span>
+                <span>{t('post.reading').replace('{min}', String(getReadingTime(post.body || '')))}</span>
                 <span>·</span>
-                <span>
-                  {post.data.publishedAt.toLocaleDateString('pl-PL', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </span>
+                <span>{formatDate(post.data.publishedAt, dateLocales[locale])}</span>
               </div>
             </div>
           </a>

@@ -1,4 +1,7 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 interface Tab {
   label: string;
   href: string;
@@ -11,10 +14,13 @@ interface Props {
 
 const { active } = Astro.props;
 
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
+
 const tabs: Tab[] = [
-  { label: 'Dev', href: '/blog', key: 'dev' },
-  { label: 'Fotografia', href: '/photos', key: 'fotografia' },
-  { label: 'TIL', href: '/til', key: 'til' },
+  { label: t('category.dev'), href: getRelativeLocaleUrl(locale, 'blog'), key: 'dev' },
+  { label: t('category.photos'), href: getRelativeLocaleUrl(locale, 'photos'), key: 'fotografia' },
+  { label: t('category.til'), href: getRelativeLocaleUrl(locale, 'til'), key: 'til' },
 ];
 ---
 

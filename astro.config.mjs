@@ -9,6 +9,13 @@ import vue from '@astrojs/vue';
 export default defineConfig({
   site: 'https://blogeusz.pl',
   output: 'static',
+  i18n: {
+    locales: ['pl', 'en'],
+    defaultLocale: 'pl',
+    routing: {
+      prefixDefaultLocale: true,
+    },
+  },
   integrations: [
     mdx({
       remarkPlugins: [remarkMath],

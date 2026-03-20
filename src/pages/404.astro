@@ -1,13 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
 ---
 
-<BaseLayout title="404 — Nie znaleziono strony">
+<BaseLayout title={t('404.title')}>
   <div class="wrapper">
     <span class="code">404</span>
-    <h1 class="title">Strona nie istnieje</h1>
-    <p class="desc">Ta strona została usunięta lub nigdy nie istniała.</p>
-    <a href="/" class="home-link">← Wróć na stronę główną</a>
+    <h1 class="title">{t('404.heading')}</h1>
+    <p class="desc">{t('404.message')}</p>
+    <a href={getRelativeLocaleUrl(locale, '')} class="home-link">{t('404.back')}</a>
   </div>
 </BaseLayout>
 

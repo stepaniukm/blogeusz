@@ -1,4 +1,7 @@
 ---
+import { getLangFromUrl } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 interface Props {
   slug: string;
   title: string;
@@ -9,9 +12,11 @@ interface Props {
 }
 
 const { slug, title, imageUrl, thumbnailUrl, category, location } = Astro.props;
+
+const locale = getLangFromUrl(Astro.url);
 ---
 
-<a href={`/photos/${slug}`} class="photo-card">
+<a href={getRelativeLocaleUrl(locale, `photos/${slug}`)} class="photo-card">
   <div class="photo-image">
     <img src={thumbnailUrl || imageUrl} alt={title} loading="lazy" decoding="async" />
     <div class="photo-overlay">

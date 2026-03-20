@@ -1,33 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CategoryTabs from '../../components/CategoryTabs.astro';
-import TilCard from '../../components/TilCard.astro';
-import TagFilter from '../../components/TagFilter.astro';
-import { collectTags } from '../../lib/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryTabs from '../../../components/CategoryTabs.astro';
+import TilCard from '../../../components/TilCard.astro';
+import TagFilter from '../../../components/TagFilter.astro';
+import { collectTags } from '../../../lib/utils';
+import { useTranslations } from '../../../i18n/utils';
+import { locales } from '../../../i18n/ui';
 
-const allTil = await getCollection('til', ({ data }) => !data.draft);
+export async function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as 'pl' | 'en');
+
+const allTil = await getCollection('til', ({ data }) => !data.draft && data.lang === lang);
 const items = allTil.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const tags = collectTags(allTil);
 ---
 
-<BaseLayout
-  title="TIL — Today I Learned"
-  description="Codzienne krótkie notatki i linki — rzeczy, których się nauczyłem."
->
+<BaseLayout title={t('til.title')} description={t('til.description')}>
   <section class="hero">
     <div class="inner">
       <p class="hero-description">
-        Krótkie notatki i ciekawe linki — rzeczy, których nauczyłem się każdego dnia.
+        {t('til.hero')}
       </p>
       <CategoryTabs active="til" />
     </div>
   </section>
 
   <div class="inner content">
-    <TagFilter tags={tags} baseUrl="/tags" />
+    <TagFilter tags={tags} />
 
     <div class="til-grid">
       {

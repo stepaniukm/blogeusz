@@ -1,6 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+const props = withDefaults(
+  defineProps<{
+    loadingText?: string;
+    emptyText?: string;
+    emptyHint?: string;
+    removeLabel?: string;
+  }>(),
+  {
+    loadingText: 'Loading...',
+    emptyText: 'You have no bookmarks yet.',
+    emptyHint: 'Click the bookmark icon on any article to save it.',
+    removeLabel: 'Remove bookmark',
+  },
+);
+
 const bookmarks = ref<string[]>([]);
 const loading = ref(true);
 
@@ -29,10 +44,10 @@ function collection(key: string) {
 </script>
 
 <template>
-  <div v-if="loading" class="loading">Ładowanie...</div>
+  <div v-if="loading" class="loading">{{ props.loadingText }}</div>
   <div v-else-if="bookmarks.length === 0" class="empty">
-    <p>Nie masz jeszcze żadnych zakładek.</p>
-    <p>Kliknij ikonę zakładki na dowolnym artykule, aby go zapisać.</p>
+    <p>{{ props.emptyText }}</p>
+    <p>{{ props.emptyHint }}</p>
   </div>
   <div v-else class="bookmarks-list">
     <div v-for="key in bookmarks" :key="key" class="bookmark-item">
@@ -40,7 +55,7 @@ function collection(key: string) {
         <span class="bookmark-collection">{{ collection(key) }}</span>
         <span class="bookmark-slug">{{ label(key) }}</span>
       </a>
-      <button class="remove-btn" aria-label="Usuń zakładkę" @click="remove(key)">×</button>
+      <button class="remove-btn" :aria-label="props.removeLabel" @click="remove(key)">×</button>
     </div>
   </div>
 </template>

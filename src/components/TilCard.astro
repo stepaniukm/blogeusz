@@ -1,4 +1,8 @@
 ---
+import { getLangFromUrl, dateLocales } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { formatDate } from '../lib/utils';
+
 interface Props {
   slug: string;
   title: string;
@@ -11,15 +15,12 @@ interface Props {
 
 const { slug, title, publishedAt, type, url, annotation, tags } = Astro.props;
 
-const date = publishedAt.toLocaleDateString('pl-PL', {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-});
+const locale = getLangFromUrl(Astro.url);
+const date = formatDate(publishedAt, dateLocales[locale]);
 ---
 
 <a
-  href={type === 'link' && url ? url : `/til/${slug}`}
+  href={type === 'link' && url ? url : getRelativeLocaleUrl(locale, `til/${slug}`)}
   class:list={['til-card', type === 'link' && 'til-card-link']}
   target={type === 'link' && url ? '_blank' : undefined}
   rel={type === 'link' && url ? 'noopener noreferrer' : undefined}

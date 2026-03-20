@@ -1,19 +1,26 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 interface Props {
   tags: string[];
   activeTag?: string;
-  baseUrl?: string;
 }
 
-const { tags, activeTag, baseUrl = '/tags' } = Astro.props;
+const { tags, activeTag } = Astro.props;
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
+const baseTagUrl = getRelativeLocaleUrl(locale, 'tags');
+const homeUrl = getRelativeLocaleUrl(locale, '');
 ---
 
-<div class="tag-filter" role="navigation" aria-label="Filtrowanie po tagach">
-  <a href="/" class:list={['tag-chip', !activeTag && 'tag-chip-active']}> Wszystkie </a>
+<div class="tag-filter" role="navigation" aria-label={t('tags.filter.label')}>
+  <a href={homeUrl} class:list={['tag-chip', !activeTag && 'tag-chip-active']}>{t('tags.all')}</a>
   {
     tags.map((tag) => (
       <a
-        href={`${baseUrl}/${tag.toLowerCase()}`}
+        href={`${baseTagUrl}/${tag.toLowerCase()}`}
         class:list={[
           'tag-chip',
           activeTag?.toLowerCase() === tag.toLowerCase() && 'tag-chip-active',

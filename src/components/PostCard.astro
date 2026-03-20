@@ -1,4 +1,8 @@
 ---
+import { getLangFromUrl, useTranslations, dateLocales } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { formatDate } from '../lib/utils';
+
 interface Props {
   slug: string;
   title: string;
@@ -21,16 +25,15 @@ const {
   size = 'normal',
 } = Astro.props;
 
-const date = publishedAt.toLocaleDateString('pl-PL', {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-});
-
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
+const date = formatDate(publishedAt, dateLocales[locale]);
+const publishedLabel = t('post.published').replace('{date}', date);
+const readingLabel = readingTime ? t('post.reading').replace('{min}', String(readingTime)) : null;
 const primaryTag = tags[0];
 ---
 
-<a href={`/blog/${slug}`} class:list={['card', size === 'large' && 'card-large']}>
+<a href={getRelativeLocaleUrl(locale, `blog/${slug}`)} class:list={['card', size === 'large' && 'card-large']}>
   {
     coverImage && (
       <div class="card-image">
@@ -57,10 +60,10 @@ const primaryTag = tags[0];
           ></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"
           ></line>
         </svg>
-        Opublikowano {date}
+        {publishedLabel}
       </span>
       {
-        readingTime && (
+        readingLabel && (
           <>
             <span class="meta-separator">·</span>
             <span class="meta-item">
@@ -78,7 +81,7 @@ const primaryTag = tags[0];
                   <path d="M3 9h18M9 21V9" />
                 </>
               </svg>
-              {readingTime}m czytania
+              {readingLabel}
             </span>
           </>
         )

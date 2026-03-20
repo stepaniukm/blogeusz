@@ -1,11 +1,17 @@
 ---
 import ThemeToggle from './ThemeToggle.vue';
+import LangSwitcher from './LangSwitcher.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/til', label: 'TIL' },
-  { href: '/photos', label: 'Fotografia' },
+  { href: getRelativeLocaleUrl(locale, ''), label: t('nav.home') },
+  { href: getRelativeLocaleUrl(locale, 'blog'), label: t('nav.blog') },
+  { href: getRelativeLocaleUrl(locale, 'til'), label: t('nav.til') },
+  { href: getRelativeLocaleUrl(locale, 'photos'), label: t('nav.photos') },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -13,19 +19,19 @@ const currentPath = Astro.url.pathname;
 
 <header class="header">
   <div class="header-inner">
-    <a href="/" class="logo-link" aria-label="blogeusz — strona główna">
+    <a href={getRelativeLocaleUrl(locale, '')} class="logo-link" aria-label={t('logo.label')}>
       <img src="/logo.svg" alt="blogeusz" width="140" height="28" class="logo logo-dark" />
       <img src="/logo-light.svg" alt="blogeusz" width="140" height="28" class="logo logo-light" />
     </a>
 
-    <nav class="nav" aria-label="Główna nawigacja">
+    <nav class="nav" aria-label={t('nav.main.label')}>
       {
         navLinks.map(({ href, label }) => (
           <a
             href={href}
             class:list={[
               'nav-link',
-              { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) },
+              { active: currentPath === href || (href !== `/${locale}/` && currentPath.startsWith(href)) },
             ]}
           >
             {label}
@@ -35,7 +41,8 @@ const currentPath = Astro.url.pathname;
     </nav>
 
     <div class="header-actions">
-      <a href="/bookmarks" class="icon-btn" aria-label="Zakładki">
+      <LangSwitcher />
+      <a href={getRelativeLocaleUrl(locale, 'bookmarks')} class="icon-btn" aria-label={t('nav.bookmarks.label')}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -50,7 +57,7 @@ const currentPath = Astro.url.pathname;
           <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
         </svg>
       </a>
-      <ThemeToggle client:load />
+      <ThemeToggle label={t('theme.toggle')} client:load />
     </div>
   </div>
 </header>

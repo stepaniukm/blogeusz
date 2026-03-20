@@ -1,23 +1,30 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ImageCarousel from '../../components/ImageCarousel.vue';
-import TableOfContents from '../../components/TableOfContents.vue';
-import BookmarkToggle from '../../components/BookmarkToggle.vue';
-import ReadingProgress from '../../components/ReadingProgress.vue';
-import PopularPosts from '../../components/PopularPosts.astro';
-import { getReadingTime, formatDate } from '../../lib/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ImageCarousel from '../../../components/ImageCarousel.vue';
+import TableOfContents from '../../../components/TableOfContents.vue';
+import BookmarkToggle from '../../../components/BookmarkToggle.vue';
+import ReadingProgress from '../../../components/ReadingProgress.vue';
+import PopularPosts from '../../../components/PopularPosts.astro';
+import { getReadingTime, formatDate } from '../../../lib/utils';
+import { useTranslations, dateLocales } from '../../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  return posts.map((post) => ({
+    params: { lang: post.data.lang, slug: post.id },
+    props: { post },
+  }));
 }
 
+const { lang } = Astro.params;
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const readingTime = getReadingTime(post.body || '');
+const t = useTranslations(lang as 'pl' | 'en');
 
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === lang)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 
@@ -38,7 +45,7 @@ const next = allPosts[idx - 1];
   <div class="post-wrapper">
     <aside class="sidebar-left">
       <div class="sidebar-actions">
-        <a href="/blog" class="back-link" aria-label="Wróć do bloga">
+        <a href={getRelativeLocaleUrl(lang, 'blog')} class="back-link" aria-label={t('post.back')}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -51,11 +58,17 @@ const next = allPosts[idx - 1];
             <path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path>
           </svg>
         </a>
-        <BookmarkToggle slug={post.id} collection="blog" client:load />
+        <BookmarkToggle
+          slug={post.id}
+          collection="blog"
+          addLabel={t('bookmark.add')}
+          removeLabel={t('bookmark.remove')}
+          client:load
+        />
         <button
           class="share-btn"
           onclick="navigator.share?.({ title: document.title, url: window.location.href }) ?? navigator.clipboard.writeText(window.location.href)"
-          aria-label="Udostępnij"
+          aria-label={t('post.share')}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,14 +95,14 @@ const next = allPosts[idx - 1];
 
     <article class="post-content">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/blog">Dev</a>
+        <a href={getRelativeLocaleUrl(lang, 'blog')}>{t('post.breadcrumb.dev')}</a>
         <span>/</span>
         <span>{post.data.title}</span>
       </nav>
 
       <header class="post-header">
         <div class="post-meta-top">
-          <a href="/blog" class="back-link-mobile" aria-label="Wróć">
+          <a href={getRelativeLocaleUrl(lang, 'blog')} class="back-link-mobile" aria-label={t('post.back.mobile')}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -105,7 +118,7 @@ const next = allPosts[idx - 1];
           <h1 class="post-title">{post.data.title}</h1>
         </div>
         <p class="post-meta">
-          <span>Opublikowano {formatDate(post.data.publishedAt)}</span>
+          <span>{t('post.published').replace('{date}', formatDate(post.data.publishedAt, dateLocales[lang as 'pl' | 'en']))}</span>
           <span>·</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +131,7 @@ const next = allPosts[idx - 1];
           >
             <rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path>
           </svg>
-          <span>{readingTime}m czytania</span>
+          <span>{t('post.reading').replace('{min}', String(readingTime))}</span>
         </p>
       </header>
 
@@ -133,19 +146,19 @@ const next = allPosts[idx - 1];
           <Content />
         </div>
 
-        <nav class="post-nav" aria-label="Artykuły">
+        <nav class="post-nav" aria-label={t('post.nav.label')}>
           {
             prev && (
-              <a href={`/blog/${prev.id}`} class="nav-post nav-post-prev">
-                <span class="nav-label">← Poprzedni</span>
+              <a href={getRelativeLocaleUrl(lang, `blog/${prev.id}`)} class="nav-post nav-post-prev">
+                <span class="nav-label">{t('post.prev')}</span>
                 <span class="nav-title">{prev.data.title}</span>
               </a>
             )
           }
           {
             next && (
-              <a href={`/blog/${next.id}`} class="nav-post nav-post-next">
-                <span class="nav-label">Następny →</span>
+              <a href={getRelativeLocaleUrl(lang, `blog/${next.id}`)} class="nav-post nav-post-next">
+                <span class="nav-label">{t('post.next')}</span>
                 <span class="nav-title">{next.data.title}</span>
               </a>
             )

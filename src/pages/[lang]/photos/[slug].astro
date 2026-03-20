@@ -1,16 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { formatDate } from '../../lib/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { formatDate } from '../../../lib/utils';
+import { useTranslations, dateLocales } from '../../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
   const photos = await getCollection('photos');
-  return photos.map((photo) => ({ params: { slug: photo.id }, props: { photo } }));
+  return photos.map((photo) => ({
+    params: { lang: photo.data.lang, slug: photo.id },
+    props: { photo },
+  }));
 }
 
+const { lang } = Astro.params;
 const { photo } = Astro.props;
+const t = useTranslations(lang as 'pl' | 'en');
 
-const allPhotos = (await getCollection('photos')).sort(
+const allPhotos = (await getCollection('photos', ({ data }) => data.lang === lang)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const idx = allPhotos.findIndex((p) => p.id === photo.id);
@@ -24,7 +31,7 @@ const next = allPhotos[idx - 1];
   image={photo.data.imageUrl}
 >
   <div class="wrapper">
-    <a href="/photos" class="back">← Galeria</a>
+    <a href={getRelativeLocaleUrl(lang, 'photos')} class="back">{t('photos.back')}</a>
 
     <div class="photo-layout">
       <div class="photo-container">
@@ -38,7 +45,7 @@ const next = allPhotos[idx - 1];
 
         {
           prev && (
-            <a href={`/photos/${prev.id}`} class="photo-nav photo-nav-prev" aria-label="Poprzednie">
+            <a href={getRelativeLocaleUrl(lang, `photos/${prev.id}`)} class="photo-nav photo-nav-prev" aria-label={t('photos.prev')}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -55,7 +62,7 @@ const next = allPhotos[idx - 1];
         }
         {
           next && (
-            <a href={`/photos/${next.id}`} class="photo-nav photo-nav-next" aria-label="Następne">
+            <a href={getRelativeLocaleUrl(lang, `photos/${next.id}`)} class="photo-nav photo-nav-next" aria-label={t('photos.next')}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -75,12 +82,12 @@ const next = allPhotos[idx - 1];
       <aside class="photo-meta">
         <span class="photo-category">{photo.data.category}</span>
         <h1 class="photo-title">{photo.data.title}</h1>
-        <time class="photo-date">{formatDate(photo.data.publishedAt)}</time>
+        <time class="photo-date">{formatDate(photo.data.publishedAt, dateLocales[lang as 'pl' | 'en'])}</time>
 
         {
           photo.data.location && (
             <div class="meta-row">
-              <span class="meta-label">Lokalizacja</span>
+              <span class="meta-label">{t('photos.meta.location')}</span>
               <span class="meta-value">{photo.data.location}</span>
             </div>
           )
@@ -89,7 +96,7 @@ const next = allPhotos[idx - 1];
         {
           photo.data.camera && (
             <div class="meta-row">
-              <span class="meta-label">Aparat</span>
+              <span class="meta-label">{t('photos.meta.camera')}</span>
               <span class="meta-value">{photo.data.camera}</span>
             </div>
           )
@@ -98,7 +105,7 @@ const next = allPhotos[idx - 1];
         {
           photo.data.lens && (
             <div class="meta-row">
-              <span class="meta-label">Obiektyw</span>
+              <span class="meta-label">{t('photos.meta.lens')}</span>
               <span class="meta-value">{photo.data.lens}</span>
             </div>
           )
@@ -107,7 +114,7 @@ const next = allPhotos[idx - 1];
         {
           photo.data.settings && (
             <div class="meta-row">
-              <span class="meta-label">Parametry</span>
+              <span class="meta-label">{t('photos.meta.settings')}</span>
               <span class="meta-value">{photo.data.settings}</span>
             </div>
           )
@@ -117,7 +124,7 @@ const next = allPhotos[idx - 1];
           photo.data.tags.length > 0 && (
             <div class="photo-tags">
               {photo.data.tags.map((tag) => (
-                <a href={`/tags/${tag.toLowerCase()}`} class="tag">
+                <a href={getRelativeLocaleUrl(lang, `tags/${tag.toLowerCase()}`)} class="tag">
                   {tag}
                 </a>
               ))}

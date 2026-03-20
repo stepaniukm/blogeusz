@@ -1,10 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CategoryTabs from '../../components/CategoryTabs.astro';
-import PhotoCard from '../../components/PhotoCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryTabs from '../../../components/CategoryTabs.astro';
+import PhotoCard from '../../../components/PhotoCard.astro';
+import { useTranslations } from '../../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales } from '../../../i18n/ui';
 
-const allPhotos = await getCollection('photos');
+export async function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as 'pl' | 'en');
+
+const allPhotos = await getCollection('photos', ({ data }) => data.lang === lang);
 const photos = allPhotos.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
@@ -15,25 +25,27 @@ const activeCategory = Astro.url.searchParams.get('category');
 const filtered = activeCategory
   ? photos.filter((p) => p.data.category.toLowerCase() === activeCategory.toLowerCase())
   : photos;
+
+const photosPageUrl = getRelativeLocaleUrl(lang, 'photos');
 ---
 
-<BaseLayout title="Fotografia" description="Galeria fotografii — portrety, makro, moda i więcej.">
+<BaseLayout title={t('photos.title')} description={t('photos.description')}>
   <section class="hero">
     <div class="inner">
-      <p class="hero-description">Galeria fotografii — portrety, makro, moda i nie tylko.</p>
+      <p class="hero-description">{t('photos.hero')}</p>
       <CategoryTabs active="fotografia" />
     </div>
   </section>
 
   <div class="inner content">
     <div class="cat-filter">
-      <a href="/photos" class:list={['cat-chip', !activeCategory && 'cat-chip-active']}>
-        Wszystkie
+      <a href={photosPageUrl} class:list={['cat-chip', !activeCategory && 'cat-chip-active']}>
+        {t('tags.all')}
       </a>
       {
         categories.map((cat) => (
           <a
-            href={`/photos?category=${cat.toLowerCase()}`}
+            href={`${photosPageUrl}?category=${cat.toLowerCase()}`}
             class:list={[
               'cat-chip',
               activeCategory?.toLowerCase() === cat.toLowerCase() && 'cat-chip-active',
@@ -60,7 +72,7 @@ const filtered = activeCategory
       }
     </div>
 
-    {filtered.length === 0 && <p class="empty">Brak zdjęć w tej kategorii.</p>}
+    {filtered.length === 0 && <p class="empty">{t('photos.empty')}</p>}
   </div>
 </BaseLayout>
 

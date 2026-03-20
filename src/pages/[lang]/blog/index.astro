@@ -1,31 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CategoryTabs from '../../components/CategoryTabs.astro';
-import TagFilter from '../../components/TagFilter.astro';
-import PostCard from '../../components/PostCard.astro';
-import { collectTags, getReadingTime } from '../../lib/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryTabs from '../../../components/CategoryTabs.astro';
+import TagFilter from '../../../components/TagFilter.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { collectTags, getReadingTime } from '../../../lib/utils';
+import { useTranslations } from '../../../i18n/utils';
+import { locales } from '../../../i18n/ui';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+export async function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as 'pl' | 'en');
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft && data.lang === lang);
 const posts = allPosts.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const tags = collectTags(allPosts);
 ---
 
-<BaseLayout title="Dev Blog">
+<BaseLayout title={t('blog.title')} description={t('blog.description')}>
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-description">
-        Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i
-        piękne zdjęcia.
+        {t('blog.description')}
       </p>
       <CategoryTabs active="dev" />
     </div>
   </section>
 
   <div class="content-wrapper">
-    <TagFilter tags={tags} baseUrl="/tags" />
+    <TagFilter tags={tags} />
 
     <div class="grid-featured">
       {

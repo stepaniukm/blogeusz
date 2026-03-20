@@ -1,20 +1,26 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
+
 const devLinks = [
-  { href: '/tags/html', label: 'HTML' },
-  { href: '/tags/css', label: 'CSS' },
-  { href: '/tags/javascript', label: 'JavaScript' },
-  { href: '/tags/react', label: 'React' },
-  { href: '/tags/typescript', label: 'TypeScript' },
-  { href: '/tags/vue', label: 'Vue' },
-  { href: '/tags/svelte', label: 'Svelte' },
-  { href: '/tags/graphql', label: 'GraphQL' },
+  { href: getRelativeLocaleUrl(locale, 'tags/html'), label: 'HTML' },
+  { href: getRelativeLocaleUrl(locale, 'tags/css'), label: 'CSS' },
+  { href: getRelativeLocaleUrl(locale, 'tags/javascript'), label: 'JavaScript' },
+  { href: getRelativeLocaleUrl(locale, 'tags/react'), label: 'React' },
+  { href: getRelativeLocaleUrl(locale, 'tags/typescript'), label: 'TypeScript' },
+  { href: getRelativeLocaleUrl(locale, 'tags/vue'), label: 'Vue' },
+  { href: getRelativeLocaleUrl(locale, 'tags/svelte'), label: 'Svelte' },
+  { href: getRelativeLocaleUrl(locale, 'tags/graphql'), label: 'GraphQL' },
 ];
 
 const photoLinks = [
-  { href: '/photos?category=macro', label: 'Macro' },
-  { href: '/photos?category=portrait', label: 'Portrait' },
-  { href: '/photos?category=fashion', label: 'Fashion' },
-  { href: '/photos?category=events', label: 'Events' },
+  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=macro', label: 'Macro' },
+  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=portrait', label: 'Portrait' },
+  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=fashion', label: 'Fashion' },
+  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=events', label: 'Events' },
 ];
 
 const year = new Date().getFullYear();
@@ -23,7 +29,7 @@ const year = new Date().getFullYear();
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-logo">
-      <a href="/" aria-label="blogeusz">
+      <a href={getRelativeLocaleUrl(locale, '')} aria-label="blogeusz">
         <img src="/logo.svg" alt="blogeusz" width="120" height="24" class="logo-dark" />
         <img src="/logo-light.svg" alt="blogeusz" width="120" height="24" class="logo-light" />
       </a>
@@ -32,7 +38,7 @@ const year = new Date().getFullYear();
 
     <div class="footer-links">
       <div class="footer-col">
-        <h3 class="footer-heading">Dev</h3>
+        <h3 class="footer-heading">{t('footer.heading.dev')}</h3>
         <ul class="footer-list">
           {
             devLinks.map(({ href, label }) => (
@@ -47,7 +53,7 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="footer-col">
-        <h3 class="footer-heading">Fotografia</h3>
+        <h3 class="footer-heading">{t('footer.heading.photos')}</h3>
         <ul class="footer-list">
           {
             photoLinks.map(({ href, label }) => (

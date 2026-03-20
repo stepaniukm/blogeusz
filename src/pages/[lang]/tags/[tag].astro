@@ -1,56 +1,68 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
-import TilCard from '../../components/TilCard.astro';
-import TagFilter from '../../components/TagFilter.astro';
-import { collectTags, getReadingTime } from '../../lib/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import TilCard from '../../../components/TilCard.astro';
+import TagFilter from '../../../components/TagFilter.astro';
+import { collectTags, getReadingTime } from '../../../lib/utils';
+import { useTranslations } from '../../../i18n/utils';
+import { locales } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
-  const [allPosts, allTil] = await Promise.all([
-    getCollection('blog', ({ data }) => !data.draft),
-    getCollection('til', ({ data }) => !data.draft),
-  ]);
+  const paths = [];
 
-  const allTags = new Set([
-    ...allPosts.flatMap((p) => p.data.tags),
-    ...allTil.flatMap((p) => p.data.tags),
-  ]);
+  for (const lang of locales) {
+    const [allPosts, allTil] = await Promise.all([
+      getCollection('blog', ({ data }) => !data.draft && data.lang === lang),
+      getCollection('til', ({ data }) => !data.draft && data.lang === lang),
+    ]);
 
-  return Array.from(allTags).map((tag) => ({
-    params: { tag: tag.toLowerCase() },
-    props: { tag },
-  }));
+    const allTags = new Set([
+      ...allPosts.flatMap((p) => p.data.tags),
+      ...allTil.flatMap((p) => p.data.tags),
+    ]);
+
+    for (const tag of allTags) {
+      paths.push({
+        params: { lang, tag: tag.toLowerCase() },
+        props: { tag },
+      });
+    }
+  }
+
+  return paths;
 }
 
-const { tag } = Astro.props;
+const { lang, tag } = Astro.params;
+const { tag: tagProp } = Astro.props;
+const t = useTranslations(lang as 'pl' | 'en');
 
 const [allPosts, allTil] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft),
-  getCollection('til', ({ data }) => !data.draft),
+  getCollection('blog', ({ data }) => !data.draft && data.lang === lang),
+  getCollection('til', ({ data }) => !data.draft && data.lang === lang),
 ]);
 
 const matchingPosts = allPosts
-  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase()))
+  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tagProp.toLowerCase()))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const matchingTil = allTil
-  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tag.toLowerCase()))
+  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tagProp.toLowerCase()))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const allTags = collectTags([...allPosts, ...allTil]);
 ---
 
-<BaseLayout title={`Tag: ${tag}`} description={`Artykuły i notatki oznaczone tagiem "${tag}"`}>
+<BaseLayout title={`Tag: ${tagProp}`} description={`${tagProp}`}>
   <div class="wrapper">
-    <TagFilter tags={allTags} activeTag={tag} baseUrl="/tags" />
+    <TagFilter tags={allTags} activeTag={tagProp} />
 
-    <h1 class="page-title">{tag}</h1>
+    <h1 class="page-title">{tagProp}</h1>
 
     {
       matchingPosts.length > 0 && (
         <section>
-          <h2 class="section-title">Blog ({matchingPosts.length})</h2>
+          <h2 class="section-title">{t('tags.blog.count').replace('{count}', String(matchingPosts.length))}</h2>
           <div class="grid">
             {matchingPosts.map((post) => (
               <PostCard
@@ -71,7 +83,7 @@ const allTags = collectTags([...allPosts, ...allTil]);
     {
       matchingTil.length > 0 && (
         <section class="til-section">
-          <h2 class="section-title">TIL ({matchingTil.length})</h2>
+          <h2 class="section-title">{t('tags.til.count').replace('{count}', String(matchingTil.length))}</h2>
           <div class="grid">
             {matchingTil.map((item) => (
               <TilCard
@@ -91,7 +103,7 @@ const allTags = collectTags([...allPosts, ...allTil]);
 
     {
       matchingPosts.length === 0 && matchingTil.length === 0 && (
-        <p class="empty">Brak treści z tym tagiem.</p>
+        <p class="empty">{t('tags.empty')}</p>
       )
     }
   </div>
@@ -113,12 +125,11 @@ const allTags = collectTags([...allPosts, ...allTil]);
 
   .section-title {
     margin: 0 0 1rem;
-    font-size: 1rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-size: 0.8125rem;
   }
 
   .til-section {

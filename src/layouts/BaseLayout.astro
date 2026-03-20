@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -14,18 +15,21 @@ interface Props {
 
 const {
   title,
-  description = 'Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i piękne zdjęcia.',
   image = '/og/default.png',
   type = 'website',
   publishedAt,
 } = Astro.props;
+
+const locale = getLangFromUrl(Astro.url);
+const t = useTranslations(locale);
+const description = Astro.props.description ?? t('site.description');
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = image.startsWith('http') ? image : new URL(image, Astro.site).toString();
 ---
 
 <!doctype html>
-<html lang="pl" data-theme="dark">
+<html lang={locale} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

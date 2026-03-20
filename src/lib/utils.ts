@@ -3,8 +3,8 @@ export function getReadingTime(text: string, wpm = 200): number {
   return Math.max(1, Math.ceil(words / wpm));
 }
 
-export function formatDate(date: Date): string {
-  return date.toLocaleDateString('pl-PL', {
+export function formatDate(date: Date, locale = 'pl-PL'): string {
+  return date.toLocaleDateString(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',

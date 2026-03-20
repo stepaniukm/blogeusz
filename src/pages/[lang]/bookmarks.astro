@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookmarksList from '../../components/BookmarksList.vue';
+import { useTranslations } from '../../i18n/utils';
+import { locales } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as 'pl' | 'en');
+---
+
+<BaseLayout title={t('bookmarks.title')} description={t('bookmarks.subtitle')}>
+  <div class="wrapper">
+    <h1 class="page-title">{t('bookmarks.title')}</h1>
+    <p class="subtitle">{t('bookmarks.subtitle')}</p>
+    <BookmarksList
+      loadingText={t('bookmarks.loading')}
+      emptyText={t('bookmarks.empty')}
+      emptyHint={t('bookmarks.empty.hint')}
+      removeLabel={t('bookmarks.remove.label')}
+      client:only="vue"
+    />
+  </div>
+</BaseLayout>
+
+<style>
+  .wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .page-title {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .subtitle {
+    margin: 0 0 2rem;
+    color: var(--color-text-muted);
+  }
+</style>

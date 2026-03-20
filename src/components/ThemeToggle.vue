@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+const props = withDefaults(defineProps<{ label?: string }>(), { label: 'Toggle theme' });
+
 const theme = ref('dark');
 
 onMounted(() => {
@@ -20,7 +22,7 @@ function toggle() {
 </script>
 
 <template>
-  <button class="icon-btn" aria-label="Przełącz motyw" @click="toggle">
+  <button class="icon-btn" :aria-label="props.label" @click="toggle">
     <svg
       v-show="theme === 'dark'"
       class="icon-moon"

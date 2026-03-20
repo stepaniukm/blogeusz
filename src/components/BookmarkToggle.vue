@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue';
 const props = defineProps<{
   slug: string;
   collection: string;
+  addLabel?: string;
+  removeLabel?: string;
 }>();
 
 const key = `${props.collection}:${props.slug}`;
@@ -30,7 +32,7 @@ function toggle() {
 <template>
   <button
     :class="['bookmark-btn', saved && 'saved']"
-    :aria-label="saved ? 'Usuń z zakładek' : 'Dodaj do zakładek'"
+    :aria-label="saved ? (props.removeLabel ?? 'Remove from bookmarks') : (props.addLabel ?? 'Add to bookmarks')"
     @click="toggle"
   >
     <svg
