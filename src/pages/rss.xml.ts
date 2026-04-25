@@ -4,8 +4,8 @@ import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
   const [blogs, tils] = await Promise.all([
-    getCollection('blog', ({ data }) => !data.draft),
-    getCollection('til', ({ data }) => !data.draft),
+    getCollection('blog', ({ data }) => !data.draft && data.public),
+    getCollection('til', ({ data }) => !data.draft && data.public),
   ]);
 
   const blogItems = blogs.map((post) => ({

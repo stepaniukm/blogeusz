@@ -15,6 +15,7 @@ const blog = defineCollection({
     images: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
+    public: z.boolean().default(true),
     lang: z.string().default('pl'),
   }),
 });
@@ -29,6 +30,7 @@ const til = defineCollection({
     annotation: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    public: z.boolean().default(true),
     lang: z.string().default('pl'),
   }),
 });
@@ -47,6 +49,7 @@ const photos = defineCollection({
     settings: z.string().optional(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+    public: z.boolean().default(true),
     lang: z.string().default('pl'),
   }),
 });

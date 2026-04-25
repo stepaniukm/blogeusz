@@ -17,8 +17,14 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft && data.lang === lang);
-const allTil = await getCollection('til', ({ data }) => !data.draft && data.lang === lang);
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => !data.draft && data.public && data.lang === lang
+);
+const allTil = await getCollection(
+  'til',
+  ({ data }) => !data.draft && data.public && data.lang === lang
+);
 
 const posts = allPosts.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 

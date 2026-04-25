@@ -13,8 +13,8 @@ export async function getStaticPaths() {
 
   for (const lang of locales) {
     const [allPosts, allTil] = await Promise.all([
-      getCollection('blog', ({ data }) => !data.draft && data.lang === lang),
-      getCollection('til', ({ data }) => !data.draft && data.lang === lang),
+      getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === lang),
+      getCollection('til', ({ data }) => !data.draft && data.public && data.lang === lang),
     ]);
 
     const allTags = new Set([
@@ -38,8 +38,8 @@ const { tag: tagProp } = Astro.props;
 const t = useTranslations(lang as 'pl' | 'en');
 
 const [allPosts, allTil] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft && data.lang === lang),
-  getCollection('til', ({ data }) => !data.draft && data.lang === lang),
+  getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === lang),
+  getCollection('til', ({ data }) => !data.draft && data.public && data.lang === lang),
 ]);
 
 const matchingPosts = allPosts
@@ -62,7 +62,9 @@ const allTags = collectTags([...allPosts, ...allTil]);
     {
       matchingPosts.length > 0 && (
         <section>
-          <h2 class="section-title">{t('tags.blog.count').replace('{count}', String(matchingPosts.length))}</h2>
+          <h2 class="section-title">
+            {t('tags.blog.count').replace('{count}', String(matchingPosts.length))}
+          </h2>
           <div class="grid">
             {matchingPosts.map((post) => (
               <PostCard
@@ -83,7 +85,9 @@ const allTags = collectTags([...allPosts, ...allTil]);
     {
       matchingTil.length > 0 && (
         <section class="til-section">
-          <h2 class="section-title">{t('tags.til.count').replace('{count}', String(matchingTil.length))}</h2>
+          <h2 class="section-title">
+            {t('tags.til.count').replace('{count}', String(matchingTil.length))}
+          </h2>
           <div class="grid">
             {matchingTil.map((item) => (
               <TilCard

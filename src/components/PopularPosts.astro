@@ -14,7 +14,7 @@ const { currentSlug, limit = 4 } = Astro.props;
 const locale = getLangFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = await getCollection('blog', ({ data }) => !data.draft && data.public);
 const popular = allPosts
   .filter((p) => p.id !== currentSlug)
   .sort(() => Math.random() - 0.5)
@@ -44,7 +44,9 @@ const popular = allPosts
               )}
               <h3 class="popular-post-title">{post.data.title}</h3>
               <div class="popular-meta">
-                <span>{t('post.reading').replace('{min}', String(getReadingTime(post.body || '')))}</span>
+                <span>
+                  {t('post.reading').replace('{min}', String(getReadingTime(post.body || '')))}
+                </span>
                 <span>·</span>
                 <span>{formatDate(post.data.publishedAt, dateLocales[locale])}</span>
               </div>

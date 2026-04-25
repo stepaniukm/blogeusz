@@ -11,22 +11,27 @@ import { useTranslations, dateLocales } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('blog', ({ data }) => !data.draft && data.public);
   return posts.map((post) => ({
     params: { lang: post.data.lang, slug: post.id },
     props: { post },
   }));
 }
 
-const { lang } = Astro.params;
+const { lang, slug } = Astro.params;
 const { post } = Astro.props;
+
+if (!post || post.id !== slug || post.data.lang !== lang || post.data.draft || !post.data.public) {
+  return Astro.rewrite('/404');
+}
+
 const { Content, headings } = await render(post);
 const readingTime = getReadingTime(post.body || '');
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === lang)).sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
-);
+const allPosts = (
+  await getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === lang)
+).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const idx = allPosts.findIndex((p) => p.id === post.id);
 const prev = allPosts[idx + 1];
@@ -102,7 +107,11 @@ const next = allPosts[idx - 1];
 
       <header class="post-header">
         <div class="post-meta-top">
-          <a href={getRelativeLocaleUrl(lang, 'blog')} class="back-link-mobile" aria-label={t('post.back.mobile')}>
+          <a
+            href={getRelativeLocaleUrl(lang, 'blog')}
+            class="back-link-mobile"
+            aria-label={t('post.back.mobile')}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -118,7 +127,14 @@ const next = allPosts[idx - 1];
           <h1 class="post-title">{post.data.title}</h1>
         </div>
         <p class="post-meta">
-          <span>{t('post.published').replace('{date}', formatDate(post.data.publishedAt, dateLocales[lang as 'pl' | 'en']))}</span>
+          <span
+            >{
+              t('post.published').replace(
+                '{date}',
+                formatDate(post.data.publishedAt, dateLocales[lang as 'pl' | 'en'])
+              )
+            }</span
+          >
           <span>·</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +165,10 @@ const next = allPosts[idx - 1];
         <nav class="post-nav" aria-label={t('post.nav.label')}>
           {
             prev && (
-              <a href={getRelativeLocaleUrl(lang, `blog/${prev.id}`)} class="nav-post nav-post-prev">
+              <a
+                href={getRelativeLocaleUrl(lang, `blog/${prev.id}`)}
+                class="nav-post nav-post-prev"
+              >
                 <span class="nav-label">{t('post.prev')}</span>
                 <span class="nav-title">{prev.data.title}</span>
               </a>
@@ -157,7 +176,10 @@ const next = allPosts[idx - 1];
           }
           {
             next && (
-              <a href={getRelativeLocaleUrl(lang, `blog/${next.id}`)} class="nav-post nav-post-next">
+              <a
+                href={getRelativeLocaleUrl(lang, `blog/${next.id}`)}
+                class="nav-post nav-post-next"
+              >
                 <span class="nav-label">{t('post.next')}</span>
                 <span class="nav-title">{next.data.title}</span>
               </a>

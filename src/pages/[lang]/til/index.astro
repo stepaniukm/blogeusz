@@ -15,7 +15,10 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allTil = await getCollection('til', ({ data }) => !data.draft && data.lang === lang);
+const allTil = await getCollection(
+  'til',
+  ({ data }) => !data.draft && data.public && data.lang === lang
+);
 const items = allTil.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
@@ -35,21 +38,28 @@ const tags = collectTags(allTil);
   <div class="inner content">
     <TagFilter tags={tags} />
 
-    <div class="til-grid">
-      {
-        items.map((item) => (
-          <TilCard
-            slug={item.id}
-            title={item.data.title}
-            publishedAt={item.data.publishedAt}
-            type={item.data.type}
-            url={item.data.url}
-            annotation={item.data.annotation}
-            tags={item.data.tags}
-          />
-        ))
-      }
-    </div>
+    {
+      items.length > 0 ? (
+        <div class="til-grid">
+          {items.map((item) => (
+            <TilCard
+              slug={item.id}
+              title={item.data.title}
+              publishedAt={item.data.publishedAt}
+              type={item.data.type}
+              url={item.data.url}
+              annotation={item.data.annotation}
+              tags={item.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state" role="status" aria-live="polite">
+          <h2 class="empty-title">{t('til.empty.title')}</h2>
+          <p class="empty-description">{t('til.empty.description')}</p>
+        </div>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -81,6 +91,28 @@ const tags = collectTags(allTil);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+  }
+
+  .empty-state {
+    margin-top: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background-color: var(--color-bg-card);
+    padding: 2rem 1.25rem;
+    text-align: center;
+  }
+
+  .empty-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .empty-description {
+    margin: 0.5rem 0 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
   }
 
   @media (max-width: 900px) {

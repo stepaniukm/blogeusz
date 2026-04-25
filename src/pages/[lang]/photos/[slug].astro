@@ -4,26 +4,33 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { formatDate } from '../../../lib/utils';
 import { useTranslations, dateLocales } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { locales } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
-  const photos = await getCollection('photos');
-  return locales.flatMap((lang) =>
-    photos.map((photo) => ({
-      params: { lang, slug: photo.id },
-      props: { photo },
-    }))
-  );
+  const photos = await getCollection('photos', ({ data }) => data.public);
+  return photos.map((photo) => ({
+    params: { lang: photo.data.lang, slug: photo.id },
+    props: { photo },
+  }));
 }
 
 const { lang } = Astro.params;
+const { slug } = Astro.params;
 const { photo } = Astro.props;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPhotos = (await getCollection('photos')).sort(
+if (!photo || photo.id !== slug || photo.data.lang !== lang || !photo.data.public) {
+  return Astro.rewrite('/404');
+}
+
+const allPhotos = (await getCollection('photos', ({ data }) => data.public)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const idx = allPhotos.findIndex((p) => p.id === photo.id);
+
+if (idx === -1) {
+  return Astro.rewrite('/404');
+}
+
 const prev = allPhotos[idx + 1];
 const next = allPhotos[idx - 1];
 ---
@@ -48,7 +55,11 @@ const next = allPhotos[idx - 1];
 
         {
           prev && (
-            <a href={getRelativeLocaleUrl(lang, `photos/${prev.id}`)} class="photo-nav photo-nav-prev" aria-label={t('photos.prev')}>
+            <a
+              href={getRelativeLocaleUrl(lang, `photos/${prev.id}`)}
+              class="photo-nav photo-nav-prev"
+              aria-label={t('photos.prev')}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -65,7 +76,11 @@ const next = allPhotos[idx - 1];
         }
         {
           next && (
-            <a href={getRelativeLocaleUrl(lang, `photos/${next.id}`)} class="photo-nav photo-nav-next" aria-label={t('photos.next')}>
+            <a
+              href={getRelativeLocaleUrl(lang, `photos/${next.id}`)}
+              class="photo-nav photo-nav-next"
+              aria-label={t('photos.next')}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -85,7 +100,9 @@ const next = allPhotos[idx - 1];
       <aside class="photo-meta">
         <span class="photo-category">{photo.data.category}</span>
         <h1 class="photo-title">{photo.data.title}</h1>
-        <time class="photo-date">{formatDate(photo.data.publishedAt, dateLocales[lang as 'pl' | 'en'])}</time>
+        <time class="photo-date"
+          >{formatDate(photo.data.publishedAt, dateLocales[lang as 'pl' | 'en'])}</time
+        >
 
         {
           photo.data.location && (

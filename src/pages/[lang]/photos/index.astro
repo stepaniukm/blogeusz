@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const allPhotos = await getCollection('photos');
+const allPhotos = await getCollection('photos', ({ data }) => data.public && data.lang === lang);
 const photos = allPhotos.toSorted(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
@@ -72,7 +72,23 @@ const photosPageUrl = getRelativeLocaleUrl(lang, 'photos');
       }
     </div>
 
-    {filtered.length === 0 && <p class="empty">{t('photos.empty')}</p>}
+    {
+      filtered.length === 0 && (
+        <div class="empty-state">
+          <h2 class="empty-title">
+            {activeCategory ? t('photos.empty.filtered.title') : t('photos.empty.title')}
+          </h2>
+          <p class="empty-text">
+            {activeCategory ? t('photos.empty.filtered.text') : t('photos.empty.text')}
+          </p>
+          {activeCategory && (
+            <a href={photosPageUrl} class="empty-action">
+              {t('photos.empty.filtered.action')}
+            </a>
+          )}
+        </div>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -146,10 +162,43 @@ const photosPageUrl = getRelativeLocaleUrl(lang, 'photos');
     margin-bottom: 1rem;
   }
 
-  .empty {
+  .empty-state {
     text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-card);
+    background-color: var(--color-bg-card);
+  }
+
+  .empty-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+
+  .empty-text {
+    margin: 0;
     color: var(--color-text-muted);
-    padding: 3rem 0;
+  }
+
+  .empty-action {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-tag);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
+  }
+
+  .empty-action:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
   @media (max-width: 900px) {
