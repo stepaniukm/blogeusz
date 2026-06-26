@@ -6,10 +6,7 @@ import { useTranslations, dateLocales } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
-  const items = await getCollection(
-    'til',
-    ({ data }) => !data.draft && data.public && data.type === 'note'
-  );
+  const items = await getCollection('til', ({ data }) => (data.public || data.draft) && data.type === 'note');
   return items.map((item) => ({
     params: { lang: item.data.lang, slug: item.id },
     props: { item },
@@ -19,14 +16,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const { item } = Astro.props;
 
-if (
-  !item ||
-  item.id !== Astro.params.slug ||
-  item.data.lang !== lang ||
-  item.data.type !== 'note' ||
-  item.data.draft ||
-  !item.data.public
-) {
+if (!item || item.id !== Astro.params.slug || item.data.lang !== lang || item.data.type !== 'note' || (!item.data.public && !item.data.draft)) {
   return Astro.rewrite('/404');
 }
 

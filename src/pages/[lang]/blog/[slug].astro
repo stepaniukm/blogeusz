@@ -12,7 +12,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Giscus from '@giscus/vue';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft && data.public);
+  const posts = await getCollection('blog', ({ data }) => data.public || data.draft);
   return posts.map((post) => ({
     params: { lang: post.data.lang, slug: post.id },
     props: { post },
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 const { lang, slug } = Astro.params;
 const { post } = Astro.props;
 
-if (!post || post.id !== slug || post.data.lang !== lang || post.data.draft || !post.data.public) {
+if (!post || post.id !== slug || post.data.lang !== lang || (!post.data.public && !post.data.draft)) {
   return Astro.rewrite('/404');
 }
 
@@ -35,8 +35,8 @@ const allPosts = (
 ).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const idx = allPosts.findIndex((p) => p.id === post.id);
-const prev = allPosts[idx + 1];
-const next = allPosts[idx - 1];
+const prev = idx !== -1 ? allPosts[idx + 1] : null;
+const next = idx !== -1 ? allPosts[idx - 1] : null;
 ---
 
 <BaseLayout
