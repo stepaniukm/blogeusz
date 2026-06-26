@@ -9,6 +9,7 @@ import PopularPosts from '../../../components/PopularPosts.astro';
 import { getReadingTime, formatDate } from '../../../lib/utils';
 import { useTranslations, dateLocales } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import Giscus from '@giscus/vue';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft && data.public);
@@ -188,6 +189,22 @@ const next = allPosts[idx - 1];
         </nav>
 
         <PopularPosts currentSlug={post.id} />
+
+        <Giscus
+          repo="stepaniukm/blogeusz"
+          repo-id="R_kgDORrtcwQ"
+          category="Announcements"
+          category-id="DIC_kwDORrtcwc4C-mIu"
+          mapping="pathname"
+          strict="1"
+          reactions-enabled="1"
+          emit-metadata="1"
+          input-position="top"
+          theme="catppuccin_macchiato"
+          lang="pl"
+          loading="lazy"
+          corss-origin="anonymous"
+        />
       </div>
     </article>
 

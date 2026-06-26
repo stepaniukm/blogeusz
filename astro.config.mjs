@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import vue from '@astrojs/vue';
+import { unified } from '@astrojs/markdown-remark';
 
 export default defineConfig({
   site: 'https://blogeusz.pl',
@@ -18,11 +19,17 @@ export default defineConfig({
   },
   integrations: [
     mdx({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
+      processor: unified({
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      }),
     }),
     sitemap(),
-    vue(),
+    vue({
+      template: {
+        compilerOptions: { isCustomElement: (tag) => tag.includes('-') },
+      },
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

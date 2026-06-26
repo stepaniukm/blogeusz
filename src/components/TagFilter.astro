@@ -20,7 +20,7 @@ const homeUrl = getRelativeLocaleUrl(locale, '');
   {
     tags.map((tag) => (
       <a
-        href={`${baseTagUrl}/${tag.toLowerCase()}`}
+        href={`${baseTagUrl}${tag.toLowerCase()}`}
         class:list={[
           'tag-chip',
           activeTag?.toLowerCase() === tag.toLowerCase() && 'tag-chip-active',

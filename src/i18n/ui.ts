@@ -16,7 +16,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.heading.photos': 'Fotografia',
     'home.title': 'Blog o programowaniu i fotografii',
     'home.description':
-      'Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i piękne zdjęcia. Zapraszam :)',
+      'Blog o programowaniu i fotografii. Znajdziesz tu dużo wiedzy o różnych frameworkach jak i piękne zdjęcia.',
     'home.til.heading': 'Ostatnie TIL',
     'home.til.more': 'Zobacz wszystkie →',
     'blog.title': 'Dev Blog',
