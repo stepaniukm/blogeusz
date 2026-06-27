@@ -34,6 +34,7 @@ const year = new Date().getFullYear();
         <img src="/logo-light.svg" alt="blogeusz" width="120" height="24" class="logo-light" />
       </a>
       <p class="copyright">&copy; {year} Mateusz Stepaniuk</p>
+      <a href={getRelativeLocaleUrl(locale, 'o-mnie')} class="footer-link">{t('nav.about')}</a>
     </div>
 
     <div class="footer-links">

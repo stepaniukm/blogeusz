@@ -34,7 +34,7 @@ function onTouchEnd(e: TouchEvent) {
       <div v-for="(src, i) in images" :key="i" class="carousel-slide">
         <img
           :src="src"
-          :alt="`${title} — zdjęcie ${i + 1}`"
+          :alt="`${title} - zdjęcie ${i + 1}`"
           :loading="i === 0 ? 'eager' : 'lazy'"
           decoding="async"
         />
@@ -42,13 +42,37 @@ function onTouchEnd(e: TouchEvent) {
     </div>
 
     <template v-if="images.length > 1">
-      <button class="carousel-btn carousel-btn-prev" aria-label="Poprzednie zdjęcie" @click="goTo(current - 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button
+        class="carousel-btn carousel-btn-prev"
+        aria-label="Poprzednie zdjęcie"
+        @click="goTo(current - 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="m15 18-6-6 6-6" />
         </svg>
       </button>
-      <button class="carousel-btn carousel-btn-next" aria-label="Następne zdjęcie" @click="goTo(current + 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button
+        class="carousel-btn carousel-btn-next"
+        aria-label="Następne zdjęcie"
+        @click="goTo(current + 1)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="m9 18 6-6-6-6" />
         </svg>
       </button>

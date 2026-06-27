@@ -26,13 +26,13 @@ wrangler r2 bucket list
 
 ## 2. Enable Public Access (R2.dev or Custom Domain)
 
-### Option A — Quick (r2.dev subdomain)
+### Option A - Quick (r2.dev subdomain)
 
 1. Go to **Cloudflare Dashboard → R2 → blogeusz-images → Settings**
 2. Under **Public access**, enable "Allow public access"
 3. You'll get a URL like: `https://pub-xxxxxxxx.r2.dev`
 
-### Option B — Custom Domain (Recommended)
+### Option B - Custom Domain (Recommended)
 
 1. In **R2 bucket settings**, click **Custom Domains → Connect Domain**
 2. Enter: `images.blogeusz.pl` (must be a zone on your Cloudflare account)

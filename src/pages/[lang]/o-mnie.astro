@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslations } from '../../i18n/utils';
+import { locales } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as 'pl' | 'en');
+---
+
+<BaseLayout title={t('about.title')} description={t('about.subtitle')}>
+  <div class="wrapper">
+    <h1 class="page-title">{t('about.title')}</h1>
+    <p class="subtitle">{t('about.subtitle')}</p>
+
+    <div class="prose">
+      <p>
+        Cześć! Mam na imię Mateusz, w chwili pisania tych słów mam 25 lat i już kilka z nich
+        przepracowanych jako Full Stack Developer. Od grudnia 2024 pracuję w startupie Wycieczkomat,
+        który zajmuje się organizacją wycieczek grupowych, głównie dla młodzieży, choć nie tylko.
+        Tworzę tam wewnętrzne oprogramowanie wspomagające proces wycieczkowy w całym jego cyklu
+        życia.
+      </p>
+
+      <p>
+        Pracuję w małym, dwuosobowym zespole. Drugi jego członek jest jednocześnie CTO oraz Frontend
+        Developerem projektu. Moje główne odpowiedzialności to proponowanie architektury,
+        analizowanie wymagań i - oczywiście - implementowanie backendu. Kiedy dołączałem do firmy,
+        wszystko, co mieliśmy, to trochę wiedzy zebranej przez CTO, jego system automatyzacji w Make
+        oraz arkusze kalkulacyjne Google z kilkoma zewnętrznymi integracjami. Od tego momentu udało
+        nam się zamodelować, zbudować, wdrożyć i przetestować w boju pierwszą wersję nowej
+        aplikacji, pokrywającą już znaczny kawałek całego procesu.
+      </p>
+
+      <p>
+        Uczę się tu w niemal idealnym do tego środowisku. Dlaczego jest ono tak dobre? Deadline'ów
+        praktycznie nie mamy (to nie do końca prawda, ale presja czasu na pierwsze działające
+        funkcjonalności była relatywnie mała i nadal nie rośnie), błędy są stosunkowo mało
+        kosztowne, a oprogramowanie piszemy niemal od zera. Idealne warunki do nauki,
+        eksperymentowania i wyciągania wniosków z własnej głupoty.
+      </p>
+
+      <p>
+        Zanim zacząłem pracę nad aplikacją, brałem udział w <a
+          href="https://bottega.com.pl/szkolenie-ddd-in-in-practice-modelowanie-agregatow"
+          >szkoleniu Kuby Pilimona o tych mitycznych Agregatach oraz w <a
+            href="https://domaindrivers.pl/">kursach Devstyle</a
+          >,
+        </a>, <a href="https://www.youtube.com/playlist?list=PLlpgO2wWvQHbjhRyqyaZoZO0U-93aw9RM"
+          >trochę pooglądałem Sobótki na YouTube</a
+        > przeczytałem od deski do deski <a
+          href="https://helion.pl/ksiazki/domain-driven-design-zapanuj-nad-zlozonym-systemem-informatycznym-eric-evans,dddzap.htm#format/d"
+          >Niebieską</a
+        >
+        oraz <a
+          href="https://helion.pl/ksiazki/ddd-dla-architektow-oprogramowania-vaughn-vernon,dddarv.htm#format/d"
+          >Czerwoną Książkę</a
+        >. Na słuchawkach i w aucie leciał niezawodny <a href="https://bettersoftwaredesign.pl/"
+          >Mariusz Gil</a
+        >, a <a href="https://event-driven.io/pl/">Oskara Dudycza</a> i jego Event Sourcing znam prawie
+        na pamięć. Taki był mój obraz przed rozpoczęciem pracy nad aplikacją - jak widzicie, ambicje były
+        duże, bagaż teorii i marzeń również niemały, za to praktyki tyle co kot napłakał.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .page-title {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .subtitle {
+    margin: 0 0 2rem;
+    color: var(--color-text-muted);
+  }
+</style>
