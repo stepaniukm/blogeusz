@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const locale = getLangFromUrl(Astro.url);

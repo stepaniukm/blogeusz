@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { renderPostOgImage } from '../../../../lib/og';
+import { renderPostOgImage } from '@lib/og';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.public || data.draft);

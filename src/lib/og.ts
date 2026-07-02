@@ -30,7 +30,7 @@ interface PostOgImageInput {
   locale: string;
 }
 
-export async function renderPostOgImage(input: PostOgImageInput): Promise<Uint8Array> {
+export async function renderPostOgImage(input: PostOgImageInput): Promise<Uint8Array<ArrayBuffer>> {
   const dateLocale = input.locale === 'en' ? 'en-US' : 'pl-PL';
 
   const element = {
@@ -157,5 +157,5 @@ export async function renderPostOgImage(input: PostOgImageInput): Promise<Uint8A
   };
 
   const svg = await satori(element, { width: 1200, height: 630, fonts });
-  return new Resvg(svg).render().asPng();
+  return new Uint8Array(new Resvg(svg).render().asPng());
 }

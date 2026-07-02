@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { useTranslations } from '../../i18n/utils';
-import { locales } from '../../i18n/ui';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations } from '@i18n/utils';
+import { locales } from '@i18n/ui';
 
 export async function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));

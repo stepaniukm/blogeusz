@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { collectTags } from '../lib/utils';
+import { collectTags } from '@lib/utils';
 
 const locale = getLangFromUrl(Astro.url);
 const t = useTranslations(locale);

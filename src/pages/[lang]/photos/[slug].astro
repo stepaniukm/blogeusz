@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { formatDate } from '../../../lib/utils';
-import { useTranslations, dateLocales } from '../../../i18n/utils';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { formatDate } from '@lib/utils';
+import { useTranslations, dateLocales } from '@i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {

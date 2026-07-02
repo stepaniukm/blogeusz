@@ -1,13 +1,13 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import ImageCarousel from '../../../components/ImageCarousel.vue';
-import TableOfContents from '../../../components/TableOfContents.vue';
-import BookmarkToggle from '../../../components/BookmarkToggle.vue';
-import ReadingProgress from '../../../components/ReadingProgress.vue';
-import PopularPosts from '../../../components/PopularPosts.astro';
-import { getReadingTime, formatDate } from '../../../lib/utils';
-import { useTranslations, dateLocales } from '../../../i18n/utils';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ImageCarousel from '@components/ImageCarousel.vue';
+import TableOfContents from '@components/TableOfContents.vue';
+import BookmarkToggle from '@components/BookmarkToggle.vue';
+import ReadingProgress from '@components/ReadingProgress.vue';
+import PopularPosts from '@components/PopularPosts.astro';
+import { getReadingTime, formatDate } from '@lib/utils';
+import { useTranslations, dateLocales } from '@i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Giscus from '@giscus/vue';
 
