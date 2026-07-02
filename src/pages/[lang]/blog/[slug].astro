@@ -51,7 +51,7 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
   type="article"
   publishedAt={post.data.publishedAt}
 >
-  <ReadingProgress client:load />
+  <ReadingProgress client:load label={t('post.reading.progress')} />
 
   <div class="post-wrapper">
     <aside class="sidebar-left">

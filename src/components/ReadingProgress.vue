@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 
+withDefaults(defineProps<{ label?: string }>(), {
+  label: 'Reading progress',
+});
+
 const progress = ref(0);
 
 function update() {
@@ -24,6 +28,7 @@ onUnmounted(() => {
   <div
     class="progress-bar"
     role="progressbar"
+    :aria-label="label"
     :aria-valuenow="Math.round(progress)"
     :aria-valuemin="0"
     :aria-valuemax="100"
