@@ -1,0 +1,108 @@
+---
+interface Props {
+  summary: string;
+  defaultOpen?: boolean;
+  expandLabel?: string;
+  collapseLabel?: string;
+}
+
+const {
+  summary,
+  defaultOpen = false,
+  expandLabel = 'Rozwiń',
+  collapseLabel = 'Zwiń',
+} = Astro.props;
+---
+
+<div class="collapsible">
+  <p class="collapsible-summary-text">{summary}</p>
+  <details class="collapsible-details" open={defaultOpen}>
+    <summary class="collapsible-toggle">
+      <svg
+        class="collapsible-chevron"
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+      <span class="collapsible-toggle-expand">{expandLabel}</span>
+      <span class="collapsible-toggle-collapse">{collapseLabel}</span>
+    </summary>
+    <div class="collapsible-content">
+      <slot />
+    </div>
+  </details>
+</div>
+
+<style>
+  .collapsible {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-bg-card);
+  }
+
+  .collapsible-summary-text {
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .collapsible-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.75rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    transition: color 0.15s;
+  }
+
+  .collapsible-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .collapsible-toggle:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+  }
+
+  .collapsible-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .collapsible-details[open] .collapsible-chevron {
+    transform: rotate(90deg);
+  }
+
+  .collapsible-toggle-collapse {
+    display: none;
+  }
+
+  .collapsible-details[open] .collapsible-toggle-expand {
+    display: none;
+  }
+
+  .collapsible-details[open] .collapsible-toggle-collapse {
+    display: inline;
+  }
+
+  .collapsible-content > :global(:first-child) {
+    margin-top: 1rem;
+  }
+
+  .collapsible-content > :global(:last-child) {
+    margin-bottom: 0;
+  }
+</style>

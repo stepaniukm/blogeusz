@@ -22,7 +22,12 @@ export async function getStaticPaths() {
 const { lang, slug } = Astro.params;
 const { post } = Astro.props;
 
-if (!post || post.id !== slug || post.data.lang !== lang || (!post.data.public && !post.data.draft)) {
+if (
+  !post ||
+  post.id !== slug ||
+  post.data.lang !== lang ||
+  (!post.data.public && !post.data.draft)
+) {
   return Astro.rewrite('/404');
 }
 
@@ -42,7 +47,7 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.coverImage}
+  image={`/${lang}/blog/${post.id}/og.png`}
   type="article"
   publishedAt={post.data.publishedAt}
 >
@@ -191,6 +196,7 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
         <PopularPosts currentSlug={post.id} />
 
         <Giscus
+          client:only="vue"
           repo="stepaniukm/blogeusz"
           repo-id="R_kgDORrtcwQ"
           category="Announcements"
@@ -201,9 +207,8 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
           emit-metadata="1"
           input-position="top"
           theme="catppuccin_macchiato"
-          lang="pl"
+          lang={lang}
           loading="lazy"
-          corss-origin="anonymous"
         />
       </div>
     </article>
@@ -213,6 +218,36 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
     </aside>
   </div>
 </BaseLayout>
+
+<script>
+  const giscusThemes = { dark: 'catppuccin_macchiato', light: 'catppuccin_latte' };
+
+  function currentGiscusTheme() {
+    const siteTheme =
+      document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    return giscusThemes[siteTheme];
+  }
+
+  function syncGiscusTheme() {
+    document
+      .querySelectorAll('giscus-widget')
+      .forEach((widget) => widget.setAttribute('theme', currentGiscusTheme()));
+  }
+
+  new MutationObserver(syncGiscusTheme).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+
+  new MutationObserver((_, observer) => {
+    if (document.querySelector('giscus-widget')) {
+      syncGiscusTheme();
+      observer.disconnect();
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+
+  syncGiscusTheme();
+</script>
 
 <style>
   .post-wrapper {

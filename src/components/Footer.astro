@@ -1,27 +1,30 @@
 ---
+import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { collectTags } from '../lib/utils';
 
 const locale = getLangFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const devLinks = [
-  { href: getRelativeLocaleUrl(locale, 'tags/html'), label: 'HTML' },
-  { href: getRelativeLocaleUrl(locale, 'tags/css'), label: 'CSS' },
-  { href: getRelativeLocaleUrl(locale, 'tags/javascript'), label: 'JavaScript' },
-  { href: getRelativeLocaleUrl(locale, 'tags/react'), label: 'React' },
-  { href: getRelativeLocaleUrl(locale, 'tags/typescript'), label: 'TypeScript' },
-  { href: getRelativeLocaleUrl(locale, 'tags/vue'), label: 'Vue' },
-  { href: getRelativeLocaleUrl(locale, 'tags/svelte'), label: 'Svelte' },
-  { href: getRelativeLocaleUrl(locale, 'tags/graphql'), label: 'GraphQL' },
-];
+const [allPosts, allTil] = await Promise.all([
+  getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === locale),
+  getCollection('til', ({ data }) => !data.draft && data.public && data.lang === locale),
+]);
 
-const photoLinks = [
-  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=macro', label: 'Macro' },
-  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=portrait', label: 'Portrait' },
-  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=fashion', label: 'Fashion' },
-  { href: getRelativeLocaleUrl(locale, 'photos') + '?category=events', label: 'Events' },
-];
+const devLinks = collectTags([...allPosts, ...allTil]).map((tag) => ({
+  href: getRelativeLocaleUrl(locale, `tags/${tag.toLowerCase()}`),
+  label: tag,
+}));
+
+const allPhotos = await getCollection('photos', ({ data }) => data.public && data.lang === locale);
+
+const photoLinks = Array.from(new Set(allPhotos.map((p) => p.data.category)))
+  .sort()
+  .map((category) => ({
+    href: getRelativeLocaleUrl(locale, 'photos') + `?category=${category.toLowerCase()}`,
+    label: category,
+  }));
 
 const year = new Date().getFullYear();
 ---
@@ -38,35 +41,39 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="footer-links">
-      <div class="footer-col">
-        <h3 class="footer-heading">{t('footer.heading.dev')}</h3>
-        <ul class="footer-list">
-          {
-            devLinks.map(({ href, label }) => (
-              <li>
-                <a href={href} class="footer-link">
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      {
+        devLinks.length > 0 && (
+          <div class="footer-col">
+            <h3 class="footer-heading">{t('footer.heading.dev')}</h3>
+            <ul class="footer-list">
+              {devLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="footer-link">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
 
-      <div class="footer-col">
-        <h3 class="footer-heading">{t('footer.heading.photos')}</h3>
-        <ul class="footer-list">
-          {
-            photoLinks.map(({ href, label }) => (
-              <li>
-                <a href={href} class="footer-link">
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      {
+        photoLinks.length > 0 && (
+          <div class="footer-col">
+            <h3 class="footer-heading">{t('footer.heading.photos')}</h3>
+            <ul class="footer-list">
+              {photoLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="footer-link">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </div>
   </div>
 </footer>

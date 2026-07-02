@@ -1,22 +1,38 @@
 ---
 title: 'DDD okiem młodego mida po ponad roku nauki na produkcji'
 description: 'W artykule chciałbym przedstawić swoje spojrzenie na naukę DDD w praktyce, na produkcji, samo gęste.'
-publishedAt: 2026-07-01
-tags: ['DDD', 'TypeScript', 'Node.js']
+publishedAt: 2026-07-03
+tags: ['DDD']
 category: Dev
 coverImage: 'https://images.blogeusz.pl/cover/DDD-cover.jpg'
 featured: false
-public: false
-draft: true
+public: true
+draft: false
 ---
+
+import Collapsible from '../../components/Collapsible.astro';
 
 # Wstęp
 
 Cześć! Pora rozpocząć przygodę z blogowaniem. Zabierałem się za to wiele razy, ale nigdy nie miałem wystarczająco dużo samozaparcia, żeby popchnąć temat do końca, przełamać się i coś napisać. Zawsze blokowało mnie przekonanie, że nie mam nic sensownego do powiedzenia - to odbierało mi motywację. Teraz też [warunki nie są idealne](https://pawelgrzybek.com/fuck-thank-you/), ale może właśnie dlatego warto zacząć i w świecie pełnym slopu dołożyć cegiełkę do, mam nadzieję, jakościowych materiałów. Jeżeli chociaż jedna osoba uzna, że warto było to przeczytać, będę bardzo zadowolony. A zatem do dzieła!
 
-Zanim przejdę do treści właściwego artykułu - jeżeli chcesz poznać mój punkt widzenia i doświadczenie, na bazie których piszę, zajrzyj na stronę [o mnie](/pl/o-mnie). W skrócie: jestem młodym Full Stack Developerem, który od ponad roku uczy się DDD w praktyce, na produkcji, w niemal idealnym do tego środowisku. Czy z takiej mieszanki ambicji, teorii i znikomej praktyki może urodzić się coś sensownego? Odpowiedź znajdziesz w tym artykule.
-
 Ten konkretny wpis będzie bardziej opisowo-teoretyczno-bajkowy, ale w planach mam również bardziej techniczny follow-up, w którym zagłębimy się w dylematy związane z samym kodem. Forma pojedynczego artykułu nie może oczywiście aspirować do miana poradnika ani niczego podobnego - nie znajdziesz tu dokładnych opisów wszystkich terminów z DDD i okolic. Po zapoznanie się z nimi odsyłam na ten moment do innych źródeł, których w internecie jest całe mnóstwo. Starczy jednak przynudzania - zapraszam do lektury :)
+
+# Skąd piszę, czyli mój kontekst
+
+<Collapsible
+  summary="Żeby Cię nie zanudzać, to w skrócie jestem młodym Full Stack Developerem, który od ponad roku uczy się DDD w praktyce, na produkcji, w niemal idealnym do tego środowisku."
+  expandLabel="Rozwiń pełny kontekst"
+  collapseLabel="Zwiń kontekst"
+>
+
+Od grudnia 2024 pracuję jako Full Stack Developer w startupie Wycieczkomat, który zajmuje się organizacją wycieczek grupowych, głównie dla młodzieży. Pracuję w małym, dwuosobowym zespole - drugi jego członek jest jednocześnie CTO oraz Frontend Developerem projektu. Moje główne odpowiedzialności to proponowanie architektury, analizowanie wymagań oraz oczywiście implementowanie backendu. Kiedy dołączałem do firmy, wszystko, co mieliśmy, to sporo wiedzy zebranej przez CTO, jego system automatyzacji w Make oraz arkusze kalkulacyjne Google z kilkoma zewnętrznymi integracjami. Od tego momentu udało nam się zamodelować, zbudować, wdrożyć i przetestować w boju pierwszą wersję nowej aplikacji, pokrywającą już znaczny kawałek całego procesu.
+
+Uczę się tu w niemal idealnym do tego środowisku. Dlaczego jest ono tak dobre? Deadline'ów praktycznie nie mamy (to nie do końca prawda, ale presja czasu na pierwsze działające funkcjonalności była relatywnie mała i nadal nie rośnie), błędy są stosunkowo mało kosztowne, a oprogramowanie piszemy niemal od zera. Idealne warunki do nauki, eksperymentowania i wyciągania wniosków z własnej głupoty.
+
+Zanim zacząłem pracę nad aplikacją, brałem udział w [szkoleniu Kuby Pilimona o tych mitycznych Agregatach](https://bottega.com.pl/szkolenie-ddd-in-in-practice-modelowanie-agregatow) oraz w [kursach Devstyle](https://domaindrivers.pl/), [trochę pooglądałem Sobótki na YouTube](https://www.youtube.com/playlist?list=PLlpgO2wWvQHbjhRyqyaZoZO0U-93aw9RM), przeczytałem od deski do deski [Niebieską](https://helion.pl/ksiazki/domain-driven-design-zapanuj-nad-zlozonym-systemem-informatycznym-eric-evans,dddzap.htm#format/d) oraz [Czerwoną Książkę](https://helion.pl/ksiazki/ddd-dla-architektow-oprogramowania-vaughn-vernon,dddarv.htm#format/d). Na słuchawkach i w aucie leciał niezawodny [Mariusz Gil](https://bettersoftwaredesign.pl/), a [Oskara Dudycza](https://event-driven.io/pl/) i jego Event Sourcing znam prawie na pamięć. Taki był mój obraz przed rozpoczęciem pracy nad aplikacją - jak widzicie, ambicje były duże, bagaż teorii i marzeń również niemały, za to praktyki tyle co kot napłakał. Czy z takiej mieszanki może urodzić się coś sensownego? Odpowiedź znajdziesz poniżej.
+
+</Collapsible>
 
 # Zacznijmy od tego, że (raczej) nie potrzebujesz DDD...
 
