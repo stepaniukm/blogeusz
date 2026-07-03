@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
     title: post.data.title,
     pubDate: post.data.publishedAt,
     description: post.data.description,
-    link: `/blog/${post.id}/`,
+    link: `/${post.data.lang}/blog/${post.id}/`,
     categories: post.data.tags,
   }));
 
@@ -20,7 +20,10 @@ export async function GET(context: APIContext) {
     title: item.data.title,
     pubDate: item.data.publishedAt,
     description: item.data.annotation || item.data.title,
-    link: item.data.type === 'link' && item.data.url ? item.data.url : `/til/${item.id}/`,
+    link:
+      item.data.type === 'link' && item.data.url
+        ? item.data.url
+        : `/${item.data.lang}/til/${item.id}/`,
     categories: item.data.tags,
   }));
 
