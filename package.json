@@ -35,7 +35,7 @@
     "remark-math": "6.0.0",
     "typescript": "^6.0.3",
     "vue": "3.5.39",
-    "wrangler": "4.106.0"
+    "wrangler": "4.107.0"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.0",
