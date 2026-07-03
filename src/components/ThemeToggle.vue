@@ -24,8 +24,7 @@ function toggle() {
 <template>
   <button class="icon-btn" :aria-label="props.label" @click="toggle">
     <svg
-      v-show="theme === 'dark'"
-      class="icon-moon"
+      :class="['icon-moon', { 'is-hidden': theme !== 'dark' }]"
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
@@ -39,8 +38,7 @@ function toggle() {
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
     <svg
-      v-show="theme === 'light'"
-      class="icon-sun"
+      :class="['icon-sun', { 'is-hidden': theme !== 'light' }]"
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
@@ -77,5 +75,9 @@ function toggle() {
 .icon-btn:hover {
   color: var(--color-text);
   background-color: var(--color-tag-bg);
+}
+
+.is-hidden {
+  display: none;
 }
 </style>

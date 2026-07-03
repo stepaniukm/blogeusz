@@ -85,16 +85,7 @@ const alternateLinks = locales.map((lang) => ({
 
     <ClientRouter />
 
-    <script is:inline>
-      (function () {
-        function applyTheme() {
-          const theme = localStorage.getItem('theme') || 'dark';
-          document.documentElement.setAttribute('data-theme', theme);
-        }
-        applyTheme();
-        document.addEventListener('astro:after-swap', applyTheme);
-      })();
-    </script>
+    <script is:inline src="/theme.js"></script>
   </head>
   <body>
     <div class="side-pattern side-pattern-left" aria-hidden="true"></div>

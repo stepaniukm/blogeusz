@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{
   images: string[];
@@ -8,6 +8,11 @@ const props = defineProps<{
 
 const current = ref(0);
 const startX = ref(0);
+const track = ref<HTMLElement | null>(null);
+
+watch(current, (value) => {
+  if (track.value) track.value.style.transform = `translateX(-${value * 100}%)`;
+});
 
 function goTo(index: number) {
   current.value = ((index % props.images.length) + props.images.length) % props.images.length;
@@ -26,8 +31,8 @@ function onTouchEnd(e: TouchEvent) {
 <template>
   <div v-if="images.length > 0" class="carousel">
     <div
+      ref="track"
       class="carousel-track"
-      :style="{ transform: `translateX(-${current * 100}%)` }"
       @touchstart.passive="onTouchStart"
       @touchend="onTouchEnd"
     >

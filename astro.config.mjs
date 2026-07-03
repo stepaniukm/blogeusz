@@ -43,6 +43,9 @@ export default defineConfig({
       },
     ],
   },
+  build: {
+    inlineStylesheets: 'never',
+  },
   security: {
     csp: {
       directives: [
@@ -57,7 +60,7 @@ export default defineConfig({
         "upgrade-insecure-requests",
       ],
       styleDirective: {
-        resources: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        resources: ["'self'", "https://fonts.googleapis.com"],
       },
     },
   },
