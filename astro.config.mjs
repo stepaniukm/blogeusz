@@ -43,4 +43,22 @@ export default defineConfig({
       },
     ],
   },
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "object-src 'none'",
+        "img-src 'self' https://images.blogeusz.pl https://*.r2.dev",
+        "font-src 'self' https://fonts.gstatic.com data:",
+        "frame-src 'self' https://giscus.app",
+        "connect-src 'self'",
+        "upgrade-insecure-requests",
+      ],
+      styleDirective: {
+        resources: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      },
+    },
+  },
 });

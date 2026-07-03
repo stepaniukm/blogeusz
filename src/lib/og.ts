@@ -159,3 +159,119 @@ export async function renderPostOgImage(input: PostOgImageInput): Promise<Uint8A
   const svg = await satori(element, { width: 1200, height: 630, fonts });
   return new Uint8Array(new Resvg(svg).render().asPng());
 }
+
+interface SiteOgImageInput {
+  title: string;
+  subtitle?: string;
+  locale?: string;
+}
+
+export async function renderSiteOgImage(input: SiteOgImageInput): Promise<Uint8Array<ArrayBuffer>> {
+  const subtitle = input.subtitle ?? (input.locale === 'en' ? 'Blog about programming and photography' : 'Blog o programowaniu i fotografii');
+
+  const element = {
+    type: 'div',
+    props: {
+      style: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '60px 64px',
+        backgroundColor: colors.bg,
+        borderBottom: `12px solid ${colors.accent}`,
+        fontFamily: 'Inter',
+      },
+      children: [
+        {
+          type: 'div',
+          props: {
+            style: { display: 'flex', alignItems: 'center', gap: '14px' },
+            children: [
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '4px',
+                    backgroundColor: colors.accent,
+                  },
+                },
+              },
+              {
+                type: 'span',
+                props: {
+                  style: { fontSize: '34px', fontWeight: 700, color: colors.text },
+                  children: 'blogeusz',
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: 'div',
+          props: {
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '24px',
+            },
+            children: [
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                    fontSize: '88px',
+                    fontWeight: 700,
+                    lineHeight: 1.15,
+                    color: colors.text,
+                  },
+                  children: input.title,
+                },
+              },
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                    fontSize: '32px',
+                    fontWeight: 400,
+                    color: colors.muted,
+                  },
+                  children: subtitle,
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: 'div',
+          props: {
+            style: { display: 'flex' },
+            children: [
+              {
+                type: 'span',
+                props: {
+                  style: {
+                    fontSize: '26px',
+                    fontWeight: 700,
+                    color: colors.accent,
+                    textTransform: 'uppercase',
+                    letterSpacing: '3px',
+                  },
+                  children: input.locale === 'en' ? 'Code & Photography' : 'Kod i Fotografia',
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+
+  const svg = await satori(element, { width: 1200, height: 630, fonts });
+  return new Uint8Array(new Resvg(svg).render().asPng());
+}
