@@ -10,7 +10,6 @@ const t = useTranslations(locale);
 const navLinks = [
   { href: getRelativeLocaleUrl(locale, ''), label: t('nav.home') },
   { href: getRelativeLocaleUrl(locale, 'blog'), label: t('nav.blog') },
-  { href: getRelativeLocaleUrl(locale, 'til'), label: t('nav.til') },
   { href: getRelativeLocaleUrl(locale, 'photos'), label: t('nav.photos') },
   { href: getRelativeLocaleUrl(locale, 'o-mnie'), label: t('nav.about') },
 ];
@@ -32,7 +31,10 @@ const currentPath = Astro.url.pathname;
             href={href}
             class:list={[
               'nav-link',
-              { active: currentPath === href || (href !== `/${locale}/` && currentPath.startsWith(href)) },
+              {
+                active:
+                  currentPath === href || (href !== `/${locale}/` && currentPath.startsWith(href)),
+              },
             ]}
           >
             {label}
@@ -43,7 +45,11 @@ const currentPath = Astro.url.pathname;
 
     <div class="header-actions">
       <LangSwitcher />
-      <a href={getRelativeLocaleUrl(locale, 'bookmarks')} class="icon-btn" aria-label={t('nav.bookmarks.label')}>
+      <a
+        href={getRelativeLocaleUrl(locale, 'bookmarks')}
+        class="icon-btn"
+        aria-label={t('nav.bookmarks.label')}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

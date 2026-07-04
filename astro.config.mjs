@@ -9,6 +9,9 @@ import { unified } from '@astrojs/markdown-remark';
 
 export default defineConfig({
   site: 'https://blogeusz.pl',
+  server: {
+    host: '0.0.0.0',
+  },
   output: 'static',
   i18n: {
     locales: ['pl', 'en'],
@@ -57,13 +60,18 @@ export default defineConfig({
         "font-src 'self' https://fonts.gstatic.com data:",
         "frame-src 'self' https://giscus.app",
         "connect-src 'self' https://cloudflareinsights.com https://*.goatcounter.com",
-        "upgrade-insecure-requests",
+        'upgrade-insecure-requests',
       ],
       scriptDirective: {
-        resources: ["'self'", "data:", "https://static.cloudflareinsights.com", "https://gc.zgo.at"],
+        resources: [
+          "'self'",
+          'data:',
+          'https://static.cloudflareinsights.com',
+          'https://gc.zgo.at',
+        ],
       },
       styleDirective: {
-        resources: ["'self'", "https://fonts.googleapis.com"],
+        resources: ["'self'", 'https://fonts.googleapis.com'],
       },
     },
   },

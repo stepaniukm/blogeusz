@@ -4,28 +4,30 @@ import { ref, onMounted } from 'vue';
 const props = defineProps<{
   slug: string;
   collection: string;
+  lang: string;
   addLabel?: string;
   removeLabel?: string;
 }>();
 
-const key = `${props.collection}:${props.slug}`;
+const key = `${props.collection}:${props.lang}:${props.slug}`;
+const legacyKey = `${props.collection}:${props.slug}`;
 const saved = ref(false);
 
 onMounted(() => {
   const bookmarks: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-  saved.value = bookmarks.includes(key);
+  saved.value = bookmarks.includes(key) || bookmarks.includes(legacyKey);
 });
 
 function toggle() {
   const current: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-  const idx = current.indexOf(key);
-  if (idx >= 0) {
-    current.splice(idx, 1);
+  const next = current.filter((k) => k !== key && k !== legacyKey);
+  if (next.length === current.length) {
+    next.push(key);
+    saved.value = true;
   } else {
-    current.push(key);
+    saved.value = false;
   }
-  localStorage.setItem('bookmarks', JSON.stringify(current));
-  saved.value = !saved.value;
+  localStorage.setItem('bookmarks', JSON.stringify(next));
 }
 </script>
 

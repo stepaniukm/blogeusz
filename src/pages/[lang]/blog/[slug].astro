@@ -72,6 +72,7 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
         <BookmarkToggle
           slug={post.id}
           collection="blog"
+          lang={lang}
           addLabel={t('bookmark.add')}
           removeLabel={t('bookmark.remove')}
           client:load
@@ -269,6 +270,10 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
     top: 80px;
   }
 
+  .sidebar-right {
+    align-self: stretch;
+  }
+
   .sidebar-actions {
     display: flex;
     flex-direction: column;
@@ -353,6 +358,7 @@ const next = idx !== -1 ? allPosts[idx - 1] : null;
     margin-top: 2rem;
   }
 
+  .prose :global(h1),
   .prose :global(h2),
   .prose :global(h3) {
     color: var(--color-text);

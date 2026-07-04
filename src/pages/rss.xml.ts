@@ -3,33 +3,17 @@ import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-  const [blogs, tils] = await Promise.all([
-    getCollection('blog', ({ data }) => !data.draft && data.public),
-    getCollection('til', ({ data }) => !data.draft && data.public),
-  ]);
+  const blogs = await getCollection('blog', ({ data }) => !data.draft && data.public);
 
-  const blogItems = blogs.map((post) => ({
-    title: post.data.title,
-    pubDate: post.data.publishedAt,
-    description: post.data.description,
-    link: `/${post.data.lang}/blog/${post.id}/`,
-    categories: post.data.tags,
-  }));
-
-  const tilItems = tils.map((item) => ({
-    title: item.data.title,
-    pubDate: item.data.publishedAt,
-    description: item.data.annotation || item.data.title,
-    link:
-      item.data.type === 'link' && item.data.url
-        ? item.data.url
-        : `/${item.data.lang}/til/${item.id}/`,
-    categories: item.data.tags,
-  }));
-
-  const items = [...blogItems, ...tilItems].toSorted(
-    (a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()
-  );
+  const items = blogs
+    .map((post) => ({
+      title: post.data.title,
+      pubDate: post.data.publishedAt,
+      description: post.data.description,
+      link: `/${post.data.lang}/blog/${post.id}/`,
+      categories: post.data.tags,
+    }))
+    .toSorted((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 
   return rss({
     title: 'blogeusz',

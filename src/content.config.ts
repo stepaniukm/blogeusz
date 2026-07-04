@@ -20,21 +20,6 @@ const blog = defineCollection({
   }),
 });
 
-const til = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/til' }),
-  schema: z.object({
-    title: z.string(),
-    publishedAt: z.coerce.date(),
-    type: z.enum(['note', 'link']).default('note'),
-    url: z.url().optional(),
-    annotation: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-    public: z.boolean().default(true),
-    lang: z.string().default('pl'),
-  }),
-});
-
 const photos = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/photos' }),
   schema: z.object({
@@ -54,4 +39,4 @@ const photos = defineCollection({
   }),
 });
 
-export const collections = { blog, til, photos };
+export const collections = { blog, photos };

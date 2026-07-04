@@ -7,20 +7,31 @@ const props = withDefaults(
     emptyText?: string;
     emptyHint?: string;
     removeLabel?: string;
+    defaultLang?: string;
   }>(),
   {
     loadingText: 'Loading...',
     emptyText: 'You have no bookmarks yet.',
     emptyHint: 'Click the bookmark icon on any article to save it.',
     removeLabel: 'Remove bookmark',
-  },
+    defaultLang: 'pl',
+  }
 );
+
+function parse(key: string) {
+  const parts = key.split(':');
+  if (parts.length >= 3) {
+    return { collection: parts[0], lang: parts[1], slug: parts.slice(2).join(':') };
+  }
+  return { collection: parts[0], lang: props.defaultLang, slug: parts.slice(1).join(':') };
+}
 
 const bookmarks = ref<string[]>([]);
 const loading = ref(true);
 
 onMounted(() => {
-  bookmarks.value = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+  const stored: string[] = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+  bookmarks.value = stored.filter((key) => key.startsWith('blog:'));
   loading.value = false;
 });
 
@@ -30,16 +41,16 @@ function remove(key: string) {
 }
 
 function href(key: string) {
-  const [collection, slug] = key.split(':');
-  return collection === 'blog' ? `/blog/${slug}` : `/til/${slug}`;
+  const { lang, slug } = parse(key);
+  return `/${lang}/blog/${slug}`;
 }
 
 function label(key: string) {
-  return key.split(':')[1].replace(/-/g, ' ');
+  return parse(key).slug.replace(/-/g, ' ');
 }
 
 function collection(key: string) {
-  return key.split(':')[0].toUpperCase();
+  return parse(key).collection.toUpperCase();
 }
 </script>
 

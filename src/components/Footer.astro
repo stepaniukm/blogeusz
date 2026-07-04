@@ -7,12 +7,12 @@ import { collectTags } from '@lib/utils';
 const locale = getLangFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const [allPosts, allTil] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === locale),
-  getCollection('til', ({ data }) => !data.draft && data.public && data.lang === locale),
-]);
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => !data.draft && data.public && data.lang === locale
+);
 
-const devLinks = collectTags([...allPosts, ...allTil]).map((tag) => ({
+const devLinks = collectTags(allPosts).map((tag) => ({
   href: getRelativeLocaleUrl(locale, `tags/${tag.toLowerCase()}`),
   label: tag,
 }));

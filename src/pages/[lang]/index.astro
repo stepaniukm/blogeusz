@@ -4,10 +4,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import CategoryTabs from '@components/CategoryTabs.astro';
 import TagFilter from '@components/TagFilter.astro';
 import PostCard from '@components/PostCard.astro';
-import TilCard from '@components/TilCard.astro';
 import { collectTags, getReadingTime } from '@lib/utils';
 import { useTranslations } from '@i18n/utils';
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import { locales } from '@i18n/ui';
 
 export async function getStaticPaths() {
@@ -19,10 +17,6 @@ const t = useTranslations(lang as 'pl' | 'en');
 
 const allPosts = await getCollection(
   'blog',
-  ({ data }) => !data.draft && data.public && data.lang === lang
-);
-const allTil = await getCollection(
-  'til',
   ({ data }) => !data.draft && data.public && data.lang === lang
 );
 
@@ -83,35 +77,6 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
         </div>
       )
     }
-
-    {
-      allTil.length > 0 && (
-        <section class="til-section">
-          <div class="section-header">
-            <h2 class="section-title">{t('home.til.heading')}</h2>
-            <a href={getRelativeLocaleUrl(lang, 'til')} class="section-more">
-              {t('home.til.more')}
-            </a>
-          </div>
-          <div class="grid-til">
-            {allTil
-              .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-              .slice(0, 3)
-              .map((item) => (
-                <TilCard
-                  slug={item.id}
-                  title={item.data.title}
-                  publishedAt={item.data.publishedAt}
-                  type={item.data.type}
-                  url={item.data.url}
-                  annotation={item.data.annotation}
-                  tags={item.data.tags}
-                />
-              ))}
-          </div>
-        </section>
-      )
-    }
   </div>
 </BaseLayout>
 
@@ -157,46 +122,8 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
     gap: 1.25rem;
   }
 
-  .til-section {
-    margin-top: 3rem;
-  }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 1rem;
-  }
-
-  .section-title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--color-text);
-  }
-
-  .section-more {
-    font-size: 0.875rem;
-    color: var(--color-accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .section-more:hover {
-    text-decoration: underline;
-  }
-
-  .grid-til {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
   @media (max-width: 900px) {
     .grid-posts {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .grid-til {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -206,9 +133,6 @@ const rest = posts.filter((p) => !p.data.featured).slice(0, 9);
       grid-template-columns: 1fr;
     }
     .grid-posts {
-      grid-template-columns: 1fr;
-    }
-    .grid-til {
       grid-template-columns: 1fr;
     }
     .hero-description {

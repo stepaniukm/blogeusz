@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostCard from '@components/PostCard.astro';
-import TilCard from '@components/TilCard.astro';
 import TagFilter from '@components/TagFilter.astro';
 import { collectTags, getReadingTime } from '@lib/utils';
 import { useTranslations } from '@i18n/utils';
@@ -12,15 +11,12 @@ export async function getStaticPaths() {
   const paths = [];
 
   for (const lang of locales) {
-    const [allPosts, allTil] = await Promise.all([
-      getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === lang),
-      getCollection('til', ({ data }) => !data.draft && data.public && data.lang === lang),
-    ]);
+    const allPosts = await getCollection(
+      'blog',
+      ({ data }) => !data.draft && data.public && data.lang === lang
+    );
 
-    const allTags = new Set([
-      ...allPosts.flatMap((p) => p.data.tags),
-      ...allTil.flatMap((p) => p.data.tags),
-    ]);
+    const allTags = new Set(allPosts.flatMap((p) => p.data.tags));
 
     for (const tag of allTags) {
       paths.push({
@@ -37,20 +33,16 @@ const { lang } = Astro.params;
 const { tag: tagProp } = Astro.props;
 const t = useTranslations(lang as 'pl' | 'en');
 
-const [allPosts, allTil] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft && data.public && data.lang === lang),
-  getCollection('til', ({ data }) => !data.draft && data.public && data.lang === lang),
-]);
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => !data.draft && data.public && data.lang === lang
+);
 
 const matchingPosts = allPosts
   .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tagProp.toLowerCase()))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
-const matchingTil = allTil
-  .filter((p) => p.data.tags.some((t) => t.toLowerCase() === tagProp.toLowerCase()))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
-
-const allTags = collectTags([...allPosts, ...allTil]);
+const allTags = collectTags(allPosts);
 ---
 
 <BaseLayout title={`Tag: ${tagProp}`} description={`${tagProp}`}>
@@ -82,34 +74,7 @@ const allTags = collectTags([...allPosts, ...allTil]);
       )
     }
 
-    {
-      matchingTil.length > 0 && (
-        <section class="til-section">
-          <h2 class="section-title">
-            {t('tags.til.count').replace('{count}', String(matchingTil.length))}
-          </h2>
-          <div class="grid">
-            {matchingTil.map((item) => (
-              <TilCard
-                slug={item.id}
-                title={item.data.title}
-                publishedAt={item.data.publishedAt}
-                type={item.data.type}
-                url={item.data.url}
-                annotation={item.data.annotation}
-                tags={item.data.tags}
-              />
-            ))}
-          </div>
-        </section>
-      )
-    }
-
-    {
-      matchingPosts.length === 0 && matchingTil.length === 0 && (
-        <p class="empty">{t('tags.empty')}</p>
-      )
-    }
+    {matchingPosts.length === 0 && <p class="empty">{t('tags.empty')}</p>}
   </div>
 </BaseLayout>
 
@@ -134,10 +99,6 @@ const allTags = collectTags([...allPosts, ...allTil]);
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-  }
-
-  .til-section {
-    margin-top: 2.5rem;
   }
 
   .grid {
