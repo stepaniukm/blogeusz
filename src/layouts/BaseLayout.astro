@@ -14,12 +14,7 @@ interface Props {
   publishedAt?: Date;
 }
 
-const {
-  title,
-  image = '/og/default.png',
-  type = 'website',
-  publishedAt,
-} = Astro.props;
+const { title, image = '/og/default.png', type = 'website', publishedAt } = Astro.props;
 
 const locale = getLangFromUrl(Astro.url);
 const t = useTranslations(locale);
@@ -27,6 +22,8 @@ const description = Astro.props.description ?? t('site.description');
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = image.startsWith('http') ? image : new URL(image, Astro.site).toString();
+
+const goatCounterCode = 'stepeusz';
 
 const pathSegments = Astro.url.pathname.split('/');
 const pathRest = pathSegments.slice(2).join('/');
@@ -57,16 +54,16 @@ const alternateLinks = locales.map((lang) => ({
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate" />
-    <meta name="googlebot" content="noindex, nofollow" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#1a1f2e" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)" />
 
-    {alternateLinks.map(({ lang, href }) => (
-      <link rel="alternate" hreflang={lang} href={href} />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(`/${defaultLocale}/${pathRest}`, Astro.site).toString()} />
+    {alternateLinks.map(({ lang, href }) => <link rel="alternate" hreflang={lang} href={href} />)}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(`/${defaultLocale}/${pathRest}`, Astro.site).toString()}
+    />
 
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
@@ -86,6 +83,22 @@ const alternateLinks = locales.map((lang) => ({
     <ClientRouter />
 
     <script is:inline src="/theme.js"></script>
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "e45424b69b114d94a33c1d3e52e85076"}'></script>
+    {
+      goatCounterCode && (
+        <script
+          is:inline
+          async
+          src="https://gc.zgo.at/count.js"
+          data-goatcounter={`https://${goatCounterCode}.goatcounter.com/count`}
+        />
+      )
+    }
+    {goatCounterCode && <script is:inline src="/goatcounter.js" />}
   </head>
   <body>
     <div class="side-pattern side-pattern-left" aria-hidden="true"></div>

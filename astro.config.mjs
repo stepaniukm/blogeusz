@@ -53,12 +53,15 @@ export default defineConfig({
         "base-uri 'self'",
         "form-action 'self'",
         "object-src 'none'",
-        "img-src 'self' https://images.blogeusz.pl https://*.r2.dev",
+        "img-src 'self' https://images.blogeusz.pl https://*.r2.dev https://*.goatcounter.com",
         "font-src 'self' https://fonts.gstatic.com data:",
         "frame-src 'self' https://giscus.app",
-        "connect-src 'self'",
+        "connect-src 'self' https://cloudflareinsights.com https://*.goatcounter.com",
         "upgrade-insecure-requests",
       ],
+      scriptDirective: {
+        resources: ["'self'", "data:", "https://static.cloudflareinsights.com", "https://gc.zgo.at"],
+      },
       styleDirective: {
         resources: ["'self'", "https://fonts.googleapis.com"],
       },
